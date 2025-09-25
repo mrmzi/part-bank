@@ -1,5 +1,7 @@
-<script setup></script>
+<script setup>
+    import LoginImage from './LoginImage.vue';
+</script>
 <template>
-    <h1></h1>
+    <LoginImage></LoginImage>
 </template>
 <style scoped></style>

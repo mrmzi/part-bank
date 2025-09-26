@@ -1,5 +1,41 @@
-<script setup></script>
+<script setup>
+    // export default{
+        
+    // };
+</script>
 <template>
-    <h1></h1>
+    <!-- Login Left Part -->
+    <section class="login-left-part">
+        <div class="login-img">
+            <img src="../../../assets/images/login/login-image.jpg" alt="عکس صفحه لاگین">
+        </div>
+    </section>
 </template>
-<style scoped></style>
+<style scoped>
+    /* ------------------------------ Start of left part ------------------------------ */
+.login-left-part {
+    width: 600px;
+    height: 840px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.login-img {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+}
+
+.login-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+</style>

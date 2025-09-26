@@ -1,5 +1,20 @@
-<script setup></script>
+<script setup>
+import LoginSection from '@/components/views/login/LoginSection.vue'
+</script>
 <template>
-    <h1></h1>
+  <section class="main">
+    <LoginSection></LoginSection>
+  </section>
 </template>
-<style scoped></style>
+<style scoped>
+.main {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1920px;
+  height: 1080px;
+  background-image: url('../assets/images/login/login-bg.png');
+  background-repeat: no-repeat;
+}
+</style>

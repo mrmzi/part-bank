@@ -1,11 +1,17 @@
-<script setup></script>
+<script setup>
+import LoginPage from './views/LoginPage.vue'
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <section>
+    <LoginPage></LoginPage>
+  </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

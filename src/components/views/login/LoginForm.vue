@@ -1,8 +1,46 @@
-<script setup></script>
+<script setup>
+import axios from 'axios'
+import { reactive, ref } from 'vue'
+
+const userData = reactive({})
+const error = ref(null)
+const usernameInput = ref('')
+const passwordInput = ref('')
+const message = ref('')
+
+const getData = async () => {
+  try {
+    const response = await axios.get('https://turbofront5.onrender.com/auth/login')
+    console.log(response.data)
+    userData = response.data
+  } catch (err) {
+    error.value = err
+    console.error('Error fetching data:', error)
+  }
+}
+
+getData()
+
+const validateUser = () => {
+  if (!userData.value) {
+    message.value = 'داده ها هنوز بارگذاری نشده!'
+  }
+  message.value =
+    usernameInput.value === userData.data.firstName &&
+    passwordInput.value === userData.data.password
+      ? `${userData.data.firstName} خوش آمدید!`
+      : 'نام کاربری یا رمز عبور اشتباه میباشد!'
+}
+</script>
+
 <template>
   <form class="login" dir="rtl">
     <div class="login__logo">
-      <img class="login__logo-image" src="../../../assets/images/login/Logo.svg" alt="لوگو پارت بانک" />
+      <img
+        class="login__logo-image"
+        src="../../../assets/images/login/Logo.svg"
+        alt="لوگو پارت بانک"
+      />
       <div class="login__logo-header">
         <h1 class="login__logo-title">پارت بانک</h1>
         <span class="login__logo-subtitle">تجربه‌ای نوین در بانک داری</span>
@@ -11,12 +49,18 @@
 
     <div class="login__inputs">
       <label class="login__label" for="id-number">کد ملی</label>
-      <input class="login__input" id="id-number" placeholder="مثلا ۰۹۲۴۵۸۹۴۵۰" type="tel" />
+      <input
+        class="login__input"
+        id="id-number"
+        v-model="usernameInput"
+        placeholder="مثلا ۰۹۲۴۵۸۹۴۵۰"
+        type="tel"
+      />
 
       <label class="login__label" for="phone-number">شماره همراه</label>
       <input class="login__input" id="phone-number" placeholder="مثلا ۰۹۱۲۳۴۵۶۷۸۹" type="tel" />
 
-      <button class="login__button" type="submit">ارسال</button>
+      <button @click="validateUser" class="login__button" type="submit">ارسال</button>
     </div>
 
     <div class="login__support">
@@ -81,9 +125,10 @@
     height: 48px;
     background-color: #f9fafb;
     border: 0;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    padding: 14px 8px;
+    border-radius: 6px;
+    margin-bottom: 32px;
+    box-sizing: border-box;
+    padding: 0px 8px;
     outline: none;
     font-size: 14px;
     direction: rtl;
@@ -99,7 +144,7 @@
     height: 48px;
     background-color: #4152a0;
     border-radius: 8px;
-    margin-top: 32px;
+    margin-top: 12px;
     border: 0;
     color: #ffffff;
     font-size: 16px;

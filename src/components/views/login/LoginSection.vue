@@ -17,5 +17,6 @@ import LoginForm from './LoginForm.vue'
   padding: 20px;
   background-color: #ffffff;
   overflow: hidden;
+  border-radius: 12px;
 }
 </style>

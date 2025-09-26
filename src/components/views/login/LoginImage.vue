@@ -7,13 +7,17 @@
     <!-- Login Left Part -->
     <section class="login-left-part">
         <div class="login-img">
-            <img src="assets/images/عکس.png" alt="عکس صفحه لاگین">
+            <img src="../../../assets/images/login/login-image.jpg" alt="عکس صفحه لاگین">
         </div>
     </section>
 </template>
 <style scoped>
     /* ------------------------------ Start of left part ------------------------------ */
 .login-left-part {
+    width: 600px;
+    height: 840px;
+    display: flex;
+    align-items: center;
     justify-content: center;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
@@ -25,11 +29,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
+    background-size: cover;
 }
 
 .login-img img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
 }
 </style>

@@ -1,9 +1,17 @@
 <script setup>
-import LoginPage from './views/LoginPage.vue';
+import LoginPage from './views/LoginPage.vue'
 </script>
 
 <template>
-<LoginPage></LoginPage>
+  <section>
+    <LoginPage></LoginPage>
+  </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

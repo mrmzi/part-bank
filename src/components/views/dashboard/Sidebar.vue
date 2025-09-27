@@ -83,10 +83,16 @@
   justify-content: space-between;
   width: 172px;
   font-size: 14px;
-  font-weight: 600;
-  font-family: 'peyda-semi-bold';
-  color: #3c4351;
+  font-weight: 400;
+  font-family: 'peyda-regular';
+  color: #8999b9;
   margin: 0px 0px 15px 0px;
+  
+  span {
+    font-weight: 600;
+    font-family: 'peyda-semi-bold';
+    color: #3c4351;
+  }
 }
 .sidebar__divider {
   width: 196px;

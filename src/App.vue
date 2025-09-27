@@ -12,6 +12,7 @@ import LoginPage from './views/LoginPage.vue'
 
 <style scoped>
 section {
+  font-family: 'peyda-regular';
   display: flex;
   justify-content: center;
   align-items: center;

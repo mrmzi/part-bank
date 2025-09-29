@@ -4,8 +4,8 @@ import LoginForm from './LoginForm.vue'
 </script>
 <template>
   <section class="login-container">
-    <LoginImage></LoginImage>
     <LoginForm></LoginForm>
+    <LoginImage></LoginImage>
   </section>
 </template>
 <style scoped lang="scss">

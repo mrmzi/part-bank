@@ -18,15 +18,18 @@ import TransactionsTable from '../components/views/dashboard/TransactionsTable.v
   </section>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .dashboard {
   display: flex;
   align-items: center;
   flex-direction: column;
   row-gap: 40px;
-  width: 1920px;
-  height: 1080px;
-  background-color: #f7f8fa;
+  // width: 1920px;
+  width: $dashboard-width;
+  // height: 1080px;
+  height: $dashboard-height;
+  /* background-color: #f7f8fa; */
+  background-color: $background;
 }
 .dashboard__main {
   width: 1404px;
@@ -34,7 +37,8 @@ import TransactionsTable from '../components/views/dashboard/TransactionsTable.v
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  // gap: 20px;
+  gap: $gap-lg;
 }
 .dashboard__content {
   box-sizing: border-box;
@@ -44,6 +48,7 @@ import TransactionsTable from '../components/views/dashboard/TransactionsTable.v
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  row-gap: 24px;
+  // row-gap: 24px;
+  row-gap: $gap-xl;
 }
 </style>

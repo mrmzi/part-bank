@@ -7,7 +7,7 @@ import axios from 'axios';
 
 
 const api = axios.create({
-  baseURL: 'https://turbofront5.onrender.com/auth/login',
+  baseURL: 'https://turbofront5.onrender.com',
   headers: { 'Content-Type': 'application/json' },
 })
 

@@ -1,5 +1,5 @@
 <template>
-  <form class="login" dir="rtl" @submit.prevent="handleLogin" novalidate>
+  <form class="login"  @submit.prevent="handleLogin" novalidate>
     <div class="login__logo">
       <img
         class="login__logo-image"

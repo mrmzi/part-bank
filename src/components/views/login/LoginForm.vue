@@ -162,9 +162,7 @@ async function handleLogin() {
 <style lang="scss" scoped>
 .login {
   width: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @include flex-column($justify: center , $align: center);
   padding-top: 83.5px;
 
   &__logo {
@@ -182,11 +180,10 @@ async function handleLogin() {
       color: rgba(65, 82, 160, 1);
     }
     &-title {
-      font-size: 40px;
-      font-family: 'peyda-bold';
+      @include text-style($font-size-xxl , $family: $font-family-bold);
     }
     &-subtitle {
-      font-size: 16px;
+      font-size: $font-size-md;
     }
   }
   &__inputs {
@@ -200,25 +197,25 @@ async function handleLogin() {
   &__label {
     width: 100%;
     height: 22px;
-    font-size: 16px;
+    font-size: $font-size-md;
     margin-bottom: 4px;
   }
 
   &__input {
     width: 100%;
     height: 48px;
-    background-color: #f9fafb;
-    border: 0;
-    border-radius: 6px;
+    background-color: $surface-alt;
+    border: $border-none;
+    border-radius: $radius-sm;
     margin-bottom: 12px;
     box-sizing: border-box;
     padding: 0px 8px;
     outline: none;
-    font-size: 14px;
+    font-size: $font-size-base;
     direction: rtl;
 
     &::placeholder {
-      color: #c3c5c9;
+      color: $text-placeholder;
     }
   }
 
@@ -228,15 +225,15 @@ async function handleLogin() {
   }
 
   &__button {
-    font-family: 'peyda-bold';
+    font-family: $font-family-bold;
+    font-size: $font-size-md;
     width: 100%;
     height: 48px;
-    background-color: #4152a0;
-    border-radius: 8px;
+    background-color: $primary;
+    border-radius: $radius-md;
     margin-top: 12px;
-    border: 0;
-    color: #ffffff;
-    font-size: 16px;
+    border: $border-none;
+    color: $color-white;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -259,7 +256,7 @@ async function handleLogin() {
       margin-left: 4px;
     }
     &-number {
-      font-weight: bold;
+      font-weight: $font-weight-bold;
     }
   }
 }
@@ -282,8 +279,8 @@ async function handleLogin() {
 
 
 .text-error {
-  color: #e53e3e;
-  font-size: 13px;
+  color: $error;
+  font-size: $font-size-sm;
   margin-top: 4px;
 }
 

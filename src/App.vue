@@ -1,17 +1,14 @@
-<script setup>
-import Dashboard from './views/Dashboard.vue';
-import LoginPage from './views/LoginPage.vue'
-</script>
-
 <template>
   <section>
-    <LoginPage></LoginPage>
-    <Dashboard></Dashboard>
+    <router-view />
   </section>
 </template>
 
+<script setup></script>
+
 <style scoped>
 section {
+  font-family: 'peyda-regular';
   display: flex;
   justify-content: center;
   align-items: center;

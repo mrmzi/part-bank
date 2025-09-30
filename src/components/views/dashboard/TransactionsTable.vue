@@ -84,35 +84,28 @@ const pages = ref([1, 2, 3])
 const currentPage = ref(2)
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .dashboard__transactions {
   height: 520px;
-  background-color: #ffffff;
-  border-radius: 12px;
+  background-color: $color-white;
+  border-radius: $radius-lg;
   padding: 24px 24px 14px 24px;
 }
 .transactions__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include flex-between;
   width: 1116px;
   height: 38px;
 }
 .transactions__title {
-  color: #3c4351;
-  font-size: 20px;
+  color: $text-primary;
+  font-size: $font-size-xl;
 
   span {
-    color: #8999b9;
-    font-size: 16px;
-    font-weight: 400;
+    @include text-style($font-size-md , $font-weight-400 , $text-secondary);
   }
 }
 .transactions__filter {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
+  @include flex-center($gap-md);
 }
 .transactions__filter-sort {
   width: 269px;
@@ -120,16 +113,13 @@ const currentPage = ref(2)
   display: flex;
   align-items: center;
   justify-content: end;
-  gap: 8px;
+  gap: $gap-sm;
 
   label {
     width: 82px;
-    font-size: 14px;
-    color: #8999b9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
+    font-size: $font-size-base;
+    color: $text-secondary;
+    @include flex-center($gap-xs);
 
     img{
       width: 14px; 
@@ -140,44 +130,38 @@ const currentPage = ref(2)
 .transactions__filter-sort select {
   width: 183px;
   height: 36px;
-  border-radius: 8px;
-  border: 1px solid #e2edff;
+  border-radius: $radius-md;
+  border: $border-width solid $border-color;
 }
 .transactions__filter-sort select::placeholder {
-  color: #3c4351;
-  font-size: 14px;
-  font-family: 'peyda-regular';
+  @include text-style($font-size-base , $color: $text-primary , $family: $font-family-regular);
 }
 
 .transactions__filter-search {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center();
   width: 257px;
   height: 34px;
 }
 .transactions__filter-search input {
   width: 257px;
   height: 34px;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
-  border: 1px solid #e2edff;
+  border-top-right-radius: $radius-md;
+  border-bottom-right-radius: $radius-md;
+  border: $border-width solid $border-color;
   padding: 0px 8px;
 }
 
 .transactions__filter-search input::placeholder {
-  color: #8999b9;
-  font-size: 14px;
-  font-family: 'peyda-regular';
+  @include text-style($font-size-base , $color: $text-secondary , $family: $font-family-regular);
 }
 
 .transactions__filter-search button {
   cursor: pointer;
   height: 36px;
-  background-color: #eceef6;
+  background-color: $control-bg;
   border-top-left-radius: 7px;
   border-bottom-left-radius: 7px;
-  border: 1px solid transparent;
+  border: $border-width solid transparent;
 
   img {
     margin: 0px 0px 0px 2px;
@@ -189,33 +173,39 @@ const currentPage = ref(2)
   height: 365px;
   border-collapse: collapse;
   margin-top: 24px;
-  font-size: 16px;
-  font-weight: 600;
-  font-family: 'peyda-regular';
+  @include text-style($font-size-md , $font-weight-600 , $family: $font-family-regular);
 }
 
 .transactions__thead {
-  background-color: #4152a0;
-  color: #fff;
+  background-color: $primary;
+  color: $color-white;
 }
 
 .transactions__tr {
-  border-radius: 8px;
+  border-radius: $radius-md;
+  vertical-align: auto;
 }
 
 .transactions__th{
   height: 60px;
   text-align: center;
 }
+
+.transactions__th:first-child{
+  border-top-left-radius: $radius-md;
+  border-bottom-left-radius: $radius-md;
+}
+.transactions__th:last-child{
+  border-top-right-radius: $radius-md;
+  border-bottom-right-radius: $radius-md;
+}
+
 .transactions__td:nth-child(1){
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  @include flex-center($gap-sm);
 }
 
 .transactions__tr:nth-child(even) {
-  background-color: #f9fafb;
+  background-color: $surface-alt;
 }
 
 .transactions__td,
@@ -224,30 +214,25 @@ const currentPage = ref(2)
 .transactions__type {
   height: 60px;
   text-align: center;
-  font-weight: 400;
-  color: #3c4351;
+  font-weight: $font-weight-400;
+  color: $text-primary;
 }
 
 .pagination {
   margin-top: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  @include flex-center($gap-sm);
 
   &__page,
   &__arrow {
     width: 32px;
     height: 32px;
-    border: none;
-    border-radius: 6px;
+    border: $border-none;
+    border-radius: $radius-sm;
     background-color: #f1f3f8;
-    color: #4152a0;
-    font-weight: 500;
+    color: $text-primary;
+    font-weight: $font-weight-500;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-center();
 
     &:disabled {
       cursor: not-allowed;
@@ -256,14 +241,14 @@ const currentPage = ref(2)
   }
 
   &__page--active {
-    background-color: #4152a0;
-    color: #fff;
+    background-color: $primary;
+    color: $color-white;
   }
 
   &__arrow {
-    background-color: #fff;
-    border: 1px solid #e2edff;
-    font-weight: 700;
+    background-color: $color-white;
+    border: $border-width solid $border-color;
+    font-weight: $font-weight-700;
   }
 
   &__arrow--prev,

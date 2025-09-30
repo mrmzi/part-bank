@@ -40,53 +40,39 @@ const menuItems = ref([
 
 <style scoped lang="scss">
 .sidebar {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 20px;
-  background-color: #ffffff;
-  min-width: 220px;
+  @include flex-column($gap-lg , $align: center);
+  background-color: $color-white;
+  min-width: $sidebar-min-width;
   height: 100%;
-  border-radius: 12px;
+  border-radius: $radius-lg;
   padding: 24px 0 8px 0;
   box-sizing: border-box;
 
   &__header {
     box-sizing: border-box;
     padding: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    row-gap: 26px;
-    border-radius: 8px;
-    width: 172px;
-    height: 116px;
+    @include flex-column($gap-row , center ,center);
+    border-radius: $radius-md;
+    width: $sidebar-header-width;
+    height: $sidebar-header-height;
 
     &-title {
-      font-size: 18px;
+      @include text-style($font-size-lg , $font-weight-700 ,$text-primary);
       line-height: 28px;
-      color: #3c4351;
-      font-weight: 700;
       text-align: center;
       margin: 38px 0 0 0;
     }
 
     &-nationalCode {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      @include flex-between;
       width: 172px;
-      font-size: 14px;
-      font-weight: 400;
-      font-family: 'peyda-regular';
-      color: #8999b9;
+      @include text-style($font-size-base , $font-weight-400 ,$text-secondary , $font-family-regular);
       margin: 0 0 20px 0;
 
       span {
-        font-weight: 600;
-        font-family: 'peyda-semi-bold';
-        color: #3c4351;
+        font-weight: $font-weight-600;
+        font-family: $font-family-semi-bold;
+        color: $text-primary;
       }
     }
   }
@@ -94,7 +80,7 @@ const menuItems = ref([
   &__divider {
     width: 196px;
     height: 1px;
-    background-color: #e2edff;
+    background-color: $border-color;
   }
 
   &__menu {
@@ -105,17 +91,15 @@ const menuItems = ref([
     box-sizing: border-box;
 
     &-item {
+      @include text-style($font-size-base , $font-weight-400, $text-secondary);
       box-sizing: border-box;
       height: 44px;
       margin: 1px 0 0 0;
-      font-size: 14px;
       padding: 12px 16px;
-      border-radius: 6px;
-      color: #8999b9;
-      font-weight: 400;
+      border-radius: $radius-sm;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: $gap-sm;
       cursor: pointer;
 
       img {
@@ -124,13 +108,13 @@ const menuItems = ref([
       }
 
       &--active {
-        background-color: #f9fafb;
-        color: #4152a0;
-        font-weight: 700;
+        background-color: $surface-alt;
+        color: $primary;
+        font-weight: $font-weight-700;
       }
 
       &--danger {
-        color: #eb482b;
+        color: $danger;
       }
     }
   }

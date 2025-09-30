@@ -11,14 +11,12 @@
         </div>
     </section>
 </template>
-<style scoped>
+<style scoped lang="scss">
     /* ------------------------------ Start of left part ------------------------------ */
 .login-left-part {
     width: 600px;
     height: 840px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-center();
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
 }
@@ -26,9 +24,7 @@
 .login-img {
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-center();
     background-size: cover;
 }
 
@@ -36,6 +32,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: $radius-lg;
 }
 </style>

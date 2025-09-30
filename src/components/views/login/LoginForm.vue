@@ -13,34 +13,49 @@
     </div>
 
     <div class="login__inputs">
-      <!-- شماره همراه -->
       <label class="login__label" for="phone-number">شماره همراه</label>
       <input
         class="login__input"
         id="phone-number"
         v-model="phone"
         @input="phone = phone.replace(/[^0-9]/g, '')"
-        placeholder="مثلا 09123456789"
+        placeholder="مثلا ۰۹۱۲۳۴۵۶۷۸۹"
         inputmode="numeric"
         maxlength="11"
         type="tel"
         aria-describedby="phone-error"
       />
+
+      <!-- <BaseInput
+        :input-id="'phone-number'"
+        :input-class="'login__input'"
+        :input-width="'100%'"
+        :input-height="'48px'"
+        :placeholder="'مثلا 09123456789'"
+        :input-type="'tel'"
+        v-model="phone"
+        @input="phone = phone.replace(/[^0-9]/g, '')"
+        inputmode="numeric"
+        maxlength="11"
+        aria-describedby="phone-error" 
+      /> -->
+
       <p v-if="phoneError" id="phone-error" class="text-error">{{ phoneError }}</p>
 
-      <!-- رمز عبور با دکمه چشم برای نمایش/مخفی -->
       <label class="login__label" for="password">رمز عبور</label>
       <div class="password-wrapper">
-        <input
-          class="login__input password"
-          id="password"
+        <BaseInput
+          :input-id="'password'"
+          :input-class="'login__input password'"
+          :input-width="'100%'"
+          :input-height="'48px'"
+          :has-border="false"
+          :placeholder="'رمز عبور خود را وارد کنید'"
+          :input-type="showPassword ? 'text' : 'password'"
           v-model="password"
-          :type="showPassword ? 'text' : 'password'"
-          placeholder="رمز عبور خود را وارد کنید"
           aria-describedby="password-error"
         />
 
-        <!-- دکمه چشم: آدرس آیکون از props گرفته می‌شود -->
         <button
           type="button"
           class="toggle-password"
@@ -51,11 +66,18 @@
           <img :src="showPassword ? eyeOpen : eyeClosed" alt="" />
         </button>
       </div>
+
       <p v-if="passwordError" id="password-error" class="text-error">{{ passwordError }}</p>
 
-      <button class="login__button" :disabled="loading" type="submit" aria-busy="loading">
-        {{ loading ? 'در حال ارسال...' : 'ارسال' }}
-      </button>
+      <BaseButton
+        :is-disabled="loading"
+        aria-busy="loading"
+        :title="loading ? 'در حال ارسال...' : 'درود'"
+        :width="'100%'"
+        :height="'48px'"
+        :color="'#4152a0'"
+        :btn-type="'submit'"
+      />
 
       <p v-if="error" class="text-error mt-2">{{ error }}</p>
     </div>
@@ -74,6 +96,8 @@ import { saveAuth } from '@/utils/auth'
 
 import eyeOpenDefault from '@/assets/icons/Outline/Security/Eye.svg'
 import eyeClosedDefault from '@/assets/icons/Outline/Security/Eye Closed.svg'
+import BaseButton from '@/components/baseComponents/BaseButton.vue'
+import BaseInput from '@/components/baseComponents/BaseInput.vue'
 
 const props = defineProps({
   eyeOpen: { type: String, default: eyeOpenDefault },
@@ -91,19 +115,15 @@ const phoneError = ref(null)
 const passwordError = ref(null)
 const showPassword = ref(false)
 
-
 function validatePhone(value) {
   const regex = /^09\d{9}$/
   return regex.test(value)
 }
 
-
 function validatePassword(value) {
-
   const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
   return regex.test(value)
 }
-
 
 function validateForm() {
   phoneError.value = null
@@ -118,10 +138,9 @@ function validateForm() {
   }
 
   if (!validatePassword(password.value)) {
-  passwordError.value = 'رمز عبور باید حداقل ۶ کاراکتر باشد و شامل حروف و اعداد شود'
-  valid = false
-}
-
+    passwordError.value = 'رمز عبور باید حداقل ۶ کاراکتر باشد و شامل حروف و اعداد شود'
+    valid = false
+  }
 
   return valid
 }
@@ -156,13 +175,12 @@ async function handleLogin() {
     loading.value = false
   }
 }
-
 </script>
 
 <style lang="scss" scoped>
 .login {
   width: 50%;
-  @include flex-column($justify: center , $align: center);
+  @include flex-column($justify: center, $align: center);
   padding-top: 83.5px;
 
   &__logo {
@@ -180,7 +198,7 @@ async function handleLogin() {
       color: rgba(65, 82, 160, 1);
     }
     &-title {
-      @include text-style($font-size-xxl , $family: $font-family-bold);
+      @include text-style($font-size-xxl, $family: $font-family-bold);
     }
     &-subtitle {
       font-size: $font-size-md;
@@ -205,44 +223,14 @@ async function handleLogin() {
     width: 100%;
     height: 48px;
     background-color: $surface-alt;
-    border: $border-none;
     border-radius: $radius-sm;
-    margin-bottom: 12px;
-    box-sizing: border-box;
-    padding: 0px 8px;
-    outline: none;
-    font-size: $font-size-base;
+    margin-bottom: 30px;
     direction: rtl;
-
-    &::placeholder {
-      color: $text-placeholder;
-    }
   }
-
 
   .password-wrapper .login__input {
     padding-left: 44px;
-  }
-
-  &__button {
-    font-family: $font-family-bold;
-    font-size: $font-size-md;
-    width: 100%;
-    height: 48px;
-    background-color: $primary;
-    border-radius: $radius-md;
-    margin-top: 12px;
-    border: $border-none;
-    color: $color-white;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    &:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
+    margin-bottom: 54px;
   }
 
   &__support {
@@ -251,38 +239,31 @@ async function handleLogin() {
     display: flex;
     margin-bottom: 10px;
     margin-top: 229px;
+    @include text-style($font-size-base, $font-weight-400, $text-primary, $font-family-regular);
 
     &-label {
       margin-left: 4px;
     }
-    &-number {
-      font-weight: $font-weight-bold;
-    }
   }
 }
-
 
 .password-wrapper {
   position: relative;
 
   .toggle-password {
     position: absolute;
-    left: 8px; 
+    left: 14px;
     top: 12px;
     width: 24px;
     height: 24px;
     background: transparent;
     cursor: pointer;
   }
-
 }
-
 
 .text-error {
   color: $error;
   font-size: $font-size-sm;
   margin-top: 4px;
 }
-
-
 </style>

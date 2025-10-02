@@ -1,58 +1,3 @@
-<script setup>
-import { getbalance } from '@/services/getaccount'
-import { useFormStore } from '@/stores/formStore'
-import { computed, onMounted, reactive } from 'vue'
-
-const formStore = useFormStore()
-const isSubmitted = computed(() => formStore.isSubmitted)
-const account = reactive({
-  balance: 0,
-  cardNumber: '',
-  score: {
-    amount: 0,
-    paymentPeriod: 0,
-  },
-  upcomingInstalment: {
-    amount: 0,
-    dueDate: '-',
-  },
-})
-
-onMounted(async () => {
-  if (isSubmitted.value) {
-    try {
-      const response = await getbalance()
-      const data = response.data[0]
-      account.balance = data.balance
-      account.cardNumber = data.cardNumber
-      account.score = data.score
-      account.upcomingInstalment = data.upcomingInstalment
-    } catch (err) {
-      console.error(err)
-    }
-  }
-})
-
-function formatMoney(num) {
-  return Number(num).toLocaleString('fa-IR') // هم جداکننده ۳ رقمی میذاره، هم فارسی میشه
-}
-
-const scoreAmountFormatted = computed(() => formatMoney(account.score.amount))
-const instalmentAmountFormatted = computed(() => formatMoney(account.upcomingInstalment.amount))
-const balanceFormatted = computed(() => formatMoney(account.balance))
-const scorePaymentPeriodFormatted = computed(() => formatMoney(account.score.paymentPeriod))
-
-// persian card number
-
-function formatCardNumberSpans(num) {
-  if (!num) return []
-
-  const persianStr = num.replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d])
-  const groups = persianStr.match(/.{1,4}/g) || []
-  return groups
-}
-</script>
-
 <template>
   <section @click="createDepositAccount" class="account">
     <div class="account__card account__card--info" dir="ltr" :class="{ opacity: !isSubmitted }">
@@ -186,7 +131,62 @@ function formatCardNumberSpans(num) {
   </section>
 </template>
 
+
 <script setup>
+import { getbalance } from '@/services/getaccount'
+import { useFormStore } from '@/stores/formStore'
+import { computed, onMounted, reactive } from 'vue'
+
+const formStore = useFormStore()
+const isSubmitted = computed(() => formStore.isSubmitted)
+const account = reactive({
+  balance: 0,
+  cardNumber: '',
+  score: {
+    amount: 0,
+    paymentPeriod: 0,
+  },
+  upcomingInstalment: {
+    amount: 0,
+    dueDate: '-',
+  },
+})
+
+onMounted(async () => {
+  if (isSubmitted.value) {
+    try {
+      const response = await getbalance()
+      const data = response.data[0]
+      account.balance = data.balance
+      account.cardNumber = data.cardNumber
+      account.score = data.score
+      account.upcomingInstalment = data.upcomingInstalment
+    } catch (err) {
+      console.error(err)
+    }
+  }
+})
+
+function formatMoney(num) {
+  return Number(num).toLocaleString('fa-IR') // هم جداکننده ۳ رقمی میذاره، هم فارسی میشه
+}
+
+const scoreAmountFormatted = computed(() => formatMoney(account.score.amount))
+const instalmentAmountFormatted = computed(() => formatMoney(account.upcomingInstalment.amount))
+const balanceFormatted = computed(() => formatMoney(account.balance))
+const scorePaymentPeriodFormatted = computed(() => formatMoney(account.score.paymentPeriod))
+
+// persian card number
+
+function formatCardNumberSpans(num) {
+  if (!num) return []
+
+  const persianStr = num.replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d])
+  const groups = persianStr.match(/.{1,4}/g) || []
+  return groups
+}
+</script>
+<!-- <script setup>
 // import oncart from '@/services/getcart';
 // import { onMounted } from 'vue';
 import api from '@/plugins/axios'
@@ -219,7 +219,7 @@ function handleFile(event) {
   console.log(user.value.name)
   console.log(user.value.type)
 }
-</script>
+</script> -->
 
 <style lang="scss" scoped>
 .btn-primary {
@@ -238,6 +238,8 @@ function handleFile(event) {
   height: 260px;
   border-radius: $radius-lg;
   display: flex;
+  align-items: center;
+  gap: 5px;
   font-family: 'peyda-medium';
   color: $color-white;
 

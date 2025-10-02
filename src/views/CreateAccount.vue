@@ -1,8 +1,9 @@
 <template>
     <Header />
-    <PersonalInfo />
+    <!-- <PersonalInfo />
     <ConfirmInfo />
-    <NationalIdUpload />
+    <NationalIdUpload /> -->
+    <RouterView />
 </template>
 <script setup>
 import Header from '@/components/baseComponents/Header.vue';

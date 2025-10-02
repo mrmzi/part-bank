@@ -1,10 +1,65 @@
+<script setup>
+import { getbalance } from '@/services/getaccount'
+import { useFormStore } from '@/stores/formStore'
+import { computed, onMounted, reactive } from 'vue'
+
+const formStore = useFormStore()
+const isSubmitted = computed(() => formStore.isSubmitted)
+const account = reactive({
+  balance: 0,
+  cardNumber: '',
+  score: {
+    amount: 0,
+    paymentPeriod: 0,
+  },
+  upcomingInstalment: {
+    amount: 0,
+    dueDate: '-',
+  },
+})
+
+onMounted(async () => {
+  if (isSubmitted.value) {
+    try {
+      const response = await getbalance()
+      const data = response.data[0]
+      account.balance = data.balance
+      account.cardNumber = data.cardNumber
+      account.score = data.score
+      account.upcomingInstalment = data.upcomingInstalment
+    } catch (err) {
+      console.error(err)
+    }
+  }
+})
+
+function formatMoney(num) {
+  return Number(num).toLocaleString('fa-IR') // هم جداکننده ۳ رقمی میذاره، هم فارسی میشه
+}
+
+const scoreAmountFormatted = computed(() => formatMoney(account.score.amount))
+const instalmentAmountFormatted = computed(() => formatMoney(account.upcomingInstalment.amount))
+const balanceFormatted = computed(() => formatMoney(account.balance))
+const scorePaymentPeriodFormatted = computed(() => formatMoney(account.score.paymentPeriod))
+
+// persian card number
+
+function formatCardNumberSpans(num) {
+  if (!num) return []
+
+  const persianStr = num.replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d])
+  const groups = persianStr.match(/.{1,4}/g) || []
+  return groups
+}
+</script>
+
 <template>
   <section @click="createDepositAccount" class="account">
-    <div class="account__card account__card--info" dir="ltr">
+    <div class="account__card account__card--info" dir="ltr" :class="{ opacity: !isSubmitted }">
       <div class="account__total">
         <div class="account__total__number">
           <span class="account__total__number-text">موجودی کل</span>
-          <span class="account__total__number-money">۴٬۲۳۹٬۸۷۴٬۰۰۰</span>
+          <span class="account__total__number-money">{{ balanceFormatted }}</span>
         </div>
         <div class="account__total-option">
           <svg
@@ -22,9 +77,13 @@
         </div>
       </div>
       <div class="account__number">
-        <span>۵۴۱۸</span>
-        <span>۲۷۴۱</span>
-        <span>۶۶۹۸</span><span>۸۲۵۱</span>
+        <span
+          v-for="(group, index) in formatCardNumberSpans(account.cardNumber)"
+          :key="index"
+          class="card-digit-group"
+        >
+          {{ group }}
+        </span>
       </div>
     </div>
 
@@ -46,11 +105,11 @@
       </div>
       <div class="account__balance">
         <div class="account__balance__number">
-          <span class="account__balance__number-text">۸۰۰٬۰۰۰٬۰۰۰</span>
+          <span class="account__balance__number-text">{{ scoreAmountFormatted }}</span>
           <span class="account__balance__number-extra">ریال</span>
         </div>
         <div class="account__balance__month">
-          <span class="account__balance__month-text">۱۲</span>
+          <span class="account__balance__month-text">{{ scorePaymentPeriodFormatted }}</span>
           <span class="account__balance__month-extra">ماهه</span>
         </div>
       </div>
@@ -112,11 +171,11 @@
       <div class="account__card-details">
         <div class="account__amount">
           <span class="account__amount-text">مبلغ قسط:</span>
-          <span class="account__amount-money">۳۵۰٬۰۰۰٬۰۰۰ ریال</span>
+          <span class="account__amount-money">{{ instalmentAmountFormatted }}</span>
         </div>
         <div class="account__due">
           <span class="account__due-text">تاریخ سررسید:</span>
-          <span class="account__due-month">۱۴۰۱/۱۲/۱۵</span>
+          <span class="account__due-month">{{ account.upcomingInstalment.dueDate }}</span>
         </div>
         <button class="account__pay-btn btn-primary">
           <span>پرداخت</span>
@@ -125,7 +184,6 @@
       </div>
     </div>
   </section>
-  <!-- <input @change="handleFile" type="file" name="" id="" /> -->
 </template>
 
 <script setup>
@@ -425,5 +483,8 @@ function handleFile(event) {
       }
     }
   }
+}
+.opacity {
+  opacity: 0.5;
 }
 </style>

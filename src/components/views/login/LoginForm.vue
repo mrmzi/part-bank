@@ -1,5 +1,5 @@
 <template>
-  <form class="login"  @submit.prevent="handleLogin" novalidate>
+  <form class="login" @submit.prevent="handleLogin" novalidate>
     <div class="login__logo">
       <img
         class="login__logo-image"
@@ -99,6 +99,7 @@ import eyeOpenDefault from '@/assets/icons/Outline/Security/Eye.svg'
 import eyeClosedDefault from '@/assets/icons/Outline/Security/Eye Closed.svg'
 import BaseButton from '@/components/baseComponents/BaseButton.vue'
 import BaseInput from '@/components/baseComponents/BaseInput.vue'
+import router from '@/router'
 
 const props = defineProps({
   eyeOpen: { type: String, default: eyeOpenDefault },
@@ -141,8 +142,11 @@ function validateForm() {
   if (!validatePassword(password.value)) {
     passwordError.value = 'رمز عبور باید حداقل ۶ کاراکتر باشد و شامل حروف و اعداد شود'
     valid = false
-  }
+  
+    passwordError.value = 'رمز عبور باید حداقل ۶ کاراکتر باشد و شامل حروف و اعداد شود'
+    valid = false
 
+  }
   return valid
 }
 
@@ -151,27 +155,28 @@ function togglePassword() {
 }
 
 async function handleLogin() {
-  if (!validateForm()) return
+
+  if (!validateForm()) {
+    return
+  }
 
   loading.value = true
   error.value = null
 
   try {
+   
     const response = await login(phone.value, password.value)
 
-    const token = response.data.token
-    const user = response.data.user
+
+    const token = response?.data?.token
+    const user = response?.data?.user
+
+    if (!token || !user) throw new Error('اطلاعات لاگین ناقص است')
 
     saveAuth(user, token)
-
-    alert('خوش آمدید')
-    window.location.href = '/'
+    router.replace({ path: '/dashboard' })
   } catch (err) {
-    if (err && typeof err === 'object' && err.message) {
-      error.value = err.message
-    } else {
-      error.value = 'خطا در ورود — دوباره تلاش کنید'
-    }
+    error.value = err?.message || 'خطا در ورود — دوباره تلاش کنید'
   } finally {
     loading.value = false
   }
@@ -199,6 +204,7 @@ async function handleLogin() {
       color: rgba(65, 82, 160, 1);
     }
     &-title {
+      @include text-style($font-size-xxl, $family: $font-family-bold);
       @include text-style($font-size-xxl, $family: $font-family-bold);
     }
     &-subtitle {

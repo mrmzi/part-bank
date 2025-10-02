@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <table class="transactions__table">
+    <table v-if="isSubmitted" class="transactions__table">
       <thead class="transactions__thead">
         <tr class="transactions__tr">
           <th class="transactions__th">نوع تراکنش</th>
@@ -37,7 +37,7 @@
         </tr>
       </thead>
       <tbody class="transactions__tbody">
-        <tr v-for="(tx, index) in cuttedTransactions" :key="tx.id" class="transactions__tr">
+        <tr v-for="tx in cuttedTransactions" :key="tx.id" class="transactions__tr">
           <td class="transactions__td">
             <img :src="tx.type === 'deposit' ? arrowDown : arrowUp" alt="transaction icon" />
             {{ tx.type === 'deposit' ? 'واریز' : 'برداشت' }}
@@ -48,7 +48,7 @@
       </tbody>
     </table>
 
-    <nav class="pagination">
+    <nav v-if="isSubmitted" class="pagination">
       <button class="pagination__arrow pagination__arrow--next" :disabled="currentPage === 1">
         <img src="@/assets/icons/arrow-right.svg" alt="" />
       </button>
@@ -80,7 +80,8 @@ import arrowUp from '@/assets/icons/arrow-up.svg'
 import BaseButton from '@/components/baseComponents/BaseButton.vue'
 import BaseInput from '@/components/baseComponents/BaseInput.vue'
 import { fetchTransactions } from '@/services/getTransactions'
-import { ref, onMounted } from 'vue'
+import { useFormStore } from '@/stores/formStore'
+import { ref, onMounted, computed } from 'vue'
 
 const pages = ref([1, 2, 3])
 const currentPage = ref(1)
@@ -89,11 +90,15 @@ const transactions = ref([])
 const cuttedTransactions = ref([])
 
 onMounted(async () => {
-  transactions.value = await fetchTransactions()
-  if (transactions.value) {
-    cuttedTransactions.value = transactions.value.slice(0, 5)
+  if (isSubmitted.value) {
+    transactions.value = await fetchTransactions()
+    if (transactions.value) {
+      cuttedTransactions.value = transactions.value.slice(0, 5)
+    }
   }
 })
+const formStore = useFormStore()
+const isSubmitted = computed(() => formStore.isSubmitted)
 </script>
 
 <style scoped lang="scss">
@@ -249,7 +254,12 @@ onMounted(async () => {
     border-radius: 4px;
     padding: 4px;
     background-color: #f1f3f8;
-    @include text-style($size: $font-size-base, $weight: $font-weight-600, $color: $text-secondary, $family: $font-family-semi-bold);
+    @include text-style(
+      $size: $font-size-base,
+      $weight: $font-weight-600,
+      $color: $text-secondary,
+      $family: $font-family-semi-bold
+    );
     cursor: pointer;
     @include flex-center();
 

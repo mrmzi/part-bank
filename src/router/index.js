@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginPage from '@/views/LoginPage.vue'
-import Dashboard from '@/views/Dashboard.vue'
+import Dashboard from '@/views/DashboardPage.vue'
 import CreateAccount from '@/views/CreateAccount.vue'
 import PersonalInfo from '@/components/views/form/PersonalInfo.vue'
 import NationalIdUpload from '@/components/views/form/NationalIdUpload.vue'

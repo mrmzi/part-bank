@@ -1,207 +1,310 @@
-<template>
-  <form class="upload-card-form">
-    <h2 class="upload-card-form__title">تصویر کارت ملی</h2>
-    <div class="upload-card-form__images">
+<script setup>
+import { useFormStore } from '@/stores/formStore'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-      <div class="card-upload">
-        <label class="card-upload__box">
-          <input
-            type="file"
-            class="card-upload__input"
-            accept="image/*"
-            onchange="previewImage(event, 'front')"
-          />
-          <img id="preview-front" class="card-upload__preview" />
-          <img class="card-upload__icon" src="@/assets/icons/upload.svg" alt="upload icon" />
-          <p class="card-upload__text">تصویر را بکشید و اینجا رها کنید یا<span>کلیک کنید</span></p>
-        </label>
-        <div class="card-upload__footer">
-          <span class="card-upload__footer-text">تصویر روی کارت ملی</span>
-          <button class="card-upload__footer-button">
-            <img src="./more.png" alt="" />
-          </button>
-        </div>
-      </div>
+// state برای نگهداری تصاویر
+const previewFront = ref(null)
+const previewBack = ref(null)
 
-      <div class="card-upload">
-        <label class="card-upload__box">
-          <input
-            type="file"
-            class="card-upload__input"
-            accept="image/*"
-            onchange="previewImage(event, 'back')"
-          />
-          <img id="preview-back" class="card-upload__preview" />
-          <img class="card-upload__icon" src="@/assets/icons/upload.svg" alt="upload icon" />
-          <p class="card-upload__text">تصویر را بکشید و اینجا رها کنید یا<span>کلیک کنید</span></p>
-        </label>
-        <div class="card-upload__footer">
-          <span class="card-upload__footer-text">تصویر پشت کارت ملی</span>
-          <button class="card-upload__footer-button">
-            <img src="./more.png" alt="" />
-          </button>
-        </div>
-      </div>
-    </div>
+// کنترل نمایش منوی more
+const showMenu = ref({
+  front: false,
+  back: false,
+})
 
-    <div class="upload-card-form__actions">
-      <button
-        type="button"
-        class="btn-primary upload-card-form__button upload-card-form__button--secondary"
-      >
-        قبلی
-      </button>
-      <button
-        type="submit"
-        class="btn-primary upload-card-form__button upload-card-form__button--primary"
-      >
-        ثبت و ادامه
-      </button>
-    </div>
-  </form>
-</template>
-
-<script setup></script>
-
-<style scoped lang="scss">
-.upload-card-form {
-  background: $color-white;
-  border-radius: $radius-lg;
-  width: 1400px;
-  height: 508px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  padding: 40px 40px 0px 40px;
-  @include flex-column($gap-xxl, flex-start, center);
-  box-sizing: border-box;
-
-  &__title {
-    text-align: center;
-    width: 100%;
-    height: 28px;
-    @include text-style($font-size-xl, $font-weight-700, $text-primary, $font-family-bold);
-    border-bottom: $border-width solid $border-color;
-    padding-bottom: 40px;
-  }
-
-  &__images {
-    width: 100%;
-    height: 232px;
-    padding: 0 319.5px;
-    @include flex-center($gap-xxl);
-  }
-
-  &__actions {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    gap: 16px;
-    height: $button-height;
-  }
-
-  &__button {
-    width: 209px;
-    height: $button-height;
-    @include text-style($font-size-md, $font-weight-700, $text-primary, $font-family-bold);
-    border: $border-none;
-    border-radius: $radius-md;
-    background-color: $control-bg;
-
-    &--primary {
-      background-color: $primary;
-      color: $on-primary;
-    }
-
-    &--secondary {
-      background-color: $surface-alt;
-      color: $text-primary;
+// آپلود تصویر
+const handleUpload = (event, type) => {
+  const file = event.target.files[0]
+  if (file) {
+    const objectURL = URL.createObjectURL(file)
+    if (type === 'front') {
+      previewFront.value = objectURL
+      step2Data.value.forwardimage = file
+    } else {
+      previewBack.value = objectURL
+      step2Data.value.backwardimage = file
     }
   }
 }
 
-.card-upload {
-  &__box {
-    width: 320px;
-    height: 180px;
-    @include flex-column($gap-sm);
-    cursor: pointer;
-    position: relative;
-    transition: border-color 0.3s ease;
-    background-color: $surface-alt;
-    border-radius: $radius-lg $radius-lg 0 0;
-    border: 2px dashed $border-color;
-    border-spacing: 7px;
-  }
+// حذف تصویر
+const removeImage = (type) => {
+  if (type === 'front') previewFront.value = null
+  else previewBack.value = null
+  showMenu.value[type] = false
+}
 
-  &__input {
-    display: none;
-  }
+// باز کردن input دوباره (ویرایش)
+const editImage = (type) => {
+  document.getElementById(`input-${type}`).click()
+  showMenu.value[type] = false
+}
 
-  &__preview {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-    display: none;
-  }
+// store image in pinia
+const router = useRouter()
+const formStore = useFormStore()
 
-  &__icon {
-    width: 68px;
-    height: 51px;
-    margin: 40px auto 8px;
-  }
+const errormessageForm = ref(null)
 
-  &__text {
-    width: 175px;
+const step2Data = ref({
+  forwardimage: '',
+  backwardimage: '',
+})
+
+function saveData() {
+  if (!step2Data.value.forwardimage || !step2Data.value.backwardimage) {
+    errormessageForm.value = 'لطفاً همه فیلدها را به درستی پر کنید'
+    return
+  }
+  formStore.updateStepData('step2', step2Data.value)
+
+  setTimeout(() => {
+    router.push('/form/confirminfo')
+  }, 0)
+}
+
+function goBack() {
+  router.push('/form/personalinfo')
+}
+</script>
+
+<template>
+  <form class="form-upload-card" @submit.prevent="saveData">
+    <h2 class="form-upload-card__title">تصویر کارت ملی</h2>
+    <div class="form-upload-card__uploads">
+      <!-- Front -->
+      <div class="form-upload-card__upload">
+        <label class="form-upload-card__upload-box">
+          <input
+            id="input-front"
+            type="file"
+            class="form-upload-card__upload-input"
+            accept="image/*"
+            @change="handleUpload($event, 'front')"
+          />
+          <img v-if="previewFront" :src="previewFront" class="form-upload-card__upload-preview" />
+          <img
+            v-else
+            class="form-upload-card__upload-icon"
+            src="../../../assets/icons/upload.svg"
+            alt=""
+          />
+          <p v-show="!previewFront" class="form-upload-card__upload-text">
+            تصویر را بکشید و اینجا رها کنید یا <span>کلیک کنید</span>
+          </p>
+        </label>
+        <div class="form-upload-card__upload-extra">
+          <span class="form-upload-card__upload-label">تصویر روی کارت ملی</span>
+          <button
+            type="button"
+            class="form-upload-card__upload-menu-button"
+            @click="showMenu.front = !showMenu.front"
+          >
+            <img src="../../../assets/icons/vuesax/linear/more.svg" alt="" />
+          </button>
+          <div v-if="showMenu.front" id="menu-front" class="form-upload-card__upload-menu">
+            <div class="form-upload-card__upload-menu-item" @click="editImage('front')">
+              <img src="../../../assets/icons/vuesax/outline/edit-2.svg" alt="" /> ویرایش
+            </div>
+            <hr />
+            <div class="form-upload-card__upload-menu-item" @click="removeImage('front')">
+              <img src="../../../assets/icons/vuesax/outline/trash.svg" alt="" /> حذف
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Back -->
+      <div class="form-upload-card__upload">
+        <label class="form-upload-card__upload-box">
+          <input
+            id="input-back"
+            type="file"
+            class="form-upload-card__upload-input"
+            accept="image/*"
+            @change="handleUpload($event, 'back')"
+          />
+          <img v-if="previewBack" :src="previewBack" class="form-upload-card__upload-preview" />
+          <img
+            v-else
+            class="form-upload-card__upload-icon"
+            src="../../../assets/icons/upload.svg"
+            alt=""
+          />
+          <p v-if="!previewBack" class="form-upload-card__upload-text">
+            تصویر را بکشید و اینجا رها کنید یا <span>کلیک کنید</span>
+          </p>
+        </label>
+        <div class="form-upload-card__upload-extra">
+          <span class="form-upload-card__upload-label">تصویر پشت کارت ملی</span>
+          <button
+            type="button"
+            class="form-upload-card__upload-menu-button"
+            @click="showMenu.back = !showMenu.back"
+          >
+            <img src="../../../assets/icons/vuesax/linear/more.svg" alt="" />
+          </button>
+          <div v-if="showMenu.back" id="menu-back" class="form-upload-card__upload-menu">
+            <div class="form-upload-card__upload-menu-item" @click="editImage('back')">
+              <img src="../../../assets/icons/vuesax/outline/edit-2.svg" alt="" /> ویرایش
+            </div>
+            <hr />
+            <div class="form-upload-card__upload-menu-item" @click="removeImage('back')">
+              <img src="../../../assets/icons/vuesax/outline/trash.svg" alt="" /> حذف
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="form-upload-card__actions">
+      <button
+        @click="goBack"
+        type="button"
+        class="form-upload-card__button form-upload-card__button--secondary"
+      >
+        قبلی
+      </button>
+      <button type="submit" class="form-upload-card__button form-upload-card__button--primary">
+        ثبت و ادامه
+      </button>
+    </div>
+    <span class="error">{{ errormessageForm }}</span>
+  </form>
+</template>
+
+<style lang="scss" scoped>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 800px;
+}
+
+.form-upload-card {
+  background: #ffffff;
+  border-radius: 12px;
+  width: 1400px;
+  height: 508px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  &__title {
     text-align: center;
-    margin: 0 auto 40px;
-    @include text-style($font-size-base, $font-weight-600, $text-secondary, $font-family-semi-bold);
-    line-height: 20px;
-
-    span {
-      color: $primary;
-    }
+    width: 100%;
+    height: 28px;
+    color: #3c4351;
+    font-family: 'peyda-bold';
+    font-size: 20px;
+    font-weight: 700;
+    border-bottom: solid #e2edff 1px;
+    padding-bottom: 40px;
+   
   }
 
-  &__footer {
-    box-sizing: border-box;
-    width: 324px;
-    height: 52px;
-    @include flex-between;
-    padding: 16px 12px;
-    align-items: center;
-    position: relative;
-    background-color: $surface-alt;
-    border-radius: 0 0 $radius-lg $radius-lg;
+  &__uploads {
+    width: 100%;
+    height: 232px;
+    display: flex;
+    padding: 0 319.5px;
+    gap: 40px;
+  }
+
+  &__upload {
+    &-box {
+      width: 320px;
+      height: 180px;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      position: relative;
+      transition: border-color 0.3s ease;
+      background-color: #f9fafb;
+      border-radius: 12px 12px 0 0;
+      border: 2px dashed #e2edff;
+    }
+
+    &-input {
+      display: none;
+    }
+
+    &-icon {
+      width: 68px;
+      height: 50.54px;
+      margin: 40.73px 126px 8px 126px;
+    }
 
     &-text {
-      @include text-style($font-size-base, $font-weight-400, $text-primary, $font-family-regular);
+      width: 175px;
+      height: 40px;
+      text-align: center;
+      margin: 0 72.5px 40.73px 72.5px;
+      font-family: 'peyda-semiBold';
+      font-size: 14px;
+
+      span {
+        color: #4152a0;
+      }
     }
 
-    &-button {
+    &-extra {
+      width: 320px;
+      height: 52px;
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 12px;
+      align-items: center;
+      position: relative;
+      background-color: #f9fafb;
+      border-radius: 0 0 12px 12px;
+    }
+
+    &-label {
+      width: 122px;
+      height: 100%;
+      font-size: 14px;
+      font-family: 'peyda-regular';
+      color: #3c4351;
+    }
+
+    &-menu-button {
       height: 20px;
       width: 20px;
-      border: $border-none;
+      border: 0;
       background-color: transparent;
       cursor: pointer;
     }
-  }
 
-  &__menu {
-    width: 93px;
-    height: 72px;
-    background-color: $color-white;
-    bottom: 12px;
-    position: absolute;
-    left: 16px;
-    padding: 8px 12px;
-    border-radius: $radius-md;
+    &-menu {
+      width: 93px;
+      height: 72px;
+      background-color: #ffffff;
+      bottom: 12px;
+      position: absolute;
+      left: 30px;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
 
-    &-item {
+    &-menu-item {
       width: 69px;
       height: 20px;
-      @include text-style($font-size-base, $font-weight-400, $text-primary, $font-family-regular);
+      font-size: 14px;
+      font-family: 'peyda-regular';
       display: flex;
       align-items: center;
-      gap: $gap-sm;
+      gap: 8px;
+      cursor: pointer;
 
       img {
         width: 20px;
@@ -209,13 +312,52 @@
       }
     }
 
-    hr {
+    &-menu hr {
       margin: 8px 0;
-      border: $border-none;
+      border: 0;
       height: 1px;
-      background-color: $border-color;
+      background-color: #e2edff;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    margin-top: 40px;
+    justify-self: end;
+    justify-content: space-between;
+    width: 434px;
+    height: 48px;
+    margin-right: 896px;
+  }
+
+  &__button {
+    width: 209px;
+    height: 48px;
+    padding: 10px 69px;
+    font-family: 'peyda-bold';
+    font-size: 16px;
+    border: 0;
+    font-weight: 700;
+    color: #3c4351;
+    background-color: #eceef6;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &--primary {
+      background-color: #3f51b5;
+      color: white;
+    }
+
+    &--secondary {
+      background-color: #f2f2f2;
+      color: #333;
     }
   }
 }
+.error {
+  color: red;
+  font-size: 15px;
+  position: relative;
+  bottom: 50px;
+}
 </style>
-

@@ -1,5 +1,5 @@
 <template>
-  <form class="form-confirmation" action="">
+  <form class="form-confirmation" action="" @submit.prevent="submitForm">
     <div class="form-confirmation__title">
       <span>تایید اطلاعات</span>
     </div>
@@ -10,22 +10,22 @@
       <div class="form-confirmation__fields-text">
         <div class="form-confirmation__fields-text-item">
           <span class="form-confirmation__title-label">نام:</span>
-          <span class="form-confirmation__value">بهنام</span>
+          <span class="form-confirmation__value">{{ step1.name }}</span>
         </div>
         <div class="form-confirmation__fields-text-item">
           <span class="form-confirmation__title-label">نام خانوادگی:</span>
-          <span class="form-confirmation__value">میریزدی</span>
+          <span class="form-confirmation__value">{{ step1.family }}</span>
         </div>
         <div class="form-confirmation__fields-text-item">
           <span class="form-confirmation__title-label">کد پستی:</span>
-          <span class="form-confirmation__value">56516112</span>
+          <span class="form-confirmation__value">{{ step1.postalCode }}</span>
         </div>
       </div>
 
       <div class="form-confirmation__fields-extra">
         <span class="form-confirmation__title-label">محل سکونت:</span>
         <p class="form-confirmation__address">
-          بولوار ملک آباد ، خیام جنوبی ۱۳ ، گلایل ۱۰ ، پلاک۱۲۳ ، واحد۱
+         {{ step1.address }}
         </p>
       </div>
     </div>
@@ -37,6 +37,7 @@
         :width="'209px'"
         :height="'48px'"
         :bg-color="'#eceef6'"
+        @click="goBack"
       />
 
       <BaseButton
@@ -53,6 +54,15 @@
 
 <script setup>
 import BaseButton from '@/components/baseComponents/BaseButton.vue'
+import router from '@/router'
+import { useFormStore } from '@/stores/formStore'
+const formStore = useFormStore()
+const step1 = formStore.formData.step1
+const submitForm = formStore.submitForm
+
+function goBack() {
+  router.push('/form/uploadimage')
+}
 </script>
 
 <style scoped lang="scss">

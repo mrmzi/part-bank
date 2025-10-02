@@ -61,36 +61,7 @@
       <button class="account__calc-btn btn-primary">محاسبه امتیاز</button>
     </div>
 
-    <!-- <AccountDetailsCard
-      :card-class="'account__card account__card--score'"
-      :card-title="'امتیاز حساب'"
-      :card-icon="'@/assets/icons/vuesax/bold/info-circle.svg'"
-    >
-      <div class="account__balance">
-        <div class="account__balance__number">
-          <span class="account__balance__number-text">۸۰۰٬۰۰۰٬۰۰۰</span>
-          <span class="account__balance__number-extra">ریال</span>
-        </div>
-        <div class="account__balance__month">
-          <span class="account__balance__month-text">۱۲</span>
-          <span class="account__balance__month-extra">ماهه</span>
-        </div>
-      </div>
-    </AccountDetailsCard>
-    <AccountDetailsCard
-      :card-class="'account__card account__card--score'"
-      :card-title="'قسط پیش رو'"
-      :card-icon="'@/assets/icons/Angle-left.svg'"
-    >
-      <div class="account__amount">
-          <span class="account__amount-text">مبلغ قسط:</span>
-          <span class="account__amount-money">۳۵۰٬۰۰۰٬۰۰۰ ریال</span>
-        </div>
-        <div class="account__due">
-          <span class="account__due-text">تاریخ سررسید:</span>
-          <span class="account__due-month">۱۴۰۱/۱۲/۱۵</span>
-        </div>
-    </AccountDetailsCard> -->
+
 
     <div class="account__card account__card--installment">
       <div class="account__card__info">
@@ -186,40 +157,7 @@ function formatCardNumberSpans(num) {
   return groups
 }
 </script>
-<!-- <script setup>
-// import oncart from '@/services/getcart';
-// import { onMounted } from 'vue';
-import api from '@/plugins/axios'
-import { ref } from 'vue'
-import AccountDetailsCard from './AccountDetailsCard.vue'
-const user = ref(null)
-async function createDepositAccount() {
-  try {
-    const form = new FormData()
-    form.append('firstName', 'محمد')
-    form.append('lastName', 'محمدی')
-    form.append('address', 'تهران')
-    form.append('postalCode', '1234567890')
-    form.append('nationalCardImage', user.value)
-    const response = await api.post('/deposit-account', form, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    })
 
-    console.log('Response:', response.data)
-  } catch (err) {
-    console.error(err)
-  }
-}
-function handleFile(event) {
-  user.value = event.target.files[0]
-  console.log(user.value)
-  console.log(user.value.name)
-  console.log(user.value.type)
-}
-</script> -->
 
 <style lang="scss" scoped>
 .btn-primary {
@@ -425,6 +363,8 @@ function handleFile(event) {
           &-text {
             width: 59px;
             height: 100%;
+            direction: ltr;
+
             @include text-style(
               $size: $font-size-base,
               $weight: $font-weight-400,
@@ -436,6 +376,7 @@ function handleFile(event) {
           &-money {
             width: 98px;
             height: 100%;
+           direction: ltr;
             @include text-style(
               $size: $font-size-base,
               $weight: $font-weight-600,
@@ -456,11 +397,13 @@ function handleFile(event) {
             height: 100%;
             font-family: $font-family-regular;
             color: $text-secondary;
+            direction: ltr;
           }
 
           &-month {
             width: 60px;
             height: 100%;
+            direction: ltr;
             @include text-style(
               $size: $font-size-base,
               $weight: $font-weight-600,

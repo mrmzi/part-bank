@@ -1,133 +1,219 @@
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useFormStore } from '@/stores/formStore'
+import BaseInput from '@/components/baseComponents/BaseInput.vue'
+
+const errormessageName = ref(null)
+const errormessageFamily = ref(null)
+const errormessagePostal = ref(null)
+const errormessageAddress = ref(null)
+const errormessageForm = ref(null)
+
+const step1Data = ref({
+  name: '',
+  family: '',
+  postalCode: '',
+  address: ''
+})
+
+function validatePersianText(val, type) {
+  const cleanVal = val.trim()
+  let errorMsg = null
+  if (cleanVal && !/^[\u0600-\u06FF\s]+$/.test(cleanVal)) {
+    errorMsg = 'فقط حروف فارسی مجاز است'
+  }
+  if (type === 'name') {
+    errormessageName.value = errorMsg
+  } else if (type === 'family') {
+    errormessageFamily.value = errorMsg
+  } else if (type === 'address') {
+    errormessageAddress.value = errorMsg
+  }
+}
+
+function validatePostalCode(val) {
+  const cleanVal = val.trim()
+  let errorMsg = null
+  if (cleanVal) {
+    if (!/^[0-9]+$/.test(cleanVal)) {
+      errorMsg = 'فقط اعداد مجاز است'
+    } else if (!cleanVal.startsWith('91')) {
+      errorMsg = 'کد پستی باید با 91 شروع شود'
+    } else if (cleanVal.length !== 9) {
+      errorMsg = 'کد پستی باید 9 رقمی باشد'
+    }
+  }
+  errormessagePostal.value = errorMsg
+}
+
+const router = useRouter()
+const formStore = useFormStore()
+
+function saveData() {
+  if (
+    !step1Data.value.name ||
+    !step1Data.value.family ||
+    !step1Data.value.postalCode ||
+    !step1Data.value.address
+  ) {
+    errormessageForm.value = 'لطفاً همه فیلدها را به درستی پر کنید'
+    return
+  }
+  formStore.updateStepData('step1', step1Data.value)
+  router.push('/form/uploadimage')
+}
+
+function goBack() {
+  router.push('/dashboard')
+}
+</script>
+
 <template>
-  <form class="form-personal-info">
+  <form class="form-personal-info" @submit.prevent>
     <h2 class="form-personal-info__title">اطلاعات فردی</h2>
+<div class="form-personal-info__group">
+  <BaseInput
+    id="name"
+    label="نام"
+    placeholder="نام فارسی"
+    v-model="step1Data.name"
+    :error="errormessageName"
+    @update:modelValue="val => validatePersianText(val, 'name')"
+  />
 
-    <div class="form-personal-info__group">
-      <div class="form-personal-info__field">
-        <label class="form-personal-info__label">نام</label>
-        <BaseInput
-          :input-class="'form-personal-info__input form-personal-info__input-name'"
-          :input-width="'100%'"
-          :input-height="'40px'"
-          :has-border="true"
-          :placeholder="'نام فارسی'"
-          :input-type="'text'"
-        />
-      </div>
+  <BaseInput
+    id="family"
+    label="نام خانوادگی"
+    placeholder="نام خانوادگی به صورت کامل"
+    v-model="step1Data.family"
+    :error="errormessageFamily"
+    @update:modelValue="val => validatePersianText(val, 'family')"
+    
+  />
 
-      <div class="form-personal-info__field">
-        <label class="form-personal-info__label">نام خانوادگی</label>
-        <BaseInput
-          :input-class="'form-personal-info__input'"
-          :input-width="'100%'"
-          :input-height="'40px'"
-          :has-border="true"
-          :placeholder="'نام خانوادگی به صورت کامل'"
-          :input-type="'text'"
-        />
-      </div>
+  <BaseInput
+    id="postal"
+    label="کد پستی"
+    placeholder="برای مثال 919542687"
+    v-model="step1Data.postalCode"
+    :error="errormessagePostal"
+    @update:modelValue="validatePostalCode"
+  />
+</div>
 
-      <div class="form-personal-info__field">
-        <label class="form-personal-info__label">کدپستی</label>
-        <BaseInput
-          :input-class="'form-personal-info__input'"
-          :input-width="'100%'"
-          :input-height="'40px'"
-          :has-border="true"
-          :placeholder="'کد ده رقمی پستی'"
-          :input-type="'text'"
-        />
-      </div>
-    </div>
-
-    <div class="form-personal-info__field">
+    <div class="form-personal-info__field form-personal-info__field--textarea">
       <label class="form-personal-info__label">محل سکونت</label>
-      <textarea class="form-personal-info__textarea">
-بلوار ملک‌آباد، خیابان جنوبی ۱۳، گلایل ۱۰، پلاک ۱۰۳، واحد ۱
-      </textarea>
+      <textarea
+        class="form-personal-info__textarea"
+        placeholder="برای مثال : مشهد , بلوار هاشمیه"
+        v-model="step1Data.address"
+        @input="validatePersianText($event.target.value, 'address')"
+      ></textarea>
+      <span class="form-personal-info__error" v-if="errormessageAddress">
+        {{ errormessageAddress }}
+      </span>
     </div>
 
     <div class="form-personal-info__actions">
-      <BaseButton
-        :class="'form-personal-info__button form-personal-info__button-secondary'"
-        :title="'قبلی'"
-        :width="'209px'"
-        :height="'48px'"
-        :bgColor="'#eceef6'"
-        :color="'#3c4351'"
-      />
-
-      <BaseButton
-        :class="'form-personal-info__button form-personal-info__button-primary'"
-        :title="'ثبت و ادامه'"
-        :width="'209px'"
-        :height="'48px'"
-        :bgColor="'#4152a0'"
-        :color="'#ffffff'"
-        :btn-type="'submit'"
-      />
+      <button
+        type="button"
+        class="form-personal-info__button form-personal-info__button--secondary"
+        @click="goBack"
+      >
+        قبلی
+      </button>
+      <button
+        type="submit"
+        class="form-personal-info__button form-personal-info__button--primary"
+        @click="saveData"
+      >
+        ثبت و ادامه
+      </button>
     </div>
+
+    <span class="form-personal-info__form-error" v-if="errormessageForm">
+      {{ errormessageForm }}
+    </span>
   </form>
 </template>
 
-<script setup>
-import BaseButton from '@/components/baseComponents/BaseButton.vue'
-import BaseInput from '@/components/baseComponents/BaseInput.vue'
-</script>
+<style lang="scss" scoped>
 
-<style scoped lang="scss">
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .form-personal-info {
-  background: $color-white;
-  border-radius: $radius-lg;
+  background: #fff;
+  border-radius: 12px;
   width: 1400px;
   height: 542px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  padding: 40px 40px 10px 40px;
-  @include flex-column($gap: 45px);
+  padding: 40px;
+  gap: 40px;
+  display: flex;
+  flex-direction: column;
+
+  &__form-error {
+    color: red;
+    font-size: 12px;
+    margin-top: 8px;
+    position: relative;
+    top: -50px;
+  }
 
   &__title {
     text-align: center;
     width: 100%;
     height: 28px;
-    @include text-style($size: $font-size-xl, $weight: $font-weight-800, $color: $text-primary, $family: $font-family-bold);
-    border-bottom: 1px solid $border-color;
-    padding-bottom: 40px;
+    color: #3c4351;
+    font-family: 'peyda-bold';
+    font-size: 20px;
+    font-weight: 700;
+    border-bottom: solid #e2edff 1px;
+    padding-bottom: 80px;
   }
 
   &__group {
-    @include flex-between;
+    display: flex;
     gap: 32px;
     width: 100%;
     height: 72px;
+    justify-content: space-between;
     padding: 0;
   }
 
   &__field {
     display: flex;
     flex-direction: column;
-    row-gap: 8px;
-    width: 100%;
+    flex: 1;
   }
 
   &__label {
-    @include text-style($size: $font-size-base , $weight: $font-weight-600, $color: $text-secondary);
+    font-size: 14px;
+    color: #8999b9;
     padding: 0 8px;
+    margin-bottom: 8px;
   }
 
   &__input,
   &__textarea {
-    padding: 16px 8px;
-    border: 1px solid #dddddd;
-    border-radius: $radius-md;
+    padding: 14px 8px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
     font-size: 1rem;
-    background-color: $surface-alt;
+    background-color: #f9fafb;
+    font-family: 'peyda-regular';
+    outline: none;
+  }
+  ::placeholder{
+    color: #C3C5C9;
   }
 
   &__input {
-    height: 40px;
-  }
-
-  &__input-name {
     height: 48px;
   }
 
@@ -136,30 +222,42 @@ import BaseInput from '@/components/baseComponents/BaseInput.vue'
     resize: none;
   }
 
+  &__error {
+    color: red;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
   &__actions {
-    width: 100%;
     display: flex;
-    justify-content: end;
-    align-items: center;
-    gap: 16px;
+    justify-content: space-between;
+    width: 434px;
+    height: 48px;
+    margin-right: 886px;
   }
 
   &__button {
-     @include text-style($size: $font-size-md , $weight: $font-weight-700, $family: $font-family-bold);
     width: 209px;
     height: 48px;
+    padding: 10px 69px;
+    font-family: 'peyda-bold';
+    font-size: 16px;
     border: 0;
+    font-weight: 700;
+    color: #3c4351;
+    background-color: #eceef6;
     border-radius: 8px;
-  }
+    cursor: pointer;
 
-  &__button-secondary {
-    color: $text-primary;
-    background-color: $control-bg;
-  }
+    &--primary {
+      background-color: #3f51b5;
+      color: white;
+    }
 
-  &__button-primary {
-    color: $color-white;
-    background-color: $primary;
+    &--secondary {
+      background-color: #f2f2f2;
+      color: #333;
+    }
   }
 }
 </style>

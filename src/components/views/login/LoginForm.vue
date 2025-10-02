@@ -45,15 +45,14 @@
       <label class="login__label" for="password">رمز عبور</label>
       <div class="password-wrapper">
         <BaseInput
-          :input-id="'password'"
-          :input-class="'login__input password'"
-          :input-width="'100%'"
-          :input-height="'48px'"
+          input-id="password"
+          input-class="login__input password"
+          input-width="100%"
+          input-height="48px"
           :has-border="false"
-          :placeholder="'رمز عبور خود را وارد کنید'"
+          placeholder="رمز عبور خود را وارد کنید"
           :input-type="showPassword ? 'text' : 'password'"
           v-model="password"
-          aria-describedby="password-error"
         />
 
         <button
@@ -72,7 +71,7 @@
       <BaseButton
         :is-disabled="loading"
         aria-busy="loading"
-        :title="loading ? 'در حال ارسال...' : 'درود'"
+        :title="loading ? 'در حال ارسال...' : 'ورود'"
         :width="'100%'"
         :height="'48px'"
         :bgColor="'#4152a0'"
@@ -142,10 +141,9 @@ function validateForm() {
   if (!validatePassword(password.value)) {
     passwordError.value = 'رمز عبور باید حداقل ۶ کاراکتر باشد و شامل حروف و اعداد شود'
     valid = false
-  
+
     passwordError.value = 'رمز عبور باید حداقل ۶ کاراکتر باشد و شامل حروف و اعداد شود'
     valid = false
-
   }
   return valid
 }
@@ -155,7 +153,6 @@ function togglePassword() {
 }
 
 async function handleLogin() {
-
   if (!validateForm()) {
     return
   }
@@ -164,9 +161,7 @@ async function handleLogin() {
   error.value = null
 
   try {
-   
     const response = await login(phone.value, password.value)
-
 
     const token = response?.data?.token
     const user = response?.data?.user

@@ -10,10 +10,8 @@
 section {
   font-family: 'peyda-regular';
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
-  /* margin-top: 100px; */
- 
+  background-color: #f7f8fa;
 }
 </style>

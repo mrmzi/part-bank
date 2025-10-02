@@ -1,17 +1,16 @@
-<script setup>
-import Header from '@/components/baseComponents/Header.vue'
-</script>
-<template class="form">
-  <Header class="header-section" />
-  <router-view />
+<template>
+    <Header />
+    <PersonalInfo />
+    <ConfirmInfo />
+    <NationalIdUpload />
 </template>
-<style>
-.form {
-  width: 1920px;
-  height: 1080px;
-}
-.header-section {
-  position: fixed;
-  top: 0;
-}
+<script setup>
+import Header from '@/components/baseComponents/Header.vue';
+import ConfirmInfo from '@/components/views/form/ConfirmInfo.vue';
+import NationalIdUpload from '@/components/views/form/NationalIdUpload.vue';
+import PersonalInfo from '@/components/views/form/PersonalInfo.vue';
+
+</script>
+<style scoped>
+
 </style>

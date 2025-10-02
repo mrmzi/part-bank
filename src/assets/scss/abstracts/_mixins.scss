@@ -1,3 +1,4 @@
+
 @mixin flex-center($gap: 0px) {
   display: flex;
   align-items: center;
@@ -11,7 +12,7 @@
   justify-content: space-between;
 }
 
-@mixin flex-column($gap: 0 , $justify: start , $align) {
+@mixin flex-column($gap: 0 , $justify: start , $align: center) {
   display: flex;
   justify-content: $justify;
   align-items: $align;
@@ -30,7 +31,7 @@
   width: 100%;
   height: $height;
   background-color: $bg;
-  border: $border-none;
+  border: 0px;
   border-radius: $radius;
   color: $color;
   cursor: pointer;
@@ -44,7 +45,7 @@
   }
 }
 
-@mixin input-base($bg: $surface-alt, $border: $border-none, $radius: $radius-sm, $height: $input-height) {
+@mixin input-base($bg: $surface-alt, $border: $border-none, $radius: 6px, $height: $input-height) {
   width: 100%;
   height: $height;
   background-color: $bg;
@@ -53,12 +54,12 @@
   box-sizing: border-box;
   padding: 0 8px;
   outline: none;
-  font-size: $font-size-base;
+  font-size: 14px;
   direction: rtl;
 
   &::placeholder {
-    color: $text-placeholder;
-    font-family: $font-family-regular;
+    color: #c3c5c9;
+    font-family: 'peyda-regular';
   }
 }
 

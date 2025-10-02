@@ -12,13 +12,6 @@
           </select>
         </div>
         <div class="transactions__filter-search">
-          <!-- <input
-            type="text"
-            name="transactions-search"
-            id="transactions-search"
-            placeholder="جستجو"
-          /> -->
-
           <BaseInput
             :input-id="'transactions-search'"
             :input-width="'100%'"
@@ -29,7 +22,7 @@
           />
 
           <button>
-            <img src="../../../assets/icons/Search.svg" alt="Search Icon" />
+            <img src="@/assets/icons/Search.svg" alt="Search Icon" />
           </button>
         </div>
       </div>
@@ -44,20 +37,20 @@
         </tr>
       </thead>
       <tbody class="transactions__tbody">
-        <tr v-for="transaction in transactions" :key="transaction.id" class="transactions__tr">
+        <tr v-for="(tx, index) in cuttedTransactions" :key="tx.id" class="transactions__tr">
           <td class="transactions__td">
-            {{ transaction.type === 'deposit' ? 'واریز' : 'برداشت' }}
-            <img :src="transaction.icon" alt="transaction icon" />
+            <img :src="tx.type === 'deposit' ? arrowDown : arrowUp" alt="transaction icon" />
+            {{ tx.type === 'deposit' ? 'واریز' : 'برداشت' }}
           </td>
-          <td class="transactions__td">{{ transaction.date }}</td>
-          <td class="transactions__td">{{ transaction.amount }}</td>
+          <td class="transactions__td">{{ tx.date }}</td>
+          <td class="transactions__td">{{ tx.amount }}</td>
         </tr>
       </tbody>
     </table>
 
     <nav class="pagination">
-      <button class="pagination__arrow pagination__arrow--prev" :disabled="currentPage === 1">
-        <img src="@/assets/icons/arrow-left.svg" alt="" />
+      <button class="pagination__arrow pagination__arrow--next" :disabled="currentPage === 1">
+        <img src="@/assets/icons/arrow-right.svg" alt="" />
       </button>
 
       <BaseButton
@@ -67,37 +60,40 @@
         :height="'32px'"
         :width="'32px'"
         :class="['pagination__page', { 'pagination__page--active': page === currentPage }]"
-        :color="page === currentPage ? '#4152a0' : ''"
+        :bgColor="page === currentPage ? '#4152a0' : ''"
         :title="String(page)"
       />
 
       <button
-        class="pagination__arrow pagination__arrow--next"
+        class="pagination__arrow pagination__arrow--prev"
         :disabled="currentPage === pages.length"
       >
-        <img src="@/assets/icons/arrow-right.svg" alt="" />
+        <img src="@/assets/icons/arrow-left.svg" alt="" />
       </button>
     </nav>
   </section>
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import arrowDown from '@/assets/icons/arrow-down.svg'
 import arrowUp from '@/assets/icons/arrow-up.svg'
 import BaseButton from '@/components/baseComponents/BaseButton.vue'
 import BaseInput from '@/components/baseComponents/BaseInput.vue'
-
-const transactions = ref([
-  { id: 1, type: 'deposit', icon: arrowDown, date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
-  { id: 2, type: 'deposit', icon: arrowDown, date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
-  { id: 3, type: 'withdraw', icon: arrowUp, date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
-  { id: 4, type: 'deposit', icon: arrowDown, date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
-  { id: 5, type: 'withdraw', icon: arrowUp, date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
-])
+import { fetchTransactions } from '@/services/getTransactions'
+import { ref, onMounted } from 'vue'
 
 const pages = ref([1, 2, 3])
-const currentPage = ref(2)
+const currentPage = ref(1)
+
+const transactions = ref([])
+const cuttedTransactions = ref([])
+
+onMounted(async () => {
+  transactions.value = await fetchTransactions()
+  if (transactions.value) {
+    cuttedTransactions.value = transactions.value.slice(0, 5)
+  }
+})
 </script>
 
 <style scoped lang="scss">
@@ -107,22 +103,25 @@ const currentPage = ref(2)
   border-radius: $radius-lg;
   padding: 24px 24px 14px 24px;
 }
+
 .transactions__header {
   @include flex-between;
   width: 1116px;
   height: 38px;
 }
+
 .transactions__title {
-  color: $text-primary;
-  font-size: $font-size-xl;
+  @include text-style($font-size-xl, $font-weight-700, $text-primary);
 
   span {
     @include text-style($font-size-md, $font-weight-400, $text-secondary);
   }
 }
+
 .transactions__filter {
   @include flex-center($gap-md);
 }
+
 .transactions__filter-sort {
   width: 269px;
   height: 34px;
@@ -143,12 +142,14 @@ const currentPage = ref(2)
     }
   }
 }
+
 .transactions__filter-sort select {
   width: 183px;
-  height: 36px;
+  height: 34px;
   border-radius: $radius-md;
   border: $border-width solid $border-color;
 }
+
 .transactions__filter-sort select::placeholder {
   @include text-style($font-size-base, $color: $text-primary, $family: $font-family-regular);
 }
@@ -157,29 +158,31 @@ const currentPage = ref(2)
   @include flex-center();
   width: 257px;
   height: 34px;
-}
-.transactions__filter-search input {
-  width: 257px;
-  height: 34px;
-  border-top-right-radius: $radius-md;
-  border-bottom-right-radius: $radius-md;
-  padding: 0px 8px;
-}
 
-.transactions__filter-search input::placeholder {
-  @include text-style($font-size-base, $color: $text-secondary, $family: $font-family-regular);
-}
+  input {
+    width: 257px;
+    height: 34px;
+    border-top-right-radius: $radius-md;
+    border-bottom-right-radius: $radius-md;
+    padding: 0px 8px;
 
-.transactions__filter-search button {
-  cursor: pointer;
-  height: 36px;
-  background-color: $control-bg;
-  border-top-left-radius: 7px;
-  border-bottom-left-radius: 7px;
-  border: $border-width solid transparent;
+    &::placeholder {
+      @include text-style($font-size-base, $color: $text-secondary, $family: $font-family-regular);
+    }
+  }
 
-  img {
-    margin: 0px 0px 0px 2px;
+  button {
+    cursor: pointer;
+    @include flex-center();
+    height: 34px;
+    background-color: $control-bg;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    border: $border-width solid transparent;
+
+    img {
+      margin: 0px 0px 0px 2px;
+    }
   }
 }
 
@@ -204,15 +207,16 @@ const currentPage = ref(2)
 .transactions__th {
   height: 60px;
   text-align: center;
-}
 
-.transactions__th:first-child {
-  border-top-left-radius: $radius-md;
-  border-bottom-left-radius: $radius-md;
-}
-.transactions__th:last-child {
-  border-top-right-radius: $radius-md;
-  border-bottom-right-radius: $radius-md;
+  &:first-child {
+    border-top-right-radius: $radius-md;
+    border-bottom-right-radius: $radius-md;
+  }
+
+  &:last-child {
+    border-top-left-radius: $radius-md;
+    border-bottom-left-radius: $radius-md;
+  }
 }
 
 .transactions__td:nth-child(1) {
@@ -245,10 +249,7 @@ const currentPage = ref(2)
     border-radius: 4px;
     padding: 4px;
     background-color: #f1f3f8;
-    color: $text-secondary;
-    font-size: $font-size-base;
-    font-family: $font-family-semi-bold;
-    font-weight: $font-weight-600;
+    @include text-style($size: $font-size-base, $weight: $font-weight-600, $color: $text-secondary, $family: $font-family-semi-bold);
     cursor: pointer;
     @include flex-center();
 

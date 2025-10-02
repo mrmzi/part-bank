@@ -75,8 +75,9 @@
         :title="loading ? 'در حال ارسال...' : 'درود'"
         :width="'100%'"
         :height="'48px'"
-        :color="'#4152a0'"
+        :bgColor="'#4152a0'"
         :btn-type="'submit'"
+        @click="handleLogin"
       />
 
       <p v-if="error" class="text-error mt-2">{{ error }}</p>

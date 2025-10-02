@@ -1,89 +1,82 @@
-<script setup>
-import router from '@/router'
-import { useFormStore } from '@/stores/formStore'
-const formStore = useFormStore()
-const step1 = formStore.formData.step1
-const submitForm = formStore.submitForm
-
-function goBack() {
-  router.push('/form/uploadimage')
-}
-</script>
 <template>
-  <form @submit.prevent="submitForm" class="confirm-info">
-    <div class="confirm-info__title">
+  <form class="form-confirmation" action="">
+    <div class="form-confirmation__title">
       <span>تایید اطلاعات</span>
     </div>
-    <hr class="confirm-info__line" />
-    <div class="confirm-info__fields">
-      <div class="confirm-info__fields-text">
-        <div class="confirm-info__field">
-          <span class="confirm-info__field-title">نام:</span>
-          <span class="confirm-info__field-value">{{ step1.name }}</span>
+
+    <hr class="form-confirmation__divider" />
+
+    <div class="form-confirmation__fields">
+      <div class="form-confirmation__fields-text">
+        <div class="form-confirmation__fields-text-item">
+          <span class="form-confirmation__title-label">نام:</span>
+          <span class="form-confirmation__value">بهنام</span>
         </div>
-        <div class="confirm-info__field">
-          <span class="confirm-info__field-title">نام خانوادگی:</span>
-          <span class="confirm-info__field-value">{{ step1.family }}</span>
+        <div class="form-confirmation__fields-text-item">
+          <span class="form-confirmation__title-label">نام خانوادگی:</span>
+          <span class="form-confirmation__value">میریزدی</span>
         </div>
-        <div class="confirm-info__field">
-          <span class="confirm-info__field-title">کد پستی:</span>
-          <span class="confirm-info__field-value">{{ step1.postalCode }}</span>
+        <div class="form-confirmation__fields-text-item">
+          <span class="form-confirmation__title-label">کد پستی:</span>
+          <span class="form-confirmation__value">56516112</span>
         </div>
       </div>
 
-      <div class="confirm-info__fields-extra">
-        <span class="confirm-info__extra-title">محل سکونت</span>
-        <p class="confirm-info__extra-value">{{ step1.address }}</p>
+      <div class="form-confirmation__fields-extra">
+        <span class="form-confirmation__title-label">محل سکونت:</span>
+        <p class="form-confirmation__address">
+          بولوار ملک آباد ، خیام جنوبی ۱۳ ، گلایل ۱۰ ، پلاک۱۲۳ ، واحد۱
+        </p>
       </div>
     </div>
 
-    <div class="confirm-info__actions">
-      <button
-        @click="goBack"
-        type="button"
-        class="confirm-info__button confirm-info__button--secondary"
-      >
-        قبلی
-      </button>
-      <button type="submit" class="confirm-info__button confirm-info__button--primary">
-        افتتاح حساب
-      </button>
+    <div class="form-confirmation__actions">
+      <BaseButton
+        :class="'form-confirmation__btn form-confirmation__btn--secondary'"
+        :title="'قبلی'"
+        :width="'209px'"
+        :height="'48px'"
+        :bg-color="'#eceef6'"
+      />
+
+      <BaseButton
+        :class="'form-confirmation__btn form-confirmation__btn--primary'"
+        :title="'افتتاح حساب'"
+        :width="'209px'"
+        :height="'48px'"
+        :btn-type="'submit'"
+        :bg-color="'#4152a0'"
+      />
     </div>
   </form>
 </template>
 
-<style lang="scss" scoped>
-* {
-  margin: 0;
-  padding: 0%;
-  box-sizing: border-box;
-}
-.confirm-info {
+<script setup>
+import BaseButton from '@/components/baseComponents/BaseButton.vue'
+</script>
+
+<style scoped lang="scss">
+.form-confirmation {
   width: 1400px;
   height: 412px;
-  padding: 40px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
+  padding: 0 40px;
+  background-color: $color-white;
+  border-radius: $radius-lg;
+  @include flex-column($gap-xxl, center, center);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 
   &__title {
     width: 100%;
     height: 28px;
     text-align: center;
-    color: #3c4351;
-    font-size: 20px;
-    font-weight: 700;
-    font-family: 'peyda-bold';
+    @include text-style($font-size-xl, $font-weight-700, $text-primary, $font-family-bold);
   }
 
-  &__line {
+  &__divider {
     width: 100%;
     height: 1px;
-    border: 0;
-    background-color: #e2edff;
+    border: $border-none;
+    background-color: $border-color;
   }
 
   &__fields {
@@ -92,78 +85,67 @@ function goBack() {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+
+    &-text {
+      width: 690px;
+      height: 48px;
+      display: flex;
+      justify-content: space-between;
+
+      &-item {
+        width: 150px;
+        height: 100%;
+        @include flex-column($gap-xs, flex-start, flex-start);
+        @include text-style($font-size-md, $font-weight-600, $text-primary, $font-family-semi-bold);
+      }
+    }
+
+    &-extra {
+      width: 373px;
+      height: 48px;
+      @include flex-column($gap-xs, flex-start, flex-start);
+
+      .form-confirmation__address {
+        @include text-style($font-size-md, $font-weight-600, $text-primary, $font-family-semi-bold);
+      }
+    }
   }
 
-  &__fields-text {
-    width: 690px;
-    height: 48px;
-    display: flex;
-    justify-content: space-between;
+  &__title-label {
+    @include text-style($font-size-md, $font-weight-400, $text-secondary, $font-family-regular);
   }
 
-  &__field {
-    width: 150px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    font-size: 16px;
-  }
-
-  &__field-title {
-    font-family: 'peyda-regular';
-    color: #8999b9;
-    margin-bottom: 4px;
-  }
-
-  &__field-value {
-    font-family: 'peyda-semiBold';
-    color: #3c4351;
-  }
-
-  &__fields-extra {
-    width: 370px;
-    height: 48px;
-  }
-
-  &__extra-title {
-    font-family: 'peyda-regular';
-    color: #8999b9;
-    margin-bottom: 4px;
-  }
-
-  &__extra-value {
-    font-family: 'peyda-semiBold';
-    color: #3c4351;
-    margin-top: 4px;
+  &__value {
+    @include text-style($font-size-md, $font-weight-600, $text-primary, $font-family-semi-bold);
   }
 
   &__actions {
-    display: flex;
-    justify-content: space-between;
-    width: 434px;
-    height: 48px;
-    margin-right: 896px;
+    @include flex-between;
+    justify-content: flex-end;
+    gap: 16px;
+    margin: 0;
+    width: 100%;
+    height: $button-height;
   }
 
-  &__button {
-    width: 209px;
-    height: 48px;
-    padding: 10px 63.5px;
-    font-family: 'peyda-bold';
-    font-size: 16px;
-    border: 0;
-    font-weight: 700;
-    border-radius: 8px;
-    cursor: pointer;
-    &--primary {
-      background-color: #3f51b5;
-      color: white;
-    }
+  &__btn {
+    font-family: $font-family-bold;
+    font-size: $font-size-md;
+    border: $border-none;
+    font-weight: $font-weight-700;
+    padding: 0;
+    border-radius: $radius-md;
 
     &--secondary {
-      background-color: #f2f2f2;
-      color: #333;
+      background-color: $control-bg;
+      color: $text-primary;
+    }
+
+    &--primary {
+      background-color: $primary;
+      color: $on-primary;
     }
   }
 }
 </style>
+

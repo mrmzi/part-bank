@@ -4,18 +4,30 @@
       <h3 class="transactions__title">لیست تراکنش ها <span>(ریال)</span></h3>
       <div class="transactions__filter">
         <div class="transactions__filter-sort">
-          <label for="sortBox"><img src="@/assets/icons/arrow-sort.svg" alt="sort icon"> مرتب سازی:</label>
+          <label for="sortBox"
+            ><img src="@/assets/icons/arrow-sort.svg" alt="sort icon" /> مرتب سازی:</label
+          >
           <select name="sortBox" id="sortBox">
             <option value="all">همه</option>
           </select>
         </div>
         <div class="transactions__filter-search">
-          <input
+          <!-- <input
             type="text"
             name="transactions-search"
             id="transactions-search"
             placeholder="جستجو"
+          /> -->
+
+          <BaseInput
+            :input-id="'transactions-search'"
+            :input-width="'100%'"
+            :input-height="'34px'"
+            :has-border="true"
+            :placeholder="'جستجو'"
+            :input-type="'text'"
           />
+
           <button>
             <img src="../../../assets/icons/Search.svg" alt="Search Icon" />
           </button>
@@ -35,7 +47,7 @@
         <tr v-for="transaction in transactions" :key="transaction.id" class="transactions__tr">
           <td class="transactions__td">
             {{ transaction.type === 'deposit' ? 'واریز' : 'برداشت' }}
-            <img :src="transaction.icon" alt="transaction icon">
+            <img :src="transaction.icon" alt="transaction icon" />
           </td>
           <td class="transactions__td">{{ transaction.date }}</td>
           <td class="transactions__td">{{ transaction.amount }}</td>
@@ -48,14 +60,16 @@
         <img src="@/assets/icons/arrow-left.svg" alt="" />
       </button>
 
-      <button
+      <BaseButton
         v-for="page in pages"
         :key="page"
-        :class="['pagination__page', { 'pagination__page--active': page === currentPage }]"
         @click="currentPage = page"
-      >
-        {{ page }}
-      </button>
+        :height="'32px'"
+        :width="'32px'"
+        :class="['pagination__page', { 'pagination__page--active': page === currentPage }]"
+        :color="page === currentPage ? '#4152a0' : ''"
+        :title="String(page)"
+      />
 
       <button
         class="pagination__arrow pagination__arrow--next"
@@ -71,13 +85,15 @@
 import { ref } from 'vue'
 import arrowDown from '@/assets/icons/arrow-down.svg'
 import arrowUp from '@/assets/icons/arrow-up.svg'
+import BaseButton from '@/components/baseComponents/BaseButton.vue'
+import BaseInput from '@/components/baseComponents/BaseInput.vue'
 
 const transactions = ref([
-  { id: 1, type: 'deposit', icon: arrowDown , date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
-  { id: 2, type: 'deposit', icon: arrowDown , date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
-  { id: 3, type: 'withdraw', icon: arrowUp , date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
-  { id: 4, type: 'deposit', icon: arrowDown , date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
-  { id: 5, type: 'withdraw', icon: arrowUp , date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
+  { id: 1, type: 'deposit', icon: arrowDown, date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
+  { id: 2, type: 'deposit', icon: arrowDown, date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
+  { id: 3, type: 'withdraw', icon: arrowUp, date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
+  { id: 4, type: 'deposit', icon: arrowDown, date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
+  { id: 5, type: 'withdraw', icon: arrowUp, date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
 ])
 
 const pages = ref([1, 2, 3])
@@ -101,7 +117,7 @@ const currentPage = ref(2)
   font-size: $font-size-xl;
 
   span {
-    @include text-style($font-size-md , $font-weight-400 , $text-secondary);
+    @include text-style($font-size-md, $font-weight-400, $text-secondary);
   }
 }
 .transactions__filter {
@@ -121,9 +137,9 @@ const currentPage = ref(2)
     color: $text-secondary;
     @include flex-center($gap-xs);
 
-    img{
-      width: 14px; 
-      height: 12px; 
+    img {
+      width: 14px;
+      height: 12px;
     }
   }
 }
@@ -134,7 +150,7 @@ const currentPage = ref(2)
   border: $border-width solid $border-color;
 }
 .transactions__filter-sort select::placeholder {
-  @include text-style($font-size-base , $color: $text-primary , $family: $font-family-regular);
+  @include text-style($font-size-base, $color: $text-primary, $family: $font-family-regular);
 }
 
 .transactions__filter-search {
@@ -147,12 +163,11 @@ const currentPage = ref(2)
   height: 34px;
   border-top-right-radius: $radius-md;
   border-bottom-right-radius: $radius-md;
-  border: $border-width solid $border-color;
   padding: 0px 8px;
 }
 
 .transactions__filter-search input::placeholder {
-  @include text-style($font-size-base , $color: $text-secondary , $family: $font-family-regular);
+  @include text-style($font-size-base, $color: $text-secondary, $family: $font-family-regular);
 }
 
 .transactions__filter-search button {
@@ -173,7 +188,7 @@ const currentPage = ref(2)
   height: 365px;
   border-collapse: collapse;
   margin-top: 24px;
-  @include text-style($font-size-md , $font-weight-600 , $family: $font-family-regular);
+  @include text-style($font-size-md, $font-weight-600, $family: $font-family-regular);
 }
 
 .transactions__thead {
@@ -186,21 +201,21 @@ const currentPage = ref(2)
   vertical-align: auto;
 }
 
-.transactions__th{
+.transactions__th {
   height: 60px;
   text-align: center;
 }
 
-.transactions__th:first-child{
+.transactions__th:first-child {
   border-top-left-radius: $radius-md;
   border-bottom-left-radius: $radius-md;
 }
-.transactions__th:last-child{
+.transactions__th:last-child {
   border-top-right-radius: $radius-md;
   border-bottom-right-radius: $radius-md;
 }
 
-.transactions__td:nth-child(1){
+.transactions__td:nth-child(1) {
   @include flex-center($gap-sm);
 }
 
@@ -220,17 +235,20 @@ const currentPage = ref(2)
 
 .pagination {
   margin-top: 15px;
-  @include flex-center($gap-sm);
+  @include flex-center($gap-md);
 
   &__page,
   &__arrow {
     width: 32px;
     height: 32px;
     border: $border-none;
-    border-radius: $radius-sm;
+    border-radius: 4px;
+    padding: 4px;
     background-color: #f1f3f8;
-    color: $text-primary;
-    font-weight: $font-weight-500;
+    color: $text-secondary;
+    font-size: $font-size-base;
+    font-family: $font-family-semi-bold;
+    font-weight: $font-weight-600;
     cursor: pointer;
     @include flex-center();
 
@@ -246,15 +264,14 @@ const currentPage = ref(2)
   }
 
   &__arrow {
-    background-color: $color-white;
-    border: $border-width solid $border-color;
+    background-color: #f1f3f8;
     font-weight: $font-weight-700;
   }
 
   &__arrow--prev,
   &__arrow--next {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
   }
 }
 </style>

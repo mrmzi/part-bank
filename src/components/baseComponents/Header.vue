@@ -1,9 +1,9 @@
 <template>
-  <header  class="navbar">
+  <header class="navbar">
     <div class="navbar__logo">
       <img
         class="navbar__logo-img"
-        src="../../assets/images/header/Logo.svg"
+        src="@/assets/images/header/Logo.svg"
         alt="لوگو پارت بانک"
       />
       <span class="navbar__logo-name">پارت بانک</span>
@@ -13,7 +13,7 @@
       <button class="navbar__notification">
         <img
           class="navbar__notification-icon"
-          src="../../assets/icons/Notification.svg"
+          src="@/assets/icons/Notification.svg"
           alt="اعلان‌ها"
         />
       </button>
@@ -21,13 +21,13 @@
       <div class="navbar__profile">
         <img
           class="navbar__profile-img"
-          src="../../assets/images/header/profile.svg"
+          src="@/assets/images/header/profile.svg"
           alt="تصویر پروفایل"
         />
         <span class="navbar__profile-number">۰۹۲۲۶۵۹۸۷۲</span>
         <img
           class="navbar__profile-arrow"
-          src="../../assets/images/header/Angle-down.svg"
+          src="@/assets/images/header/Angle-down.svg"
           alt="بازکردن منو"
         />
       </div>
@@ -35,24 +35,20 @@
   </header>
 </template>
 
-<script></script>
+<script setup></script>
 
 <style scoped lang="scss">
 .navbar {
   width: 1920px;
   height: 68px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 0 40px;
-  background-color: #fff;
-  margin-bottom: 42px;
+  background-color: $color-white;
+  margin-bottom: $gap-xxl;
   box-sizing: border-box;
-  box-shadow: 0px 2px 8px rgb(21, 0, 43 , 5%);
+  box-shadow: 0px 2px 8px rgba(21, 0, 43, 0.05);
+  @include flex-between; 
 
   &__logo {
-    width: 178px;
-    height: 31px;
     display: flex;
     align-items: center;
     margin: 18px 0 19px 0;
@@ -63,30 +59,23 @@
     }
 
     &-name {
-      width: 62px;
-      height: 22px;
       margin-right: 12px;
-      font-size: 16px;
-      color: rgba(60, 67, 81, 1);
+      @include text-style($size: $font-size-md, $weight: $font-weight-600, $color: $text-primary);
     }
   }
 
   &__actions {
     width: 212px;
     height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @include flex-between;
   }
 
   &__notification {
     width: 40px;
     height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 0;
-    background-color: #fff;
+    @include flex-center();
+    border: $border-none;
+    background-color: $color-white;
 
     &-icon {
       width: 24px;
@@ -97,8 +86,7 @@
   &__profile {
     width: 156px;
     height: 40px;
-    display: flex;
-    align-items: center;
+    @include flex-center($gap-sm);
 
     &-img {
       width: 40px;
@@ -106,10 +94,8 @@
     }
 
     &-number {
-      width: 76px;
-      height: 20px;
       padding: 0 8px;
-      font-size: 14px;
+      @include text-style($size: $font-size-base, $weight: $font-weight-500, $color: $text-primary);
     }
 
     &-arrow {

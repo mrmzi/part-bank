@@ -12,7 +12,6 @@
           </select>
         </div>
         <div class="transactions__filter-search">
-        
           <BaseInput
             :input-id="'transactions-search'"
             :input-width="'100%'"
@@ -38,22 +37,19 @@
         </tr>
       </thead>
       <tbody class="transactions__tbody">
-        <tr v-for="transaction in transactions" :key="transaction.id" class="transactions__tr">
+        <tr v-for="(tx, index) in cuttedTransactions" :key="tx.id" class="transactions__tr">
           <td class="transactions__td">
-            <img :src="transaction.icon" alt="transaction icon" />
-            {{ transaction.type === 'deposit' ? 'واریز' : 'برداشت' }}
+            <img :src="tx.type === 'deposit' ? arrowDown : arrowUp" alt="transaction icon" />
+            {{ tx.type === 'deposit' ? 'واریز' : 'برداشت' }}
           </td>
-          <td class="transactions__td">{{ transaction.date }}</td>
-          <td class="transactions__td">{{ transaction.amount }}</td>
+          <td class="transactions__td">{{ tx.date }}</td>
+          <td class="transactions__td">{{ tx.amount }}</td>
         </tr>
       </tbody>
     </table>
 
     <nav class="pagination">
-      <button
-        class="pagination__arrow pagination__arrow--next"
-        :disabled="currentPage === 1"
-      >
+      <button class="pagination__arrow pagination__arrow--next" :disabled="currentPage === 1">
         <img src="@/assets/icons/arrow-right.svg" alt="" />
       </button>
 
@@ -68,7 +64,10 @@
         :title="String(page)"
       />
 
-      <button class="pagination__arrow pagination__arrow--prev" :disabled="currentPage === pages.length">
+      <button
+        class="pagination__arrow pagination__arrow--prev"
+        :disabled="currentPage === pages.length"
+      >
         <img src="@/assets/icons/arrow-left.svg" alt="" />
       </button>
     </nav>
@@ -76,29 +75,25 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import arrowDown from '@/assets/icons/arrow-down.svg'
 import arrowUp from '@/assets/icons/arrow-up.svg'
 import BaseButton from '@/components/baseComponents/BaseButton.vue'
 import BaseInput from '@/components/baseComponents/BaseInput.vue'
-import { getToken } from '@/utils/auth'
-
-const transactions = ref([
-  { id: 1, type: 'deposit', icon: arrowDown, date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
-  { id: 2, type: 'deposit', icon: arrowDown, date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
-  { id: 3, type: 'withdraw', icon: arrowUp, date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
-  { id: 4, type: 'deposit', icon: arrowDown, date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
-  { id: 5, type: 'withdraw', icon: arrowUp, date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
-])
+import { fetchTransactions } from '@/services/getTransactions'
+import { ref, onMounted } from 'vue'
 
 const pages = ref([1, 2, 3])
-const currentPage = ref(2)
+const currentPage = ref(1)
 
-const userToken = getToken();
-console.log(userToken);
+const transactions = ref([])
+const cuttedTransactions = ref([])
 
-
-
+onMounted(async () => {
+  transactions.value = await fetchTransactions()
+  if (transactions.value) {
+    cuttedTransactions.value = transactions.value.slice(0, 5)
+  }
+})
 </script>
 
 <style scoped lang="scss">
@@ -108,11 +103,13 @@ console.log(userToken);
   border-radius: $radius-lg;
   padding: 24px 24px 14px 24px;
 }
+
 .transactions__header {
   @include flex-between;
   width: 1116px;
   height: 38px;
 }
+
 .transactions__title {
   @include text-style($font-size-xl, $font-weight-700, $text-primary);
 
@@ -120,9 +117,11 @@ console.log(userToken);
     @include text-style($font-size-md, $font-weight-400, $text-secondary);
   }
 }
+
 .transactions__filter {
   @include flex-center($gap-md);
 }
+
 .transactions__filter-sort {
   width: 269px;
   height: 34px;
@@ -143,12 +142,14 @@ console.log(userToken);
     }
   }
 }
+
 .transactions__filter-sort select {
   width: 183px;
   height: 34px;
   border-radius: $radius-md;
   border: $border-width solid $border-color;
 }
+
 .transactions__filter-sort select::placeholder {
   @include text-style($font-size-base, $color: $text-primary, $family: $font-family-regular);
 }
@@ -157,30 +158,31 @@ console.log(userToken);
   @include flex-center();
   width: 257px;
   height: 34px;
-}
-.transactions__filter-search input {
-  width: 257px;
-  height: 34px;
-  border-top-right-radius: $radius-md;
-  border-bottom-right-radius: $radius-md;
-  padding: 0px 8px;
-}
 
-.transactions__filter-search input::placeholder {
-  @include text-style($font-size-base, $color: $text-secondary, $family: $font-family-regular);
-}
+  input {
+    width: 257px;
+    height: 34px;
+    border-top-right-radius: $radius-md;
+    border-bottom-right-radius: $radius-md;
+    padding: 0px 8px;
 
-.transactions__filter-search button {
-  cursor: pointer;
-  @include flex-center();
-  height: 34px;
-  background-color: $control-bg;
-  border-top-left-radius: 7px;
-  border-bottom-left-radius: 7px;
-  border: $border-width solid transparent;
+    &::placeholder {
+      @include text-style($font-size-base, $color: $text-secondary, $family: $font-family-regular);
+    }
+  }
 
-  img {
-    margin: 0px 0px 0px 2px;
+  button {
+    cursor: pointer;
+    @include flex-center();
+    height: 34px;
+    background-color: $control-bg;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    border: $border-width solid transparent;
+
+    img {
+      margin: 0px 0px 0px 2px;
+    }
   }
 }
 
@@ -205,15 +207,16 @@ console.log(userToken);
 .transactions__th {
   height: 60px;
   text-align: center;
-}
 
-.transactions__th:first-child {
-  border-top-right-radius: $radius-md;
-  border-bottom-right-radius: $radius-md;
-}
-.transactions__th:last-child {
-  border-top-left-radius: $radius-md;
-  border-bottom-left-radius: $radius-md;
+  &:first-child {
+    border-top-right-radius: $radius-md;
+    border-bottom-right-radius: $radius-md;
+  }
+
+  &:last-child {
+    border-top-left-radius: $radius-md;
+    border-bottom-left-radius: $radius-md;
+  }
 }
 
 .transactions__td:nth-child(1) {
@@ -246,10 +249,7 @@ console.log(userToken);
     border-radius: 4px;
     padding: 4px;
     background-color: #f1f3f8;
-    color: $text-secondary;
-    font-size: $font-size-base;
-    font-family: $font-family-semi-bold;
-    font-weight: $font-weight-600;
+    @include text-style($size: $font-size-base, $weight: $font-weight-600, $color: $text-secondary, $family: $font-family-semi-bold);
     cursor: pointer;
     @include flex-center();
 

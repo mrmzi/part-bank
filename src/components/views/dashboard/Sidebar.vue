@@ -70,9 +70,7 @@ const menuItems = ref([
       margin: 0 0 20px 0;
 
       span {
-        font-weight: $font-weight-600;
-        font-family: $font-family-semi-bold;
-        color: $text-primary;
+        @include text-style($size: $font-size-base,$weight: $font-weight-600, $color: $text-primary, $family: $font-family-semi-bold);
       }
     }
   }

@@ -172,15 +172,16 @@ function handleFile(event) {
   border: $border-none;
   background-color: $control-bg;
   border-radius: $radius-md;
-  margin: 0 24px 24px 24px;
+  margin: 0 $gap-xl $gap-xl $gap-xl;
 }
+
 .account {
   width: 100%;
   height: 260px;
-  border-radius: 12px;
+  border-radius: $radius-lg;
   display: flex;
   font-family: 'peyda-medium';
-  color: #ffffff;
+  color: $color-white;
 
   &__card {
     height: 100%;
@@ -193,7 +194,7 @@ function handleFile(event) {
       background-image:
         url('@/assets/images/dashboard-miryazdi/Vector (1).png'),
         url('@/assets/images/dashboard-miryazdi/Vector.png'),
-        linear-gradient(to bottom right, #4152a0, #d0c9c1);
+        linear-gradient(to bottom right, $primary, #d0c9c1);
       background-blend-mode: multiply;
       filter: opacity(0.9);
       background-repeat: no-repeat, no-repeat, no-repeat;
@@ -207,32 +208,29 @@ function handleFile(event) {
         height: 78px;
         width: 396px;
         margin: 36px 24px 64px 36px;
-        display: flex;
-        justify-content: space-between;
+        @include flex-between;
+        align-items: start;
 
         &__number {
-          // @include flex-column();
-          display: flex;
-          flex-direction: column;
+          @include flex-column();
+          align-items: start;
           width: 245px;
           height: 100%;
-          font-weight: 600;
-          font-family: 'peyda-semiBold';
+          font-weight: $font-weight-600;
+          font-family: $font-family-semi-bold;
 
           &-text {
-            font-size: 16px;
+            font-size: $font-size-md; // 16px
           }
           &-money {
-            font-size: 40px;
+            font-size: $font-size-xxl; // 40px
           }
         }
 
         &-option {
           width: 32px;
           height: 32px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+          @include flex-center;
         }
       }
 
@@ -240,26 +238,23 @@ function handleFile(event) {
         width: 351px;
         height: 50px;
         margin: 0 53px 32px 52px;
-        font-size: 36px;
-        display: flex;
-        justify-content: space-between;
+        font-size: 36px; // متغیر نداره
+        @include flex-between;
       }
     }
 
     &--score {
-      margin: 0 16px;
+      margin: 0 $gap-md;
 
       .account__score-info {
         width: 290px;
         height: 28px;
-        margin: 24px 24px 0 24px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 20px;
-        font-weight: 700;
-        color: #3c4351;
-        font-family: 'peyda-bold';
+        margin: $gap-xl $gap-xl 0 $gap-xl;
+        @include flex-between;
+        font-size: $font-size-xl; // 20px
+        font-weight: $font-weight-700;
+        color: $text-primary;
+        font-family: $font-family-bold;
 
         span {
           @include text-style($font-size-xl, $font-weight-800, $text-primary, $font-family-bold);
@@ -283,34 +278,34 @@ function handleFile(event) {
           height: 56px;
 
           &-text {
-            font-family: 'peyda-bold';
-            font-size: 40px;
-            font-weight: 700;
+            font-family: $font-family-bold;
+            font-size: $font-size-xxl; // 40px
+            font-weight: $font-weight-700;
             margin-left: 4px;
-            color: #4152a0;
+            color: $primary;
           }
 
           &-extra {
-            font-family: 'peyda-regular';
-            font-size: 14px;
-            font-weight: 400;
-            color: #8999b9;
+            font-family: $font-family-regular;
+            font-size: $font-size-sm; // 14px
+            font-weight: $font-weight-400;
+            color: $text-secondary;
           }
         }
 
         &__month {
           &-text {
-            font-family: 'peyda-bold';
-            font-weight: 700;
-            font-size: 18px;
+            font-family: $font-family-bold;
+            font-weight: $font-weight-700;
+            font-size: $font-size-lg; // 18px
             margin-left: 4px;
-            color: #4152a0;
+            color: $primary;
           }
 
           &-extra {
-            font-family: 'peyda-regular';
-            font-size: 14px;
-            color: #8999b9;
+            font-family: $font-family-regular;
+            font-size: $font-size-sm; // 14px
+            color: $text-secondary;
           }
         }
       }
@@ -320,27 +315,31 @@ function handleFile(event) {
       .account__card__info {
         width: 290px;
         height: 28px;
-        display: flex;
-        justify-content: space-between;
+        @include flex-between;
         margin: 24px;
         margin-bottom: 68px;
 
         &-text {
-          font-size: 20px;
           width: 104px;
           height: 100%;
-          font-family: 'peyda-bold';
-          color: #3c4351;
+          @include text-style(
+            $size: $font-size-xl,
+            $weight: $font-weight-700,
+            $color: $text-primary,
+            $family: $font-family-bold
+          );
         }
 
         &-extra {
           width: 65px;
           height: 24px;
-          font-family: 'peyda-regular';
-          font-size: 14px;
           display: flex;
           align-items: center;
-          color: #8999b9;
+          @include text-style(
+            $size: $font-size-base,
+            $color: $text-secondary,
+            $family: $font-family-regular
+          );
 
           svg {
             margin-right: 4.5px;
@@ -360,25 +359,29 @@ function handleFile(event) {
           width: 100%;
           height: 20px;
           margin-bottom: 12px;
-          font-size: 14px;
-          display: flex;
-          justify-content: space-between;
+          font-size: $font-size-base;
+          @include flex-between;
 
           &-text {
             width: 59px;
             height: 100%;
-            font-family: 'peyda-regular';
-            font-weight: 400;
-            color: #8999b9;
+            @include text-style(
+              $size: $font-size-base,
+              $weight: $font-weight-400,
+              $color: $text-secondary,
+              $family: $font-family-regular
+            );
           }
 
           &-money {
             width: 98px;
             height: 100%;
-            font-family: 'peyda-semiBold';
-            font-size: 14px;
-            font-weight: 600;
-            color: #3c4351;
+            @include text-style(
+              $size: $font-size-base,
+              $weight: $font-weight-600,
+              $color: $text-primary,
+              $family: $font-family-semi-bold
+            );
           }
         }
 
@@ -386,31 +389,30 @@ function handleFile(event) {
           width: 100%;
           height: 20px;
           margin-bottom: 20px;
-          display: flex;
-          justify-content: space-between;
+          @include flex-between;
 
           &-text {
             width: 85px;
             height: 100%;
-            font-family: 'peyda-regular';
-            color: #8999b9;
+            font-family: $font-family-regular;
+            color: $text-secondary;
           }
 
           &-month {
             width: 60px;
             height: 100%;
-            font-family: 'peyda-semiBold';
-            font-size: 14px;
-            font-weight: 600;
-            color: #3c4351;
+            @include text-style(
+              $size: $font-size-base,
+              $weight: $font-weight-600,
+              $color: $text-primary,
+              $family: $font-family-semi-bold
+            );
           }
         }
 
         .account__pay-btn {
           margin: 0;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+          @include flex-center;
 
           span {
             margin: 8px 101.5px 8px 8px;

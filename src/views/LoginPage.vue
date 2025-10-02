@@ -1,11 +1,13 @@
-<script setup>
-import LoginSection from '@/components/views/login/LoginSection.vue'
-</script>
 <template>
   <section class="main">
     <LoginSection />
   </section>
 </template>
+
+<script setup>
+import LoginSection from '@/components/views/login/LoginSection.vue'
+</script>
+
 <style scoped lang="scss">
 .main {
   position: relative;

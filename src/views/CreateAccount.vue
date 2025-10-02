@@ -1,7 +1,7 @@
 <template>
     <Header />
-    <!-- <PersonalInfo /> -->
-    <!-- <ConfirmInfo /> -->
+    <PersonalInfo />
+    <ConfirmInfo />
     <NationalIdUpload />
 </template>
 <script setup>

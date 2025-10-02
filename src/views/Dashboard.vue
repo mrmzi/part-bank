@@ -3,19 +3,29 @@ import AccountDetails from '@/components/views/dashboard/AccountDetails.vue'
 import Header from '../components/baseComponents/Header.vue'
 import Sidebar from '../components/views/dashboard/Sidebar.vue'
 import TransactionsTable from '../components/views/dashboard/TransactionsTable.vue'
+import router from '@/router'
+import { useFormStore } from '@/stores/formStore'
+import { computed } from 'vue'
+
+const formStore=useFormStore()
+const isSubmitted = computed(() => formStore.isSubmitted)
+function createaccount() {
+  router.push('/form')
+}
+
 </script>
 
 <template class="container">
-  <section class="dashboard">
-    <!-- <section class="modal__section">
+  <section class="dashboard" :class="{ 'overlay-active': isSubmitted }">
+    <section v-if="!isSubmitted"  class="modal__section">
       <img
         class="modal__section-img"
-        src="../assets/images/modal/Empty State Illustration.png"
+        src="../assets/images/modal/Empty_State_Illustration.png"
         alt=""
       />
       <p class="modal__section-text">برای دسترسی به داشبورد، لطفا ابتدا افتتاح حساب کنید</p>
-      <button class="modal__section-btn btn-primary">افتتاح حساب</button>
-    </section> -->
+      <button @click="createaccount" class="modal__section-btn btn-primary">افتتاح حساب</button>
+    </section>
     <Header></Header>
     <main class="dashboard__main">
       <Sidebar></Sidebar>
@@ -27,7 +37,7 @@ import TransactionsTable from '../components/views/dashboard/TransactionsTable.v
   </section>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .modal__section {
   position: absolute;
   width: 100px;
@@ -41,10 +51,10 @@ import TransactionsTable from '../components/views/dashboard/TransactionsTable.v
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  top:471px ;
-  right:914px ;
-  bottom:452px ;
-  left:678px ;
+  top: 471px;
+  right: 914px;
+  bottom: 452px;
+  left: 678px;
 }
 .modal__section-img {
   width: 175px;
@@ -69,22 +79,34 @@ import TransactionsTable from '../components/views/dashboard/TransactionsTable.v
   color: #ffffff;
   border-radius: 8px;
   margin: 0 63px 0 65px;
-  background-color: #4152A0;
+  background-color: #4152a0;
 }
 .dashboard {
   position: relative;
+  // opacity: 0.5;
 }
 .dashboard {
   display: flex;
   align-items: center;
   flex-direction: column;
   row-gap: 40px;
-  // width: 1920px;
-  width: $dashboard-width;
-  // height: 1080px;
+  /* width: 1920px; */
+  // width:$d;
+  /* height: 1080px; */
   height: $dashboard-height;
   /* background-color: #f7f8fa; */
   background-color: $background;
+}
+.dashboard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 85%);
+  z-index: 0;
+
+}
+.dashboard.overlay-active::before {
+  display: none;
 }
 .dashboard__main {
   width: 1404px;
@@ -92,7 +114,7 @@ import TransactionsTable from '../components/views/dashboard/TransactionsTable.v
   display: flex;
   align-items: center;
   justify-content: center;
-  // gap: 20px;
+  /* gap: 20px; */
   gap: $gap-lg;
 }
 .dashboard__content {
@@ -103,7 +125,7 @@ import TransactionsTable from '../components/views/dashboard/TransactionsTable.v
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  // row-gap: 24px;
+  /* row-gap: 24px; */
   row-gap: $gap-xl;
 }
 </style>

@@ -47,6 +47,8 @@ const menuItems = ref([
   border-radius: $radius-lg;
   padding: 24px 0 8px 0;
   box-sizing: border-box;
+  // position: absolute;
+  z-index: 999;
 
   &__header {
     box-sizing: border-box;

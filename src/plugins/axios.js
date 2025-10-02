@@ -2,12 +2,10 @@
 // import axios from 'axios'
 // axios
 import { getToken, clearAuth } from '@/utils/auth'
-import axios from 'axios';
-
-
+import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'https://turbofront5.onrender.com',
+  baseURL: '/',
   headers: { 'Content-Type': 'application/json' },
 })
 
@@ -25,7 +23,6 @@ api.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       clearAuth()
-      window.location.href = '/login'
     }
     return Promise.reject(error)
   },

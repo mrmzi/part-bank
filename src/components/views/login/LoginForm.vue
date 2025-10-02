@@ -1,5 +1,5 @@
 <template>
-  <form class="login"  @submit.prevent="handleLogin" novalidate>
+  <form class="login" @submit.prevent="handleLogin" novalidate>
     <div class="login__logo">
       <img
         class="login__logo-image"
@@ -74,6 +74,7 @@ import { saveAuth } from '@/utils/auth'
 
 import eyeOpenDefault from '@/assets/icons/Outline/Security/Eye.svg'
 import eyeClosedDefault from '@/assets/icons/Outline/Security/Eye Closed.svg'
+import router from '@/router'
 
 const props = defineProps({
   eyeOpen: { type: String, default: eyeOpenDefault },
@@ -91,19 +92,15 @@ const phoneError = ref(null)
 const passwordError = ref(null)
 const showPassword = ref(false)
 
-
 function validatePhone(value) {
   const regex = /^09\d{9}$/
   return regex.test(value)
 }
 
-
 function validatePassword(value) {
-
   const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
   return regex.test(value)
 }
-
 
 function validateForm() {
   phoneError.value = null
@@ -118,10 +115,9 @@ function validateForm() {
   }
 
   if (!validatePassword(password.value)) {
-  passwordError.value = 'رمز عبور باید حداقل ۶ کاراکتر باشد و شامل حروف و اعداد شود'
-  valid = false
-}
-
+    passwordError.value = 'رمز عبور باید حداقل ۶ کاراکتر باشد و شامل حروف و اعداد شود'
+    valid = false
+  }
 
   return valid
 }
@@ -131,27 +127,28 @@ function togglePassword() {
 }
 
 async function handleLogin() {
-  if (!validateForm()) return
+
+  if (!validateForm()) {
+    return
+  }
 
   loading.value = true
   error.value = null
 
   try {
+   
     const response = await login(phone.value, password.value)
 
-    const token = response.data.token
-    const user = response.data.user
+
+    const token = response?.data?.token
+    const user = response?.data?.user
+
+    if (!token || !user) throw new Error('اطلاعات لاگین ناقص است')
 
     saveAuth(user, token)
-
-    alert('خوش آمدید')
-    window.location.href = '/'
+    router.replace({ path: '/dashboard' })
   } catch (err) {
-    if (err && typeof err === 'object' && err.message) {
-      error.value = err.message
-    } else {
-      error.value = 'خطا در ورود — دوباره تلاش کنید'
-    }
+    error.value = err?.message || 'خطا در ورود — دوباره تلاش کنید'
   } finally {
     loading.value = false
   }
@@ -162,7 +159,7 @@ async function handleLogin() {
 <style lang="scss" scoped>
 .login {
   width: 50%;
-  @include flex-column($justify: center , $align: center);
+  @include flex-column($justify: center, $align: center);
   padding-top: 83.5px;
 
   &__logo {
@@ -180,7 +177,7 @@ async function handleLogin() {
       color: rgba(65, 82, 160, 1);
     }
     &-title {
-      @include text-style($font-size-xxl , $family: $font-family-bold);
+      @include text-style($font-size-xxl, $family: $font-family-bold);
     }
     &-subtitle {
       font-size: $font-size-md;
@@ -218,7 +215,6 @@ async function handleLogin() {
       color: $text-placeholder;
     }
   }
-
 
   .password-wrapper .login__input {
     padding-left: 44px;
@@ -261,28 +257,23 @@ async function handleLogin() {
   }
 }
 
-
 .password-wrapper {
   position: relative;
 
   .toggle-password {
     position: absolute;
-    left: 8px; 
+    left: 8px;
     top: 12px;
     width: 24px;
     height: 24px;
     background: transparent;
     cursor: pointer;
   }
-
 }
-
 
 .text-error {
   color: $error;
   font-size: $font-size-sm;
   margin-top: 4px;
 }
-
-
 </style>

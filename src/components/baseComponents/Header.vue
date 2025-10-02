@@ -46,6 +46,9 @@
   justify-content: space-between;
   padding: 0 40px;
   background-color: #fff;
+  margin-bottom: 42px;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 8px rgb(21, 0, 43 , 5%);
 
   &__logo {
     width: 178px;

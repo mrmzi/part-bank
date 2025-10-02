@@ -52,6 +52,6 @@ input {
 }
 
 .inputBorder {
-  border: 1px solid $border-color;
+  border: $border-width solid $border-color;
 }
 </style>

@@ -1,10 +1,3 @@
-<script setup>
-import AccountDetails from '@/components/views/dashboard/AccountDetails.vue'
-import Header from '../components/baseComponents/Header.vue'
-import Sidebar from '../components/views/dashboard/Sidebar.vue'
-import TransactionsTable from '../components/views/dashboard/TransactionsTable.vue'
-</script>
-
 <template class="container">
   <section class="dashboard">
     <!-- <section class="modal__section">
@@ -27,20 +20,24 @@ import TransactionsTable from '../components/views/dashboard/TransactionsTable.v
   </section>
 </template>
 
-<style scoped>
+<script setup>
+import AccountDetails from '@/components/views/dashboard/accountDetails/AccountDetails.vue'
+import Header from '../components/baseComponents/Header.vue'
+import Sidebar from '../components/views/dashboard/sidebar/Sidebar.vue'
+import TransactionsTable from '../components/views/dashboard/transactionsTable/TransactionsTable.vue'
+</script>
+
+<style scoped lang="scss">
 .modal__section {
-  position: absolute;
   width: 100px;
   height: 100px;
   background-color: transparent;
-  top: 0;
   width: 328px;
   height: 237px;
   z-index: 999;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  @include flex-column($justify:center , $align:center);
+  position: absolute;
+  top: 0;
   top:471px ;
   right:914px ;
   bottom:452px ;
@@ -53,8 +50,7 @@ import TransactionsTable from '../components/views/dashboard/TransactionsTable.v
 .modal__section-text {
   width: 100%;
   height: 22px;
-  font-size: 16px;
-  font-family: 'peyda-regular';
+  @include text-style($font-size-md, $font-family-regular);
   margin-top: 20px;
   margin-bottom: 32px;
 }
@@ -62,14 +58,11 @@ import TransactionsTable from '../components/views/dashboard/TransactionsTable.v
   width: 290px;
   height: 44px;
   padding: 8px 102px;
-  font-family: 'peyda-bold';
-  font-size: 16px;
-  border: 0;
-  font-weight: 700;
-  color: #ffffff;
-  border-radius: 8px;
+  @include text-style($font-size-md, $font-weight-700 , $color-white , $font-family-bold);
+  border: $border-none;
+  border-radius: $radius-md;
   margin: 0 63px 0 65px;
-  background-color: #4152A0;
+  background-color: $table-header-bg;
 }
 .dashboard {
   position: relative;
@@ -79,11 +72,8 @@ import TransactionsTable from '../components/views/dashboard/TransactionsTable.v
   align-items: center;
   flex-direction: column;
   row-gap: 40px;
-  // width: 1920px;
   width: $dashboard-width;
-  // height: 1080px;
   height: $dashboard-height;
-  /* background-color: #f7f8fa; */
   background-color: $background;
 }
 .dashboard__main {
@@ -92,7 +82,6 @@ import TransactionsTable from '../components/views/dashboard/TransactionsTable.v
   display: flex;
   align-items: center;
   justify-content: center;
-  // gap: 20px;
   gap: $gap-lg;
 }
 .dashboard__content {
@@ -103,7 +92,6 @@ import TransactionsTable from '../components/views/dashboard/TransactionsTable.v
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  // row-gap: 24px;
   row-gap: $gap-xl;
 }
 </style>

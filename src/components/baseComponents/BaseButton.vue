@@ -4,7 +4,8 @@
     :style="{
       width: btnProps.width,
       height: btnProps.height,
-      backgroundColor: btnProps.color,
+      backgroundColor: btnProps.bgColor,
+      color: btnProps.color
     }"
     :type="btnProps.type"
     :disabled="btnProps.isDisabled"
@@ -27,9 +28,12 @@ const btnProps = defineProps({
     type: String,
     required: true,
   },
-  color: {
+  bgColor: {
     type: String,
     required: true,
+  },
+  color: {
+    type: String,
   },
   class: {
     type: String,
@@ -49,11 +53,9 @@ const btnProps = defineProps({
 
 <style scoped lang="scss">
 button {
-  font-family: $font-family-bold;
-  font-size: $font-size-md;
+  @include text-style($size: $font-size-md, $color: $color-white , $family: $font-family-bold);
   border-radius: $radius-md;
   border: $border-none;
-  color: $color-white;
   cursor: pointer;
   @include flex-center();
 

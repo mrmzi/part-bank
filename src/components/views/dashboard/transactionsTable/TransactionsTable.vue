@@ -12,13 +12,7 @@
           </select>
         </div>
         <div class="transactions__filter-search">
-          <!-- <input
-            type="text"
-            name="transactions-search"
-            id="transactions-search"
-            placeholder="جستجو"
-          /> -->
-
+        
           <BaseInput
             :input-id="'transactions-search'"
             :input-width="'100%'"
@@ -29,7 +23,7 @@
           />
 
           <button>
-            <img src="../../../assets/icons/Search.svg" alt="Search Icon" />
+            <img src="@/assets/icons/Search.svg" alt="Search Icon" />
           </button>
         </div>
       </div>
@@ -46,8 +40,8 @@
       <tbody class="transactions__tbody">
         <tr v-for="transaction in transactions" :key="transaction.id" class="transactions__tr">
           <td class="transactions__td">
-            {{ transaction.type === 'deposit' ? 'واریز' : 'برداشت' }}
             <img :src="transaction.icon" alt="transaction icon" />
+            {{ transaction.type === 'deposit' ? 'واریز' : 'برداشت' }}
           </td>
           <td class="transactions__td">{{ transaction.date }}</td>
           <td class="transactions__td">{{ transaction.amount }}</td>
@@ -56,8 +50,11 @@
     </table>
 
     <nav class="pagination">
-      <button class="pagination__arrow pagination__arrow--prev" :disabled="currentPage === 1">
-        <img src="@/assets/icons/arrow-left.svg" alt="" />
+      <button
+        class="pagination__arrow pagination__arrow--next"
+        :disabled="currentPage === 1"
+      >
+        <img src="@/assets/icons/arrow-right.svg" alt="" />
       </button>
 
       <BaseButton
@@ -67,15 +64,12 @@
         :height="'32px'"
         :width="'32px'"
         :class="['pagination__page', { 'pagination__page--active': page === currentPage }]"
-        :color="page === currentPage ? '#4152a0' : ''"
+        :bgColor="page === currentPage ? '#4152a0' : ''"
         :title="String(page)"
       />
 
-      <button
-        class="pagination__arrow pagination__arrow--next"
-        :disabled="currentPage === pages.length"
-      >
-        <img src="@/assets/icons/arrow-right.svg" alt="" />
+      <button class="pagination__arrow pagination__arrow--prev" :disabled="currentPage === pages.length">
+        <img src="@/assets/icons/arrow-left.svg" alt="" />
       </button>
     </nav>
   </section>
@@ -87,6 +81,7 @@ import arrowDown from '@/assets/icons/arrow-down.svg'
 import arrowUp from '@/assets/icons/arrow-up.svg'
 import BaseButton from '@/components/baseComponents/BaseButton.vue'
 import BaseInput from '@/components/baseComponents/BaseInput.vue'
+import { getToken } from '@/utils/auth'
 
 const transactions = ref([
   { id: 1, type: 'deposit', icon: arrowDown, date: '۱۴۰۱/۰۸/۰۱، ۱۲:۴۴', amount: '۲۱٬۲۰۰٬۰۰۰' },
@@ -98,6 +93,12 @@ const transactions = ref([
 
 const pages = ref([1, 2, 3])
 const currentPage = ref(2)
+
+const userToken = getToken();
+console.log(userToken);
+
+
+
 </script>
 
 <style scoped lang="scss">
@@ -113,8 +114,7 @@ const currentPage = ref(2)
   height: 38px;
 }
 .transactions__title {
-  color: $text-primary;
-  font-size: $font-size-xl;
+  @include text-style($font-size-xl, $font-weight-700, $text-primary);
 
   span {
     @include text-style($font-size-md, $font-weight-400, $text-secondary);
@@ -145,7 +145,7 @@ const currentPage = ref(2)
 }
 .transactions__filter-sort select {
   width: 183px;
-  height: 36px;
+  height: 34px;
   border-radius: $radius-md;
   border: $border-width solid $border-color;
 }
@@ -172,7 +172,8 @@ const currentPage = ref(2)
 
 .transactions__filter-search button {
   cursor: pointer;
-  height: 36px;
+  @include flex-center();
+  height: 34px;
   background-color: $control-bg;
   border-top-left-radius: 7px;
   border-bottom-left-radius: 7px;
@@ -207,12 +208,12 @@ const currentPage = ref(2)
 }
 
 .transactions__th:first-child {
-  border-top-left-radius: $radius-md;
-  border-bottom-left-radius: $radius-md;
-}
-.transactions__th:last-child {
   border-top-right-radius: $radius-md;
   border-bottom-right-radius: $radius-md;
+}
+.transactions__th:last-child {
+  border-top-left-radius: $radius-md;
+  border-bottom-left-radius: $radius-md;
 }
 
 .transactions__td:nth-child(1) {

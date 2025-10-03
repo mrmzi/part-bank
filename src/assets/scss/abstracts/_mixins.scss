@@ -1,0 +1,71 @@
+
+@mixin flex-center($gap: 0px) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $gap;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column($gap: 0 , $justify: start , $align: center) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: column;
+  row-gap: $gap;
+}
+
+@mixin text-style($size, $weight: 400, $color: #4152a0, $family: 'peyda-regular') {
+  font-size: $size;
+  font-weight: $weight;
+  color: $color;
+  font-family: $family;
+}
+
+@mixin button-base($bg, $color: $on-primary, $radius: $radius-md, $height: $button-height) {
+  width: 100%;
+  height: $height;
+  background-color: $bg;
+  border: 0px;
+  border-radius: $radius;
+  color: $color;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@mixin input-base($bg: $surface-alt, $border: $border-none, $radius: 6px, $height: $input-height) {
+  width: 100%;
+  height: $height;
+  background-color: $bg;
+  border: $border;
+  border-radius: $radius;
+  box-sizing: border-box;
+  padding: 0 8px;
+  outline: none;
+  font-size: 14px;
+  direction: rtl;
+
+  &::placeholder {
+    color: #c3c5c9;
+    font-family: 'peyda-regular';
+  }
+}
+
+@mixin card($bg: $surface, $radius: $radius-lg, $padding: 24px) {
+  background-color: $bg;
+  border-radius: $radius;
+  padding: $padding;
+  box-sizing: border-box;
+}

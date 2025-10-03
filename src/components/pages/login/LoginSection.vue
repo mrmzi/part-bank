@@ -4,19 +4,19 @@ import LoginForm from './LoginForm.vue'
 </script>
 <template>
   <section class="login-container">
-    <LoginImage></LoginImage>
     <LoginForm></LoginForm>
+    <LoginImage></LoginImage>
   </section>
 </template>
-<style scoped>
+<style scoped lang="scss">
 .login-container {
-  width: 1200px;
-  height: 840px;
+  width: $login-container-width;
+  height: $login-container-height;
   display: flex;
   align-items: center;
   padding: 20px;
-  background-color: #ffffff;
+  background-color: $color-white;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: $radius-lg;
 }
 </style>

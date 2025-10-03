@@ -53,7 +53,7 @@
 </template>
 
 <script setup>
-import BaseButton from '@/components/baseComponents/BaseButton.vue'
+import BaseButton from '@/components/common/BaseButton.vue'
 import router from '@/router'
 import { useFormStore } from '@/stores/formStore'
 const formStore = useFormStore()

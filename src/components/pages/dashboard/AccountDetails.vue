@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-parsing-error -->
 <template>
   <section @click="createDepositAccount" class="account">
     <div class="account__card account__card--info" dir="ltr" :class="{ opacity: !isSubmitted }">
@@ -104,7 +105,7 @@
 
 
 <script setup>
-import { getbalance } from '@/services/getaccount'
+import { getbalance } from '@/services/getAccount'
 import { useFormStore } from '@/stores/formStore'
 import { computed, onMounted, reactive } from 'vue'
 

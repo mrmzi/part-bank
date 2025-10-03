@@ -22,17 +22,16 @@
 </template>
 
 <script setup>
-import AccountDetails from '@/components/views/dashboard/AccountDetails.vue'
-import Header from '../components/baseComponents/Header.vue'
-import Sidebar from '../components/views/dashboard/Sidebar.vue'
-import TransactionsTable from '../components/views/dashboard/TransactionsTable.vue'
+import AccountDetails from '@/components/pages/dashboard/AccountDetails.vue'
+import Header from '../components/layout/Header.vue'
+import Sidebar from '../components/pages/dashboard/Sidebar.vue'
+import TransactionsTable from '../components/pages/dashboard/TransactionsTable.vue'
 import router from '@/router'
 import { useFormStore } from '@/stores/formStore'
 import { computed } from 'vue'
 
 const formStore = useFormStore()
 const isSubmitted = computed(() => formStore.isSubmitted)
-console.log(isSubmitted.value)
 
 function createaccount() {
   router.push('/form')

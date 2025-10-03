@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useFormStore } from '@/stores/formStore'
-import BaseInput from '@/components/baseComponents/BaseInput.vue'
+import BaseInput from '@/components/common/BaseInput.vue'
 
 const errormessageName = ref(null)
 const errormessageFamily = ref(null)

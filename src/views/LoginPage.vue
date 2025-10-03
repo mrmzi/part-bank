@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import LoginSection from '@/components/views/login/LoginSection.vue'
+import LoginSection from '@/components/pages/login/LoginSection.vue'
 </script>
 
 <style scoped lang="scss">

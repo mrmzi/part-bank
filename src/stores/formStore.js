@@ -1,5 +1,5 @@
-// stores/formStore.js
-import api from '@/plugins/axios'
+
+import api from '@/services/axios'
 import router from '@/router'
 import { defineStore } from 'pinia'
 
@@ -33,7 +33,7 @@ export const useFormStore = defineStore('formStore', {
           if (value) form.append(key, value)
         })
 
-         await api.post('/deposit-account', form, {
+        await api.post('/deposit-account', form, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
             'Content-Type': 'multipart/form-data',

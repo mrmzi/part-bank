@@ -6,10 +6,7 @@
     <RouterView />
 </template>
 <script setup>
-import Header from '@/components/baseComponents/Header.vue';
-import ConfirmInfo from '@/components/views/form/ConfirmInfo.vue';
-import NationalIdUpload from '@/components/views/form/NationalIdUpload.vue';
-import PersonalInfo from '@/components/views/form/PersonalInfo.vue';
+import Header from '@/components/layout/Header.vue';
 
 </script>
 <style scoped>

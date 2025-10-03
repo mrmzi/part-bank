@@ -1,6 +1,4 @@
-
-
-import api from "@/plugins/axios"
+import api from '@/services/axios'
 
 export async function login(phoneNumber, password) {
   try {

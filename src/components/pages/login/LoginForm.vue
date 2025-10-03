@@ -1,94 +1,3 @@
-<template>
-  <form class="login" @submit.prevent="handleLogin" novalidate>
-    <div class="login__logo">
-      <img
-        class="login__logo-image"
-        src="../../../assets/images/login/Logo.svg"
-        alt="لوگو پارت بانک"
-      />
-      <div class="login__logo-header">
-        <h1 class="login__logo-title">پارت بانک</h1>
-        <span class="login__logo-subtitle">تجربه‌ای نوین در بانک داری</span>
-      </div>
-    </div>
-
-    <div class="login__inputs">
-      <label class="login__label" for="phone-number">شماره همراه</label>
-      <input
-        class="login__input"
-        id="phone-number"
-        v-model="phone"
-        @input="phone = phone.replace(/[^0-9]/g, '')"
-        placeholder="مثلا ۰۹۱۲۳۴۵۶۷۸۹"
-        inputmode="numeric"
-        maxlength="11"
-        type="tel"
-        aria-describedby="phone-error"
-      />
-
-      <!-- <BaseInput
-        :input-id="'phone-number'"
-        :input-class="'login__input'"
-        :input-width="'100%'"
-        :input-height="'48px'"
-        :placeholder="'مثلا 09123456789'"
-        :input-type="'tel'"
-        v-model="phone"
-        @input="phone = phone.replace(/[^0-9]/g, '')"
-        inputmode="numeric"
-        maxlength="11"
-        aria-describedby="phone-error" 
-      /> -->
-
-      <p v-if="phoneError" id="phone-error" class="text-error">{{ phoneError }}</p>
-
-      <label class="login__label" for="password">رمز عبور</label>
-      <div class="password-wrapper">
-        <BaseInput
-          input-id="password"
-          input-class="login__input password"
-          input-width="100%"
-          input-height="48px"
-          :has-border="false"
-          placeholder="رمز عبور خود را وارد کنید"
-          :input-type="showPassword ? 'text' : 'password'"
-          v-model="password"
-        />
-
-        <button
-          type="button"
-          class="toggle-password"
-          @click="togglePassword"
-          :aria-pressed="showPassword"
-          :title="showPassword ? 'مخفی کردن رمز' : 'نمایش رمز'"
-        >
-          <img :src="showPassword ? eyeOpen : eyeClosed" alt="" />
-        </button>
-      </div>
-
-      <p v-if="passwordError" id="password-error" class="text-error">{{ passwordError }}</p>
-
-      <BaseButton
-        :is-disabled="loading"
-        aria-busy="loading"
-        :title="loading ? 'در حال ارسال...' : 'ورود'"
-        :width="'100%'"
-        :height="'48px'"
-        :bgColor="'#4152a0'"
-        :btn-type="'submit'"
-        @click="handleLogin"
-      />
-
-      <p v-if="error" class="text-error mt-2">{{ error }}</p>
-    </div>
-
-    <div class="login__support">
-      <span class="login__support-label">پشتیبانی:</span>
-      <span class="login__support-number">۰۲۱-۱۲۳۴۵۶۷۸</span>
-    </div>
-  </form>
-</template>
-
 <script setup>
 import { ref } from 'vue'
 import { login } from '@/services/authService'
@@ -96,8 +5,7 @@ import { saveAuth } from '@/utils/auth'
 
 import eyeOpenDefault from '@/assets/icons/Outline/Security/Eye.svg'
 import eyeClosedDefault from '@/assets/icons/Outline/Security/Eye Closed.svg'
-import BaseButton from '@/components/baseComponents/BaseButton.vue'
-import BaseInput from '@/components/baseComponents/BaseInput.vue'
+import BaseButton from '@/components/common/BaseButton.vue'
 import router from '@/router'
 
 const props = defineProps({
@@ -177,8 +85,87 @@ async function handleLogin() {
   }
 }
 </script>
+<template>
+  <form class="login" @submit.prevent="handleLogin" novalidate>
+    <div class="login__logo">
+      <img
+        class="login__logo-image"
+        src="../../../assets/images/login/Logo.svg"
+        alt="لوگو پارت بانک"
+      />
+      <div class="login__logo-header">
+        <h1 class="login__logo-title">پارت بانک</h1>
+        <span class="login__logo-subtitle">تجربه‌ای نوین در بانک داری</span>
+      </div>
+    </div>
+
+    <div class="login__inputs">
+      <label class="login__label" for="phone-number">شماره همراه</label>
+      <input
+        class="login__input"
+        id="phone-number"
+        v-model="phone"
+        @input="phone = phone.replace(/[^0-9]/g, '')"
+        placeholder="مثلا ۰۹۱۲۳۴۵۶۷۸۹"
+        inputmode="numeric"
+        maxlength="11"
+        type="tel"
+        aria-describedby="phone-error"
+      />
+
+      <p v-if="phoneError" id="phone-error" class="text-error">{{ phoneError }}</p>
+
+      <label class="login__label" for="password">رمز عبور</label>
+      <div class="password-wrapper">
+        <input
+          class="login__input password"
+          id="password"
+          v-model="password"
+          :type="showPassword ? 'text' : 'password'"
+          placeholder="رمز عبور خود را وارد کنید"
+          aria-describedby="password-error"
+        />
+
+        <button
+          type="button"
+          class="toggle-password"
+          @click="togglePassword"
+          :aria-pressed="showPassword"
+          :title="showPassword ? 'مخفی کردن رمز' : 'نمایش رمز'"
+        >
+          <img :src="showPassword ? eyeOpen : eyeClosed" alt="" />
+        </button>
+      </div>
+
+      <p v-if="passwordError" id="password-error" class="text-error lastchild">{{ passwordError }}</p>
+
+      <BaseButton
+        :is-disabled="loading"
+        aria-busy="loading"
+        :title="loading ? 'در حال ارسال...' : 'ورود'"
+        :width="'100%'"
+        :height="'48px'"
+        :bgColor="'#4152a0'"
+        :btn-type="'submit'"
+        @click="handleLogin"
+      />
+
+      <p v-if="error" class="text-error ">{{ error }}</p>
+    </div>
+
+    <div class="login__support">
+      <span class="login__support-label">پشتیبانی:</span>
+      <span class="login__support-number">۰۲۱-۱۲۳۴۵۶۷۸</span>
+    </div>
+  </form>
+</template>
 
 <style lang="scss" scoped>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 .login {
   width: 50%;
   @include flex-column($justify: center, $align: center);
@@ -222,17 +209,18 @@ async function handleLogin() {
   }
 
   &__input {
-    width: 100%;
+    width: 354px;
     height: 48px;
     background-color: $surface-alt;
     border-radius: $radius-sm;
-    margin-bottom: 30px;
+
     direction: rtl;
+    outline: none;
+    padding: 14px 8px;
   }
 
   .password-wrapper .login__input {
     padding-left: 44px;
-    margin-bottom: 54px;
   }
 
   &__support {
@@ -251,7 +239,7 @@ async function handleLogin() {
 
 .password-wrapper {
   position: relative;
-
+  margin-bottom: 50px;
   .toggle-password {
     position: absolute;
     left: 14px;
@@ -268,4 +256,6 @@ async function handleLogin() {
   font-size: $font-size-sm;
   margin-top: 4px;
 }
+
+
 </style>

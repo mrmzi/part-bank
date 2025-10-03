@@ -1,6 +1,3 @@
-// src/plugins/axios.js
-// import axios from 'axios'
-// axios
 import { getToken, clearAuth } from '@/utils/auth'
 import axios from 'axios'
 

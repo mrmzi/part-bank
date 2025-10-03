@@ -15,15 +15,7 @@
           </select>
         </div>
         <div class="transactions__filter-search">
-          <BaseInput
-            :input-id="'transactions-search'"
-            :input-width="'100%'"
-            :input-height="'34px'"
-            :has-border="true"
-            :placeholder="'جستجو'"
-            :input-type="'text'"
-          />
-
+          <input type="search"  class="transactions__searchInput" placeholder="جستجو"/>
           <button>
             <img src="@/assets/icons/Search.svg" alt="Search Icon" />
           </button>
@@ -82,38 +74,10 @@
   </section>
 </template>
 
-<!-- <script setup>
-import arrowDown from '@/assets/icons/arrow-down.svg'
-import arrowUp from '@/assets/icons/arrow-up.svg'
-import BaseButton from '@/components/baseComponents/BaseButton.vue'
-import BaseInput from '@/components/baseComponents/BaseInput.vue'
-import { fetchTransactions } from '@/services/getTransactions'
-import { useFormStore } from '@/stores/formStore'
-import { ref, onMounted, computed } from 'vue'
-
-const pages = ref([1, 2, 3])
-const currentPage = ref(1)
-
-const transactions = ref([])
-const cuttedTransactions = ref([])
-
-onMounted(async () => {
-  if (isSubmitted.value) {
-    transactions.value = await fetchTransactions()
-    if (transactions.value) {
-      cuttedTransactions.value = transactions.value.slice(0, 5)
-    }
-  }
-})
-const formStore = useFormStore()
-const isSubmitted = computed(() => formStore.isSubmitted)
-</script> -->
-
 <script setup>
 import arrowDown from '@/assets/icons/arrow-down.svg'
 import arrowUp from '@/assets/icons/arrow-up.svg'
-import BaseButton from '@/components/baseComponents/BaseButton.vue'
-import BaseInput from '@/components/baseComponents/BaseInput.vue'
+import BaseButton from '@/components/common/BaseButton.vue'
 import { fetchTransactions } from '@/services/getTransactions'
 import { useFormStore } from '@/stores/formStore'
 import { ref, onMounted, computed } from 'vue'
@@ -136,9 +100,8 @@ const isSubmitted = computed(() => formStore.isSubmitted)
 const pages = computed(() =>
   transactions.value.length
     ? Array.from({ length: Math.ceil(transactions.value.length / rowsPerPage) }, (_, i) => i + 1)
-    : []
+    : [],
 )
-
 
 // داده‌های صفحه فعلی
 const cuttedTransactions = computed(() => {
@@ -155,7 +118,7 @@ const prevPage = () => {
   if (currentPage.value > 1) currentPage.value--
 }
 
-const sortKey = ref('all') 
+const sortKey = ref('all')
 
 const sortedTransactions = computed(() => {
   return [...transactions.value].sort((a, b) => {
@@ -168,16 +131,13 @@ const sortedTransactions = computed(() => {
     if (sortKey.value === 'amount') {
       return b.amount - a.amount
     }
-    if(sortKey.value === 'all'){
+    if (sortKey.value === 'all') {
       return transactions.value
     }
     return 0
   })
 })
-
-
 </script>
-
 
 <style scoped lang="scss">
 .dashboard__transactions {
@@ -242,13 +202,26 @@ const sortedTransactions = computed(() => {
   width: 257px;
   height: 34px;
 
+  .transactions__searchInput{
+    width: 257px;
+    height: 34px;
+    border-top-right-radius: $radius-md;
+    border-bottom-right-radius: $radius-md;
+    padding: 0px 8px;
+    background-color: transparent;
+    border: 1px solid #eeeeee;
+    
+    &::placeholder {
+      @include text-style($font-size-base, $color: $text-secondary, $family: $font-family-regular);
+    }
+  }
   input {
     width: 257px;
     height: 34px;
     border-top-right-radius: $radius-md;
     border-bottom-right-radius: $radius-md;
     padding: 0px 8px;
-
+    
     &::placeholder {
       @include text-style($font-size-base, $color: $text-secondary, $family: $font-family-regular);
     }
@@ -363,4 +336,5 @@ const sortedTransactions = computed(() => {
     height: 32px;
   }
 }
+
 </style>

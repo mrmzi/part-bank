@@ -7,8 +7,11 @@
           <label for="sortBox"
             ><img src="@/assets/icons/arrow-sort.svg" alt="sort icon" /> مرتب سازی:</label
           >
-          <select name="sortBox" id="sortBox">
+          <select v-model="sortKey" id="sortBox">
             <option value="all">همه</option>
+            <option value="type">نوع تراکنش</option>
+            <option value="date">تاریخ تراکنش</option>
+            <option value="amount">مبلغ تراکنش</option>
           </select>
         </div>
         <div class="transactions__filter-search">
@@ -49,7 +52,11 @@
     </table>
 
     <nav v-if="isSubmitted" class="pagination">
-      <button class="pagination__arrow pagination__arrow--next" :disabled="currentPage === 1">
+      <button
+        class="pagination__arrow pagination__arrow--next"
+        :disabled="currentPage === 1"
+        @click="prevPage"
+      >
         <img src="@/assets/icons/arrow-right.svg" alt="" />
       </button>
 
@@ -67,6 +74,7 @@
       <button
         class="pagination__arrow pagination__arrow--prev"
         :disabled="currentPage === pages.length"
+        @click="nextPage"
       >
         <img src="@/assets/icons/arrow-left.svg" alt="" />
       </button>
@@ -74,7 +82,7 @@
   </section>
 </template>
 
-<script setup>
+<!-- <script setup>
 import arrowDown from '@/assets/icons/arrow-down.svg'
 import arrowUp from '@/assets/icons/arrow-up.svg'
 import BaseButton from '@/components/baseComponents/BaseButton.vue'
@@ -99,7 +107,77 @@ onMounted(async () => {
 })
 const formStore = useFormStore()
 const isSubmitted = computed(() => formStore.isSubmitted)
+</script> -->
+
+<script setup>
+import arrowDown from '@/assets/icons/arrow-down.svg'
+import arrowUp from '@/assets/icons/arrow-up.svg'
+import BaseButton from '@/components/baseComponents/BaseButton.vue'
+import BaseInput from '@/components/baseComponents/BaseInput.vue'
+import { fetchTransactions } from '@/services/getTransactions'
+import { useFormStore } from '@/stores/formStore'
+import { ref, onMounted, computed } from 'vue'
+
+const currentPage = ref(1)
+const rowsPerPage = 5
+
+const transactions = ref([])
+
+onMounted(async () => {
+  if (isSubmitted.value) {
+    transactions.value = await fetchTransactions()
+  }
+})
+
+const formStore = useFormStore()
+const isSubmitted = computed(() => formStore.isSubmitted)
+
+// محاسبه تعداد صفحات
+const pages = computed(() =>
+  transactions.value.length
+    ? Array.from({ length: Math.ceil(transactions.value.length / rowsPerPage) }, (_, i) => i + 1)
+    : []
+)
+
+
+// داده‌های صفحه فعلی
+const cuttedTransactions = computed(() => {
+  const start = (currentPage.value - 1) * rowsPerPage
+  const end = start + rowsPerPage
+  return sortedTransactions.value.slice(start, end)
+})
+
+// هندل دکمه‌های pagination
+const nextPage = () => {
+  if (currentPage.value < pages.value.length) currentPage.value++
+}
+const prevPage = () => {
+  if (currentPage.value > 1) currentPage.value--
+}
+
+const sortKey = ref('all') 
+
+const sortedTransactions = computed(() => {
+  return [...transactions.value].sort((a, b) => {
+    if (sortKey.value === 'type') {
+      return a.type.localeCompare(b.type)
+    }
+    if (sortKey.value === 'date') {
+      return new Date(b.date) - new Date(a.date) // تاریخ نزولی
+    }
+    if (sortKey.value === 'amount') {
+      return b.amount - a.amount
+    }
+    if(sortKey.value === 'all'){
+      return transactions.value
+    }
+    return 0
+  })
+})
+
+
 </script>
+
 
 <style scoped lang="scss">
 .dashboard__transactions {

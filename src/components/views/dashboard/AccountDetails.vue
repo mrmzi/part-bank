@@ -236,7 +236,7 @@ function formatCardNumberSpans(num) {
         width: 351px;
         height: 50px;
         margin: 0 53px 32px 52px;
-        font-size: 36px; // متغیر نداره
+        font-size: 36px; 
         @include flex-between;
       }
     }
@@ -249,7 +249,7 @@ function formatCardNumberSpans(num) {
         height: 28px;
         margin: $gap-xl $gap-xl 0 $gap-xl;
         @include flex-between;
-        font-size: $font-size-xl; // 20px
+        font-size: $font-size-xl; 
         font-weight: $font-weight-700;
         color: $text-primary;
         font-family: $font-family-bold;

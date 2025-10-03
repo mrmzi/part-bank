@@ -14,7 +14,7 @@ const step1Data = ref({
   name: '',
   family: '',
   postalCode: '',
-  address: ''
+  address: '',
 })
 
 function validatePersianText(val, type) {
@@ -72,35 +72,34 @@ function goBack() {
 <template>
   <form class="form-personal-info" @submit.prevent>
     <h2 class="form-personal-info__title">اطلاعات فردی</h2>
-<div class="form-personal-info__group">
-  <BaseInput
-    id="name"
-    label="نام"
-    placeholder="نام فارسی"
-    v-model="step1Data.name"
-    :error="errormessageName"
-    @update:modelValue="val => validatePersianText(val, 'name')"
-  />
+    <div class="form-personal-info__group">
+      <BaseInput
+        id="name"
+        label="نام"
+        placeholder="نام فارسی"
+        v-model="step1Data.name"
+        :error="errormessageName"
+        @update:modelValue="(val) => validatePersianText(val, 'name')"
+      />
 
-  <BaseInput
-    id="family"
-    label="نام خانوادگی"
-    placeholder="نام خانوادگی به صورت کامل"
-    v-model="step1Data.family"
-    :error="errormessageFamily"
-    @update:modelValue="val => validatePersianText(val, 'family')"
-    
-  />
+      <BaseInput
+        id="family"
+        label="نام خانوادگی"
+        placeholder="نام خانوادگی به صورت کامل"
+        v-model="step1Data.family"
+        :error="errormessageFamily"
+        @update:modelValue="(val) => validatePersianText(val, 'family')"
+      />
 
-  <BaseInput
-    id="postal"
-    label="کد پستی"
-    placeholder="برای مثال 919542687"
-    v-model="step1Data.postalCode"
-    :error="errormessagePostal"
-    @update:modelValue="validatePostalCode"
-  />
-</div>
+      <BaseInput
+        id="postal"
+        label="کد پستی"
+        placeholder="برای مثال 919542687"
+        v-model="step1Data.postalCode"
+        :error="errormessagePostal"
+        @update:modelValue="validatePostalCode"
+      />
+    </div>
 
     <div class="form-personal-info__field form-personal-info__field--textarea">
       <label class="form-personal-info__label">محل سکونت</label>
@@ -139,7 +138,6 @@ function goBack() {
 </template>
 
 <style lang="scss" scoped>
-
 * {
   margin: 0;
   padding: 0;
@@ -174,7 +172,7 @@ function goBack() {
     font-size: 20px;
     font-weight: 700;
     border-bottom: solid #e2edff 1px;
-    padding-bottom: 80px;
+    padding-bottom: 65px;
   }
 
   &__group {
@@ -209,12 +207,13 @@ function goBack() {
     font-family: 'peyda-regular';
     outline: none;
   }
-  ::placeholder{
-    color: #C3C5C9;
+  ::placeholder {
+    color: #c3c5c9;
   }
 
   &__input {
-    height: 48px;
+    height: 40px;
+    box-sizing: border-box;
   }
 
   &__textarea {

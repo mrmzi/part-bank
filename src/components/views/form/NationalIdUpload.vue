@@ -73,7 +73,6 @@ function goBack() {
   <form class="form-upload-card" @submit.prevent="saveData">
     <h2 class="form-upload-card__title">تصویر کارت ملی</h2>
     <div class="form-upload-card__uploads">
-      <!-- Front -->
       <div class="form-upload-card__upload">
         <label class="form-upload-card__upload-box">
           <input
@@ -101,7 +100,18 @@ function goBack() {
             class="form-upload-card__upload-menu-button"
             @click="showMenu.front = !showMenu.front"
           >
-            <img src="../../../assets/icons/vuesax/linear/more.svg" alt="" />
+            <svg
+              xmlns="@/assets/icons/vuesax/linear/more.svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="5" r="2" fill="currentColor" />
+              <circle cx="12" cy="12" r="2" fill="currentColor" />
+              <circle cx="12" cy="19" r="2" fill="currentColor" />
+            </svg>
           </button>
           <div v-if="showMenu.front" id="menu-front" class="form-upload-card__upload-menu">
             <div class="form-upload-card__upload-menu-item" @click="editImage('front')">
@@ -115,7 +125,6 @@ function goBack() {
         </div>
       </div>
 
-      <!-- Back -->
       <div class="form-upload-card__upload">
         <label class="form-upload-card__upload-box">
           <input
@@ -143,7 +152,18 @@ function goBack() {
             class="form-upload-card__upload-menu-button"
             @click="showMenu.back = !showMenu.back"
           >
-            <img src="../../../assets/icons/vuesax/linear/more.svg" alt="" />
+            <svg
+              xmlns="@/assets/icons/vuesax/linear/more.svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="5" r="2" fill="currentColor" />
+              <circle cx="12" cy="12" r="2" fill="currentColor" />
+              <circle cx="12" cy="19" r="2" fill="currentColor" />
+            </svg>
           </button>
           <div v-if="showMenu.back" id="menu-back" class="form-upload-card__upload-menu">
             <div class="form-upload-card__upload-menu-item" @click="editImage('back')">
@@ -158,7 +178,6 @@ function goBack() {
       </div>
     </div>
 
-    
     <div class="form-upload-card__actions">
       <button
         @click="goBack"
@@ -176,29 +195,17 @@ function goBack() {
 </template>
 
 <style lang="scss" scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 800px;
-}
-
 .form-upload-card {
   background: #ffffff;
   border-radius: 12px;
   width: 1400px;
-  height: 508px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  padding: 40px;
+  padding: 40px 40px 0px 40px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 40px;
+
   &__title {
     text-align: center;
     width: 100%;
@@ -209,19 +216,20 @@ body {
     font-weight: 700;
     border-bottom: solid #e2edff 1px;
     padding-bottom: 40px;
-   
   }
 
   &__uploads {
     width: 100%;
     height: 232px;
     display: flex;
-    padding: 0 319.5px;
+    align-items: center;
+    justify-content: center;
     gap: 40px;
   }
 
   &__upload {
     &-box {
+      box-sizing: border-box;
       width: 320px;
       height: 180px;
       display: flex;
@@ -245,12 +253,14 @@ body {
     }
 
     &-text {
-      width: 175px;
+      width: 180px;
       height: 40px;
       text-align: center;
       margin: 0 72.5px 40.73px 72.5px;
       font-family: 'peyda-semiBold';
       font-size: 14px;
+      font-weight: 600;
+      color: $text-secondary;
 
       span {
         color: #4152a0;
@@ -258,15 +268,20 @@ body {
     }
 
     &-extra {
+      box-sizing: border-box;
       width: 320px;
       height: 52px;
       display: flex;
       justify-content: space-between;
-      padding: 16px 12px;
+      padding: 16px 12px 16px 20px;
       align-items: center;
       position: relative;
       background-color: #f9fafb;
       border-radius: 0 0 12px 12px;
+
+      svg {
+        color: $text-secondary;
+      }
     }
 
     &-label {
@@ -294,6 +309,7 @@ body {
       left: 30px;
       padding: 8px 12px;
       border-radius: 8px;
+      box-sizing: border-box;
     }
 
     &-menu-item {
@@ -322,12 +338,10 @@ body {
 
   &__actions {
     display: flex;
-    margin-top: 40px;
-    justify-self: end;
-    justify-content: space-between;
-    width: 434px;
+    justify-content: end;
+    gap: 16px;
+    width: 100%;
     height: 48px;
-    margin-right: 896px;
   }
 
   &__button {

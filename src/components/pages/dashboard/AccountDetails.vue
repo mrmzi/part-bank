@@ -140,7 +140,7 @@ onMounted(async () => {
 })
 
 function formatMoney(num) {
-  return Number(num).toLocaleString('fa-IR') // هم جداکننده ۳ رقمی میذاره، هم فارسی میشه
+  return Number(num).toLocaleString('fa-IR') 
 }
 
 const scoreAmountFormatted = computed(() => formatMoney(account.score.amount))

@@ -1,3 +1,4 @@
+import router from '@/router'
 import { getToken, clearAuth } from '@/utils/auth'
 import axios from 'axios'
 
@@ -20,6 +21,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       clearAuth()
+      router.push('/login')
     }
     return Promise.reject(error)
   },

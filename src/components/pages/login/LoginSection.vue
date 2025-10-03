@@ -3,13 +3,13 @@ import LoginImage from './LoginImage.vue'
 import LoginForm from './LoginForm.vue'
 </script>
 <template>
-  <section class="login-container">
+  <section class="login__section">
     <LoginForm></LoginForm>
     <LoginImage></LoginImage>
   </section>
 </template>
 <style scoped lang="scss">
-.login-container {
+.login__section {
   width: $login-container-width;
   height: $login-container-height;
   display: flex;

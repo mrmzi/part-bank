@@ -1,8 +1,5 @@
 <template>
     <Header />
-    <!-- <PersonalInfo />
-    <ConfirmInfo />
-    <NationalIdUpload /> -->
     <RouterView />
 </template>
 <script setup>

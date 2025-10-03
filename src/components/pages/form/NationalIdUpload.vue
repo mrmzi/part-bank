@@ -3,17 +3,17 @@ import { useFormStore } from '@/stores/formStore'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-// state برای نگهداری تصاویر
+
 const previewFront = ref(null)
 const previewBack = ref(null)
 
-// کنترل نمایش منوی more
+
 const showMenu = ref({
   front: false,
   back: false,
 })
 
-// آپلود تصویر
+
 const handleUpload = (event, type) => {
   const file = event.target.files[0]
   if (file) {
@@ -28,14 +28,14 @@ const handleUpload = (event, type) => {
   }
 }
 
-// حذف تصویر
+
 const removeImage = (type) => {
   if (type === 'front') previewFront.value = null
   else previewBack.value = null
   showMenu.value[type] = false
 }
 
-// باز کردن input دوباره (ویرایش)
+
 const editImage = (type) => {
   document.getElementById(`input-${type}`).click()
   showMenu.value[type] = false
@@ -59,9 +59,9 @@ function saveData() {
   }
   formStore.updateStepData('step2', step2Data.value)
 
-  setTimeout(() => {
+ 
     router.push('/form/confirminfo')
-  }, 0)
+  
 }
 
 function goBack() {

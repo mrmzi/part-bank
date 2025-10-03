@@ -12,10 +12,6 @@ export function getToken() {
   return localStorage.getItem(TOKEN_KEY)
 }
 
-export function getUser() {
-  const user = localStorage.getItem(USER_KEY)
-  return user ? JSON.parse(user) : null
-}
 
 export function clearAuth() {
   localStorage.removeItem(TOKEN_KEY)

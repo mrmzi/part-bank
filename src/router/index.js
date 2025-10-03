@@ -57,14 +57,14 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // محافظت از داشبورد
+
   if (to.name === 'Dashboard' && !getToken()) {
     return next({ name: 'Login' })
   }
 
-  // کنترل مراحل فرم + محدودیت ورود فقط از داشبورد
+
   if (to.matched.some((record) => record.name === 'form')) {
-    // اگه کاربر از داشبورد نیومده
+
     if (from.name !== 'Dashboard' && from.name !== 'personalinfo' && from.name !== 'uploadimage') {
       return next({ name: 'Dashboard' })
     }
@@ -73,7 +73,7 @@ router.beforeEach((to, from, next) => {
     const currentStepIndex = steps.indexOf(to.name)
     const fromStepIndex = steps.indexOf(from.name)
 
-    // جلوگیری از جا زدن مراحل
+  
     if (currentStepIndex > 0 && fromStepIndex !== currentStepIndex - 1) {
       return next({ name: 'personalinfo' })
     }

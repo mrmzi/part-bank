@@ -1,5 +1,5 @@
 <template>
-  <section class="main">
+  <section class="login__container">
     <LoginSection />
   </section>
 </template>
@@ -9,7 +9,7 @@ import LoginSection from '@/components/pages/login/LoginSection.vue'
 </script>
 
 <style scoped lang="scss">
-.main {
+.login__container {
   position: relative;
   @include flex-center();
   width: $dashboard-width;

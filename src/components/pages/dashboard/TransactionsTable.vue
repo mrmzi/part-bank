@@ -96,21 +96,20 @@ onMounted(async () => {
 const formStore = useFormStore()
 const isSubmitted = computed(() => formStore.isSubmitted)
 
-// محاسبه تعداد صفحات
+
 const pages = computed(() =>
   transactions.value.length
     ? Array.from({ length: Math.ceil(transactions.value.length / rowsPerPage) }, (_, i) => i + 1)
     : [],
 )
 
-// داده‌های صفحه فعلی
+
 const cuttedTransactions = computed(() => {
   const start = (currentPage.value - 1) * rowsPerPage
   const end = start + rowsPerPage
   return sortedTransactions.value.slice(start, end)
 })
 
-// هندل دکمه‌های pagination
 const nextPage = () => {
   if (currentPage.value < pages.value.length) currentPage.value++
 }
@@ -126,7 +125,7 @@ const sortedTransactions = computed(() => {
       return a.type.localeCompare(b.type)
     }
     if (sortKey.value === 'date') {
-      return new Date(b.date) - new Date(a.date) // تاریخ نزولی
+      return new Date(b.date) - new Date(a.date) 
     }
     if (sortKey.value === 'amount') {
       return b.amount - a.amount

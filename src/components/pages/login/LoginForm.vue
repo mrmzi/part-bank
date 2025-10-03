@@ -49,9 +49,6 @@ function validateForm() {
   if (!validatePassword(password.value)) {
     passwordError.value = 'رمز عبور باید حداقل ۶ کاراکتر باشد و شامل حروف و اعداد شود'
     valid = false
-
-    passwordError.value = 'رمز عبور باید حداقل ۶ کاراکتر باشد و شامل حروف و اعداد شود'
-    valid = false
   }
   return valid
 }
@@ -86,7 +83,7 @@ async function handleLogin() {
 }
 </script>
 <template>
-  <form class="login" @submit.prevent="handleLogin" novalidate>
+  <form class="login" @submit.prevent="handleLogin" >
     <div class="login__logo">
       <img
         class="login__logo-image"

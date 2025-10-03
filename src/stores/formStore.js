@@ -9,7 +9,6 @@ export const useFormStore = defineStore('formStore', {
       step1: {},
       step2: {},
     },
-    persist: true,
     isSubmitted: false,
   }),
   actions: {

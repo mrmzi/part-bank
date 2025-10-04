@@ -63,21 +63,21 @@ router.beforeEach((to, from, next) => {
   }
 
 
-  if (to.matched.some((record) => record.name === 'form')) {
+  // if (to.matched.some((record) => record.name === 'form')) {
 
-    if (from.name !== 'Dashboard' && from.name !== 'personalinfo' && from.name !== 'uploadimage') {
-      return next({ name: 'Dashboard' })
-    }
+  //   if (from.name !== 'Dashboard' && from.name !== 'personalinfo' && from.name !== 'uploadimage') {
+  //     return next({ name: 'Dashboard' })
+  //   }
 
-    const steps = ['personalinfo', 'uploadimage', 'confirminfo']
-    const currentStepIndex = steps.indexOf(to.name)
-    const fromStepIndex = steps.indexOf(from.name)
+  //   const steps = ['personalinfo', 'uploadimage', 'confirminfo']
+  //   const currentStepIndex = steps.indexOf(to.name)
+  //   const fromStepIndex = steps.indexOf(from.name)
 
   
-    if (currentStepIndex > 0 && fromStepIndex !== currentStepIndex - 1) {
-      return next({ name: 'personalinfo' })
-    }
-  }
+  //   if (currentStepIndex > 0 && fromStepIndex !== currentStepIndex - 1) {
+  //     return next({ name: 'personalinfo' })
+  //   }
+  // }
 
   next()
 })

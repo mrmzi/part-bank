@@ -8,14 +8,6 @@ import eyeClosedDefault from '@/assets/icons/Outline/Security/Eye Closed.svg'
 import BaseButton from '@/components/common/BaseButton.vue'
 import router from '@/router'
 
-const props = defineProps({
-  eyeOpen: { type: String, default: eyeOpenDefault },
-  eyeClosed: { type: String, default: eyeClosedDefault },
-})
-
-const eyeOpen = props.eyeOpen
-const eyeClosed = props.eyeClosed
-
 const phone = ref('')
 const password = ref('')
 const loading = ref(false)
@@ -29,11 +21,6 @@ function validatePhone(value) {
   return regex.test(value)
 }
 
-function validatePassword(value) {
-  const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
-  return regex.test(value)
-}
-
 function validateForm() {
   phoneError.value = null
   passwordError.value = null
@@ -43,11 +30,6 @@ function validateForm() {
 
   if (!validatePhone(phone.value)) {
     phoneError.value = 'شماره تلفن معتبر نیست (باید با 09 شروع شده و 11 رقم باشد)'
-    valid = false
-  }
-
-  if (!validatePassword(password.value)) {
-    passwordError.value = 'رمز عبور باید حداقل ۶ کاراکتر باشد و شامل حروف و اعداد شود'
     valid = false
   }
   return valid
@@ -66,17 +48,18 @@ async function handleLogin() {
   error.value = null
 
   try {
-    const response = await login(phone.value, password.value)
+    const response = await login(phone.value, password.value) 
 
     const token = response?.data?.token
     const user = response?.data?.user
 
-    if (!token || !user) throw new Error('اطلاعات لاگین ناقص است')
+    if (!token || !user) throw new Error(response)
 
     saveAuth(user, token)
     router.replace({ path: '/dashboard' })
   } catch (err) {
     error.value = err?.message || 'خطا در ورود — دوباره تلاش کنید'
+    
   } finally {
     loading.value = false
   }
@@ -130,7 +113,7 @@ async function handleLogin() {
           :aria-pressed="showPassword"
           :title="showPassword ? 'مخفی کردن رمز' : 'نمایش رمز'"
         >
-          <img :src="showPassword ? eyeOpen : eyeClosed" alt="" />
+          <img :src="showPassword ? eyeOpenDefault : eyeClosedDefault" alt="" />
         </button>
       </div>
 

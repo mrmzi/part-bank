@@ -5,6 +5,6 @@ export async function login(phoneNumber, password) {
     const res = await api.post('/auth/login', { phoneNumber, password })
     return res.data
   } catch (err) {
-    throw err.response?.data || { message: 'خطا در ورود' }
+    return err.response.data.error.message.fa
   }
 }

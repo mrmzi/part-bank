@@ -1,33 +1,45 @@
+<!-- eslint-disable vue/no-parsing-error -->
 <script setup>
 import { useFormStore } from '@/stores/formStore'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-
 
 const previewFront = ref(null)
 const previewBack = ref(null)
 
+const router = useRouter()
+const formStore = useFormStore()
 
 const showMenu = ref({
   front: false,
   back: false,
 })
 
+const step2Data = ref({
+  forwardimage: formStore.formData.step2.forwardimage,
+  backwardimage: formStore.formData.step2.backwardimage,
+})
 
 const handleUpload = (event, type) => {
   const file = event.target.files[0]
   if (file) {
-    const objectURL = URL.createObjectURL(file)
     if (type === 'front') {
-      previewFront.value = objectURL
+      previewFront.value = URL.createObjectURL(file)
       step2Data.value.forwardimage = file
     } else {
-      previewBack.value = objectURL
+      previewBack.value = URL.createObjectURL(file)
       step2Data.value.backwardimage = file
     }
   }
 }
-
+onMounted(() => {
+  if (formStore.formData.step2.forwardimage) {
+    previewFront.value = URL.createObjectURL(formStore.formData.step2.forwardimage)
+  }
+  if (formStore.formData.step2.backwardimage) {
+    previewBack.value = URL.createObjectURL(formStore.formData.step2.backwardimage)
+  }
+})
 
 const removeImage = (type) => {
   if (type === 'front') previewFront.value = null
@@ -35,22 +47,14 @@ const removeImage = (type) => {
   showMenu.value[type] = false
 }
 
-
 const editImage = (type) => {
   document.getElementById(`input-${type}`).click()
   showMenu.value[type] = false
 }
 
 // store image in pinia
-const router = useRouter()
-const formStore = useFormStore()
 
 const errormessageForm = ref(null)
-
-const step2Data = ref({
-  forwardimage: '',
-  backwardimage: '',
-})
 
 function saveData() {
   if (!step2Data.value.forwardimage || !step2Data.value.backwardimage) {
@@ -59,9 +63,7 @@ function saveData() {
   }
   formStore.updateStepData('step2', step2Data.value)
 
- 
-    router.push('/form/confirminfo')
-  
+  router.push('/form/confirminfo')
 }
 
 function goBack() {

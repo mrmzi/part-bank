@@ -1,20 +1,25 @@
 <script setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useFormStore } from '@/stores/formStore'
 import BaseInput from '@/components/common/BaseInput.vue'
 
-const errormessageName = ref(null)
-const errormessageFamily = ref(null)
-const errormessagePostal = ref(null)
-const errormessageAddress = ref(null)
-const errormessageForm = ref(null)
+const errormessage = reactive({
+  Name: null,
+  Family: null,
+  Postal: null,
+  Address: null,
+  Form: null,
+})
+
+const router = useRouter()
+const formStore = useFormStore()
 
 const step1Data = ref({
-  name: '',
-  family: '',
-  postalCode: '',
-  address: '',
+  name: formStore.formData.step1.name,
+  family: formStore.formData.step1.family,
+  postalCode: formStore.formData.step1.postalCode,
+  address: formStore.formData.step1.address,
 })
 
 function validatePersianText(val, type) {
@@ -24,11 +29,11 @@ function validatePersianText(val, type) {
     errorMsg = 'فقط حروف فارسی مجاز است'
   }
   if (type === 'name') {
-    errormessageName.value = errorMsg
+    errormessage.Name = errorMsg
   } else if (type === 'family') {
-    errormessageFamily.value = errorMsg
+    errormessage.Family = errorMsg
   } else if (type === 'address') {
-    errormessageAddress.value = errorMsg
+    errormessage.Address = errorMsg
   }
 }
 
@@ -44,11 +49,8 @@ function validatePostalCode(val) {
       errorMsg = 'کد پستی باید 9 رقمی باشد'
     }
   }
-  errormessagePostal.value = errorMsg
+  errormessage.Postal = errorMsg
 }
-
-const router = useRouter()
-const formStore = useFormStore()
 
 function saveData() {
   if (
@@ -57,7 +59,7 @@ function saveData() {
     !step1Data.value.postalCode ||
     !step1Data.value.address
   ) {
-    errormessageForm.value = 'لطفاً همه فیلدها را به درستی پر کنید'
+    errormessage.Form = 'لطفاً همه فیلدها را به درستی پر کنید'
     return
   }
   formStore.updateStepData('step1', step1Data.value)
@@ -78,7 +80,7 @@ function goBack() {
         label="نام"
         placeholder="نام فارسی"
         v-model="step1Data.name"
-        :error="errormessageName"
+        :error="errormessage.Name"
         @update:modelValue="(val) => validatePersianText(val, 'name')"
       />
 
@@ -87,7 +89,7 @@ function goBack() {
         label="نام خانوادگی"
         placeholder="نام خانوادگی به صورت کامل"
         v-model="step1Data.family"
-        :error="errormessageFamily"
+        :error="errormessage.Family"
         @update:modelValue="(val) => validatePersianText(val, 'family')"
       />
 
@@ -96,7 +98,7 @@ function goBack() {
         label="کد پستی"
         placeholder="برای مثال 919542687"
         v-model="step1Data.postalCode"
-        :error="errormessagePostal"
+        :error="errormessage.Postal"
         @update:modelValue="validatePostalCode"
       />
     </div>
@@ -109,8 +111,8 @@ function goBack() {
         v-model="step1Data.address"
         @input="validatePersianText($event.target.value, 'address')"
       ></textarea>
-      <span class="form-personal-info__error" v-if="errormessageAddress">
-        {{ errormessageAddress }}
+      <span class="form-personal-info__error" v-if="errormessage.Address">
+        {{ errormessage.Address }}
       </span>
     </div>
 
@@ -131,8 +133,8 @@ function goBack() {
       </button>
     </div>
 
-    <span class="form-personal-info__form-error" v-if="errormessageForm">
-      {{ errormessageForm }}
+    <span class="form-personal-info__form-error" v-if="errormessage.Form">
+      {{ errormessage.Form }}
     </span>
   </form>
 </template>

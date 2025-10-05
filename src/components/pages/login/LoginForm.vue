@@ -8,6 +8,14 @@ import eyeClosedDefault from '@/assets/icons/Outline/Security/Eye Closed.svg'
 import BaseButton from '@/components/common/BaseButton.vue'
 import router from '@/router'
 
+const props = defineProps({
+  eyeOpen: { type: String, default: eyeOpenDefault },
+  eyeClosed: { type: String, default: eyeClosedDefault },
+})
+
+const eyeOpen = props.eyeOpen
+const eyeClosed = props.eyeClosed
+
 const phone = ref('')
 const password = ref('')
 const loading = ref(false)
@@ -21,6 +29,11 @@ function validatePhone(value) {
   return regex.test(value)
 }
 
+function validatePassword(value) {
+  const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
+  return regex.test(value)
+}
+
 function validateForm() {
   phoneError.value = null
   passwordError.value = null
@@ -30,6 +43,11 @@ function validateForm() {
 
   if (!validatePhone(phone.value)) {
     phoneError.value = 'شماره تلفن معتبر نیست (باید با 09 شروع شده و 11 رقم باشد)'
+    valid = false
+  }
+
+  if (!validatePassword(password.value)) {
+    passwordError.value = 'رمز عبور باید حداقل ۶ کاراکتر باشد و شامل حروف و اعداد شود'
     valid = false
   }
   return valid
@@ -48,76 +66,82 @@ async function handleLogin() {
   error.value = null
 
   try {
-    const response = await login(phone.value, password.value) 
+    const response = await login(phone.value, password.value)
 
     const token = response?.data?.token
     const user = response?.data?.user
 
-    if (!token || !user) throw new Error(response)
+    if (!token || !user) throw new Error('اطلاعات لاگین ناقص است')
 
     saveAuth(user, token)
     router.replace({ path: '/dashboard' })
   } catch (err) {
     error.value = err?.message || 'خطا در ورود — دوباره تلاش کنید'
-    
   } finally {
     loading.value = false
   }
 }
 </script>
 <template>
-  <form class="login" @submit.prevent="handleLogin" >
-    <div class="login__logo">
+  <form class="login-form" @submit.prevent="handleLogin">
+    <div class="login-form__logo">
       <img
-        class="login__logo-image"
+        class="login-form__logo-image"
         src="../../../assets/images/login/Logo.svg"
         alt="لوگو پارت بانک"
       />
-      <div class="login__logo-header">
-        <h1 class="login__logo-title">پارت بانک</h1>
-        <span class="login__logo-subtitle">تجربه‌ای نوین در بانک داری</span>
+      <div class="login-form__logo-header">
+        <h1 class="login-form__logo-title">پارت بانک</h1>
+        <span class="login-form__logo-subtitle">تجربه‌ای نوین در بانک داری</span>
       </div>
     </div>
 
-    <div class="login__inputs">
-      <label class="login__label" for="phone-number">شماره همراه</label>
-      <input
-        class="login__input"
-        id="phone-number"
-        v-model="phone"
-        @input="phone = phone.replace(/[^0-9]/g, '')"
-        placeholder="مثلا ۰۹۱۲۳۴۵۶۷۸۹"
-        inputmode="numeric"
-        maxlength="11"
-        type="tel"
-        aria-describedby="phone-error"
-      />
-
-      <p v-if="phoneError" id="phone-error" class="text-error">{{ phoneError }}</p>
-
-      <label class="login__label" for="password">رمز عبور</label>
-      <div class="password-wrapper">
+    <div class="login-form__inputs">
+      <div>
+        <label class="login-form__label" for="phone-number">شماره همراه</label>
         <input
-          class="login__input password"
-          id="password"
-          v-model="password"
-          :type="showPassword ? 'text' : 'password'"
-          placeholder="رمز عبور خود را وارد کنید"
-          aria-describedby="password-error"
+          class="login-form__input"
+          id="phone-number"
+          v-model="phone"
+          @input="phone = phone.replace(/[^0-9]/g, '')"
+          placeholder="مثلا ۰۹۱۲۳۴۵۶۷۸۹"
+          inputmode="numeric"
+          maxlength="11"
+          type="tel"
+          aria-describedby="phone-error"
         />
 
-        <button
-          type="button"
-          class="toggle-password"
-          @click="togglePassword"
-          :aria-pressed="showPassword"
-          :title="showPassword ? 'مخفی کردن رمز' : 'نمایش رمز'"
-        >
-          <img :src="showPassword ? eyeOpenDefault : eyeClosedDefault" alt="" />
-        </button>
+        <p v-if="phoneError" id="phone-error" class="text-error">{{ phoneError }}</p>
       </div>
 
-      <p v-if="passwordError" id="password-error" class="text-error lastchild">{{ passwordError }}</p>
+      <div>
+        <label class="login-form__label" for="password">رمز عبور</label>
+        <div class="password-wrapper">
+          <input
+            class="login-form__input password"
+            id="password"
+            v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            placeholder="رمز عبور خود را وارد کنید"
+            aria-describedby="password-error"
+          />
+
+          <button
+            type="button"
+            class="toggle-password"
+            @click="togglePassword"
+            :aria-pressed="showPassword"
+            :title="showPassword ? 'مخفی کردن رمز' : 'نمایش رمز'"
+          >
+            <img :src="showPassword ? eyeOpen : eyeClosed" alt="" />
+          </button>
+        </div>
+
+        <p v-if="passwordError" id="password-error" class="text-error lastchild">
+          {{ passwordError }}
+        </p>
+      </div>
+
 
       <BaseButton
         :is-disabled="loading"
@@ -130,12 +154,12 @@ async function handleLogin() {
         @click="handleLogin"
       />
 
-      <p v-if="error" class="text-error ">{{ error }}</p>
+      <p v-if="error" class="text-error">{{ error }}</p>
     </div>
 
-    <div class="login__support">
-      <span class="login__support-label">پشتیبانی:</span>
-      <span class="login__support-number">۰۲۱-۱۲۳۴۵۶۷۸</span>
+    <div class="login-form__support">
+      <span class="login-form__support-label">پشتیبانی:</span>
+      <span class="login-form__support-number">۰۲۱-۱۲۳۴۵۶۷۸</span>
     </div>
   </form>
 </template>
@@ -146,7 +170,7 @@ async function handleLogin() {
   padding: 0;
   box-sizing: border-box;
 }
-.login {
+.login-form {
   width: 50%;
   @include flex-column($justify: center, $align: center);
   padding-top: 83.5px;
@@ -176,6 +200,7 @@ async function handleLogin() {
   &__inputs {
     display: flex;
     flex-direction: column;
+    row-gap: 16px;
     margin-top: 103.5px;
     width: 354px;
     height: auto;
@@ -191,6 +216,7 @@ async function handleLogin() {
   &__input {
     width: 354px;
     height: 48px;
+    margin-top: 8px;
     background-color: $surface-alt;
     border-radius: $radius-sm;
 
@@ -219,11 +245,11 @@ async function handleLogin() {
 
 .password-wrapper {
   position: relative;
-  margin-bottom: 50px;
+  margin-bottom: 44px;
   .toggle-password {
     position: absolute;
     left: 14px;
-    top: 12px;
+    top: 22px;
     width: 24px;
     height: 24px;
     background: transparent;
@@ -236,6 +262,4 @@ async function handleLogin() {
   font-size: $font-size-sm;
   margin-top: 4px;
 }
-
-
 </style>

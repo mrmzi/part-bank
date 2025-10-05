@@ -75,6 +75,7 @@ function goBack() {
     <div class="form-personal-info__group">
       <BaseInput
         id="name"
+        class="form-personal-info__field"
         label="نام"
         placeholder="نام فارسی"
         v-model="step1Data.name"
@@ -84,6 +85,7 @@ function goBack() {
 
       <BaseInput
         id="family"
+        class="form-personal-info__field"
         label="نام خانوادگی"
         placeholder="نام خانوادگی به صورت کامل"
         v-model="step1Data.family"
@@ -93,6 +95,7 @@ function goBack() {
 
       <BaseInput
         id="postal"
+        class="form-personal-info__field"
         label="کد پستی"
         placeholder="برای مثال 919542687"
         v-model="step1Data.postalCode"
@@ -137,7 +140,7 @@ function goBack() {
   </form>
 </template>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 * {
   margin: 0;
   padding: 0;

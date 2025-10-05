@@ -1,8 +1,8 @@
 <template>
   <div class="not-found">
-    <h1>404</h1>
-    <p>صفحه‌ای که دنبالشی پیدا نشد!</p>
-    <router-link to="/">برگشت به صفحه اصلی</router-link>
+    <h1 class="not-found__title">404</h1>
+    <p class="not-found__text">صفحه‌ای که دنبالشی پیدا نشد!</p>
+    <router-link to="/" class="not-found__link">برگشت به صفحه اصلی</router-link>
   </div>
 </template>
 
@@ -12,31 +12,31 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .not-found {
   text-align: center;
   margin-top: 100px;
   font-family: sans-serif;
-}
 
-.not-found h1 {
-  font-size: 6rem;
-  margin: 0;
-  color: #ff5252;
-}
+  &__title {
+    font-size: 6rem;
+    margin: 0;
+    color: #ff5252;
+  }
 
-.not-found p {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-}
+  &__text {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
 
-.not-found a {
-  color: #42b983;
-  text-decoration: none;
-  font-weight: bold;
-}
+  &__link {
+    color: #42b983;
+    text-decoration: none;
+    font-weight: bold;
 
-.not-found a:hover {
-  text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 </style>

@@ -135,7 +135,7 @@ function goBack() {
     gap: 16px;
     margin: 0;
     width: 100%;
-    height: $button-height;
+    height: 48px;
   }
 
   &__btn {

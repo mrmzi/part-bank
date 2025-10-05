@@ -105,7 +105,7 @@
 
 
 <script setup>
-import { getbalance } from '@/services/getAccount'
+import { getbalance } from '@/services/getaccount'
 import { useFormStore } from '@/stores/formStore'
 import { computed, onMounted, reactive } from 'vue'
 

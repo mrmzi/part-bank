@@ -100,17 +100,7 @@ async function handleLogin() {
     <div class="login-form__inputs">
       <div>
         <label class="login-form__label" for="phone-number">شماره همراه</label>
-        <!-- <input
-          class="login-form__input"
-          id="phone-number"
-          v-model="phone"
-          @input="phone = phone.replace(/[^0-9]/g, '')"
-          placeholder="مثلا ۰۹۱۲۳۴۵۶۷۸۹"
-          inputmode="numeric"
-          maxlength="11"
-          type="tel"
-          aria-describedby="phone-error"
-        /> -->
+     
         <BaseInput
           :id="'phone-number'"
           :placeholder="'مثلا ۰۹۱۲۳۴۵۶۷۸۹'"

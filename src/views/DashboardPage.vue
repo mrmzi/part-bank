@@ -34,6 +34,7 @@ import Header from '../components/layout/Header.vue'
 import Sidebar from '../components/pages/dashboard/Sidebar.vue'
 import TransactionsTable from '../components/pages/dashboard/TransactionsTable.vue'
 import router from '@/router'
+import BaseButton from '@/components/common/BaseButton.vue'
 
 const isSubmitted = JSON.parse(sessionStorage.getItem("isSubmitted"));
 

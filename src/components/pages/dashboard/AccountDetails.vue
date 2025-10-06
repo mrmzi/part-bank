@@ -87,11 +87,11 @@
       </div>
       <div class="account__card-details">
         <div class="account__amount">
-          <span class="account__amount-text">مبلغ قسط:</span>
+          <span class="account__amount-text">:مبلغ قسط</span>
           <span class="account__amount-money">{{ instalmentAmountFormatted }}</span>
         </div>
         <div class="account__due">
-          <span class="account__due-text">تاریخ سررسید:</span>
+          <span class="account__due-text">:تاریخ سررسید</span>
           <span class="account__due-month">{{ account.upcomingInstalment.dueDate }}</span>
         </div>
         <button class="account__pay-btn btn-primary">
@@ -105,7 +105,7 @@
 
 
 <script setup>
-import { getbalance } from '@/services/getAccount'
+import { getbalance } from '@/services/getaccount'
 import { useFormStore } from '@/stores/formStore'
 import { computed, onMounted, reactive } from 'vue'
 

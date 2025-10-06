@@ -31,9 +31,25 @@ const btnProps = defineProps({
 
 <style scoped lang="scss">
 button {
-  @include button-base($bg: $primary, $color: $color-white, $radius: $radius-md, $height: $button-height);
-  @include text-style($size: $font-size-md, $weight: $font-weight-600, $color: $color-white , $family: $font-family-bold);
-  gap: $gap-sm; 
+  @include button-base(
+    $bg: $primary, 
+    $color: $color-white, 
+    $radius: $radius-md, 
+    $height: 48px
+  );
+
+  @include text-style(
+    $size: $font-size-md, 
+    $weight: $font-weight-600, 
+    $color: $color-white, 
+    $family: $font-family-bold
+  );
+
+  gap: $gap-sm;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 
   img {
     width: 18px;

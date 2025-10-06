@@ -106,11 +106,10 @@
 
 <script setup>
 import { getbalance } from '@/services/getAccount'
-import { useFormStore } from '@/stores/formStore'
-import { computed, onMounted, reactive } from 'vue'
 
-const formStore = useFormStore()
-const isSubmitted = computed(() => formStore.isSubmitted)
+import { computed, onMounted, reactive } from 'vue'
+const isSubmitted = JSON.parse(sessionStorage.getItem("isSubmitted"));
+
 const account = reactive({
   balance: 0,
   cardNumber: '',
@@ -125,7 +124,7 @@ const account = reactive({
 })
 
 onMounted(async () => {
-  if (isSubmitted.value) {
+  if (isSubmitted) {
     try {
       const response = await getbalance()
       const data = response.data[0]

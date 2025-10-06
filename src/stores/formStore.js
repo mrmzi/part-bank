@@ -1,4 +1,3 @@
-
 import api from '@/services/axios'
 import router from '@/router'
 import { defineStore } from 'pinia'
@@ -9,7 +8,6 @@ export const useFormStore = defineStore('formStore', {
       step1: {},
       step2: {},
     },
-    isSubmitted: false,
   }),
   actions: {
     updateStepData(step, data) {
@@ -38,7 +36,7 @@ export const useFormStore = defineStore('formStore', {
             'Content-Type': 'multipart/form-data',
           },
         })
-        this.isSubmitted = true
+        sessionStorage.setItem('isSubmitted', JSON.stringify(true))
 
         router.push('/dashboard')
       } catch (err) {

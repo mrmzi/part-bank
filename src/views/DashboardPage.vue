@@ -7,7 +7,14 @@
         alt=""
       />
       <p class="addAccount-modal__section-text">برای دسترسی به داشبورد، لطفا ابتدا افتتاح حساب کنید</p>
-      <button @click="createaccount" class="addAccount-modal__section-btn btn-primary">افتتاح حساب</button>
+
+      <BaseButton
+        :title="'افتتاح حساب'"
+        :width="'209px'"
+        :height="'48px'"
+        :bgColor="'#4152a0'"
+        @click="createaccount"
+      />
     </section>
 
     <Header></Header>
@@ -29,6 +36,7 @@ import TransactionsTable from '../components/pages/dashboard/TransactionsTable.v
 import router from '@/router'
 import { useFormStore } from '@/stores/formStore'
 import { computed } from 'vue'
+import BaseButton from '@/components/common/BaseButton.vue'
 
 const formStore = useFormStore()
 const isSubmitted = computed(() => formStore.isSubmitted)
@@ -107,7 +115,7 @@ function createaccount() {
   &__main {
     width: 1404px;
     height: 804px;
-    @include flex-center($gap: $gap-lg);
+    @include flex-center($gap: 16px);
   }
 
   &__content {

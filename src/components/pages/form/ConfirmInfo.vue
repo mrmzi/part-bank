@@ -49,6 +49,7 @@
         :bg-color="'#4152a0'"
       />
     </div>
+    
   </form>
 </template>
 

@@ -7,6 +7,7 @@ defineProps({
   error: { type: String, default: null },
   id: { type: String, default: '' },
   class: { type: String, default: '' },
+  hasBorder: { type: Boolean, default: false },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -17,6 +18,7 @@ const emit = defineEmits(['update:modelValue'])
     <label v-if="label" :for="id">{{ label }}</label>
 
     <input
+      :style="[hasBorder ? 'border: 1px solid #ddd;' : '']"
       :id="id"
       :class="class"
       :type="type"
@@ -40,18 +42,20 @@ const emit = defineEmits(['update:modelValue'])
     font-size: 14px;
     color: #8999b9;
     padding: 0 8px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
   }
 
   input {
     padding: 14px 8px;
-    border: 1px solid #ddd;
     border-radius: 8px;
+    margin-top: 4px;
     font-size: 1rem;
     font-family: 'peyda-regular';
     background-color: #f9fafb;
     outline: none;
     height: 48px;
+    box-sizing: border-box;
+    direction: rtl;
 
     &::placeholder {
       color: #C3C5C9;

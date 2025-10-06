@@ -1,20 +1,26 @@
 <script setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useFormStore } from '@/stores/formStore'
 import BaseInput from '@/components/common/BaseInput.vue'
+import BaseButton from '@/components/common/BaseButton.vue'
 
-const errormessageName = ref(null)
-const errormessageFamily = ref(null)
-const errormessagePostal = ref(null)
-const errormessageAddress = ref(null)
-const errormessageForm = ref(null)
+const errormessage = reactive({
+  Name: null,
+  Family: null,
+  Postal: null,
+  Address: null,
+  Form: null,
+})
+
+const router = useRouter()
+const formStore = useFormStore()
 
 const step1Data = ref({
-  name: '',
-  family: '',
-  postalCode: '',
-  address: '',
+  name: formStore.formData.step1.name,
+  family: formStore.formData.step1.family,
+  postalCode: formStore.formData.step1.postalCode,
+  address: formStore.formData.step1.address,
 })
 
 function validatePersianText(val, type) {
@@ -24,11 +30,11 @@ function validatePersianText(val, type) {
     errorMsg = 'فقط حروف فارسی مجاز است'
   }
   if (type === 'name') {
-    errormessageName.value = errorMsg
+    errormessage.Name = errorMsg
   } else if (type === 'family') {
-    errormessageFamily.value = errorMsg
+    errormessage.Family = errorMsg
   } else if (type === 'address') {
-    errormessageAddress.value = errorMsg
+    errormessage.Address = errorMsg
   }
 }
 
@@ -44,11 +50,8 @@ function validatePostalCode(val) {
       errorMsg = 'کد پستی باید 9 رقمی باشد'
     }
   }
-  errormessagePostal.value = errorMsg
+  errormessage.Postal = errorMsg
 }
-
-const router = useRouter()
-const formStore = useFormStore()
 
 function saveData() {
   if (
@@ -57,7 +60,7 @@ function saveData() {
     !step1Data.value.postalCode ||
     !step1Data.value.address
   ) {
-    errormessageForm.value = 'لطفاً همه فیلدها را به درستی پر کنید'
+    errormessage.Form = 'لطفاً همه فیلدها را به درستی پر کنید'
     return
   }
   formStore.updateStepData('step1', step1Data.value)
@@ -77,9 +80,10 @@ function goBack() {
         id="name"
         class="form-personal-info__field"
         label="نام"
+        :hasBorder="true"
         placeholder="نام فارسی"
         v-model="step1Data.name"
-        :error="errormessageName"
+        :error="errormessage.Name"
         @update:modelValue="(val) => validatePersianText(val, 'name')"
       />
 
@@ -87,9 +91,10 @@ function goBack() {
         id="family"
         class="form-personal-info__field"
         label="نام خانوادگی"
+        :hasBorder="true"
         placeholder="نام خانوادگی به صورت کامل"
         v-model="step1Data.family"
-        :error="errormessageFamily"
+        :error="errormessage.Family"
         @update:modelValue="(val) => validatePersianText(val, 'family')"
       />
 
@@ -97,9 +102,10 @@ function goBack() {
         id="postal"
         class="form-personal-info__field"
         label="کد پستی"
+        :hasBorder="true"
         placeholder="برای مثال 919542687"
         v-model="step1Data.postalCode"
-        :error="errormessagePostal"
+        :error="errormessage.Postal"
         @update:modelValue="validatePostalCode"
       />
     </div>
@@ -112,30 +118,35 @@ function goBack() {
         v-model="step1Data.address"
         @input="validatePersianText($event.target.value, 'address')"
       ></textarea>
-      <span class="form-personal-info__error" v-if="errormessageAddress">
-        {{ errormessageAddress }}
+      <span class="form-personal-info__error" v-if="errormessage.Address">
+        {{ errormessage.Address }}
       </span>
     </div>
 
     <div class="form-personal-info__actions">
-      <button
-        type="button"
-        class="form-personal-info__button form-personal-info__button--secondary"
+
+      <BaseButton
+        :title="'قبلی'"
+        :width="'209px'"
+        :height="'48px'"
+        :bgColor="'#eceef6'"
+        :color="'#3c4351'"
+        :btn-type="'button'"
         @click="goBack"
-      >
-        قبلی
-      </button>
-      <button
-        type="submit"
-        class="form-personal-info__button form-personal-info__button--primary"
+      />
+
+      <BaseButton
+        :title="'ثبت و ادامه'"
+        :width="'209px'"
+        :height="'48px'"
+        :bgColor="'#4152a0'"
+        :btn-type="'submit'"
         @click="saveData"
-      >
-        ثبت و ادامه
-      </button>
+      />
     </div>
 
-    <span class="form-personal-info__form-error" v-if="errormessageForm">
-      {{ errormessageForm }}
+    <span class="form-personal-info__form-error" v-if="errormessage.Form">
+      {{ errormessage.Form }}
     </span>
   </form>
 </template>

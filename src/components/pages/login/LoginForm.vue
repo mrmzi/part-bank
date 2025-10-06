@@ -7,6 +7,7 @@ import eyeOpenDefault from '@/assets/icons/Outline/Security/Eye.svg'
 import eyeClosedDefault from '@/assets/icons/Outline/Security/Eye Closed.svg'
 import BaseButton from '@/components/common/BaseButton.vue'
 import router from '@/router'
+import BaseInput from '@/components/common/BaseInput.vue'
 
 const props = defineProps({
   eyeOpen: { type: String, default: eyeOpenDefault },
@@ -99,7 +100,7 @@ async function handleLogin() {
     <div class="login-form__inputs">
       <div>
         <label class="login-form__label" for="phone-number">شماره همراه</label>
-        <input
+        <!-- <input
           class="login-form__input"
           id="phone-number"
           v-model="phone"
@@ -109,6 +110,16 @@ async function handleLogin() {
           maxlength="11"
           type="tel"
           aria-describedby="phone-error"
+        /> -->
+        <BaseInput
+          :id="'phone-number'"
+          :placeholder="'مثلا ۰۹۱۲۳۴۵۶۷۸۹'"
+          :type="'tel'"
+          maxlength="11"
+          v-model="phone"
+          inputmode="numeric"
+          @input="phone = phone.replace(/[^0-9]/g, '')"
+          aria-describedby="phone-error"
         />
 
         <p v-if="phoneError" id="phone-error" class="text-error">{{ phoneError }}</p>
@@ -117,12 +128,12 @@ async function handleLogin() {
       <div>
         <label class="login-form__label" for="password">رمز عبور</label>
         <div class="password-wrapper">
-          <input
-            class="login-form__input password"
-            id="password"
-            v-model="password"
+
+          <BaseInput
+            :id="'password'"
+            :placeholder="'رمز عبور خود را وارد کنید'"
             :type="showPassword ? 'text' : 'password'"
-            placeholder="رمز عبور خود را وارد کنید"
+            v-model="password"
             aria-describedby="password-error"
           />
 
@@ -141,7 +152,6 @@ async function handleLogin() {
           {{ passwordError }}
         </p>
       </div>
-
 
       <BaseButton
         :is-disabled="loading"
@@ -210,7 +220,7 @@ async function handleLogin() {
     width: 100%;
     height: 22px;
     font-size: $font-size-md;
-    margin-bottom: 4px;
+    // margin-bottom: 4px;
   }
 
   &__input {
@@ -245,11 +255,11 @@ async function handleLogin() {
 
 .password-wrapper {
   position: relative;
-  margin-bottom: 44px;
+  margin-bottom: 38px;
   .toggle-password {
     position: absolute;
     left: 14px;
-    top: 22px;
+    top: 17px;
     width: 24px;
     height: 24px;
     background: transparent;

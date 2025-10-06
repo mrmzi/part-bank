@@ -1,3 +1,9 @@
+<script>
+export default {
+  name: "NotFound",
+}
+</script>
+
 <template>
   <div class="not-found">
     <h1 class="not-found__title">404</h1>
@@ -5,12 +11,6 @@
     <router-link to="/" class="not-found__link">برگشت به صفحه اصلی</router-link>
   </div>
 </template>
-
-<script>
-export default {
-  name: "NotFound",
-}
-</script>
 
 <style scoped lang="scss">
 .not-found {

@@ -1,3 +1,8 @@
+<script setup>
+import LoginForm from '@/components/pages/login/LoginForm.vue'
+import LoginImage from '@/components/pages/login/LoginImage.vue'
+</script>
+
 <template>
   <section class="login__container">
     <section class="login__section">
@@ -6,11 +11,6 @@
     </section>
   </section>
 </template>
-
-<script setup>
-import LoginForm from '@/components/pages/login/LoginForm.vue'
-import LoginImage from '@/components/pages/login/LoginImage.vue'
-</script>
 
 <style scoped lang="scss">
 .login__container {

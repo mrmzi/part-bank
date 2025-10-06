@@ -18,7 +18,7 @@ export const useFormStore = defineStore('formStore', {
         const { step1, step2 } = this.formData
         const form = new FormData()
 
-        const fields = {
+        const formFields = {
           firstName: step1.name,
           lastName: step1.family,
           address: step1.address,
@@ -26,7 +26,7 @@ export const useFormStore = defineStore('formStore', {
           nationalCardImage: step2.forwardimage,
         }
 
-        Object.entries(fields).forEach(([key, value]) => {
+        Object.entries(formFields).forEach(([key, value]) => {
           if (value) form.append(key, value)
         })
 
@@ -36,7 +36,7 @@ export const useFormStore = defineStore('formStore', {
             'Content-Type': 'multipart/form-data',
           },
         })
-        sessionStorage.setItem('isSubmitted', JSON.stringify(true))
+        sessionStorage.setItem('isFormSubmitted', JSON.stringify(true))
 
         router.push('/dashboard')
       } catch (err) {

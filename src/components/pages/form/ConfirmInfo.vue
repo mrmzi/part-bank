@@ -1,3 +1,16 @@
+<script setup>
+import BaseButton from '@/components/base/BaseButton.vue'
+import router from '@/router'
+import { useFormStore } from '@/stores/formStore'
+const formStore = useFormStore()
+const step1 = formStore.formData.step1
+const submitForm = formStore.submitForm
+
+function goBack() {
+  router.push('/form/uploadimage')
+}
+</script>
+
 <template>
   <form class="form-confirmation" action="" @submit.prevent="submitForm">
     <div class="form-confirmation__title">
@@ -25,7 +38,7 @@
       <div class="form-confirmation__fields-extra">
         <span class="form-confirmation__title-label">محل سکونت:</span>
         <p class="form-confirmation__address">
-         {{ step1.address }}
+          {{ step1.address }}
         </p>
       </div>
     </div>
@@ -49,22 +62,8 @@
         :bg-color="'#4152a0'"
       />
     </div>
-    
   </form>
 </template>
-
-<script setup>
-import BaseButton from '@/components/common/BaseButton.vue'
-import router from '@/router'
-import { useFormStore } from '@/stores/formStore'
-const formStore = useFormStore()
-const step1 = formStore.formData.step1
-const submitForm = formStore.submitForm
-
-function goBack() {
-  router.push('/form/uploadimage')
-}
-</script>
 
 <style scoped lang="scss">
 .form-confirmation {
@@ -159,4 +158,3 @@ function goBack() {
   }
 }
 </style>
-

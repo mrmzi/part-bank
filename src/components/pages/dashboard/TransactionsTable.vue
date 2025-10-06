@@ -1,3 +1,61 @@
+<script setup>
+import arrowDown from '@/assets/icons/arrow-down.svg'
+import arrowUp from '@/assets/icons/arrow-up.svg'
+import BaseButton from '@/components/base/BaseButton.vue'
+import { fetchTransactions } from '@/services/getTransactions'
+import { ref, onMounted, computed } from 'vue'
+
+const currentPage = ref(1)
+const rowsPerPage = 5
+const transactions = ref([])
+const isFormSubmitted = JSON.parse(sessionStorage.getItem('isFormSubmitted'))
+
+onMounted(async () => {
+  if (isFormSubmitted) {
+    transactions.value = await fetchTransactions()
+  }
+})
+
+const pages = computed(() =>
+  transactions.value.length
+    ? Array.from({ length: Math.ceil(transactions.value.length / rowsPerPage) }, (_, i) => i + 1)
+    : [],
+)
+
+const cuttedTransactions = computed(() => {
+  const start = (currentPage.value - 1) * rowsPerPage
+  const end = start + rowsPerPage
+  return sortedTransactions.value.slice(start, end)
+})
+
+const nextPage = () => {
+  if (currentPage.value < pages.value.length) currentPage.value++
+}
+const prevPage = () => {
+  if (currentPage.value > 1) currentPage.value--
+}
+
+const sortKey = ref('all')
+
+const sortedTransactions = computed(() => {
+  return [...transactions.value].sort((a, b) => {
+    if (sortKey.value === 'type') {
+      return a.type.localeCompare(b.type)
+    }
+    if (sortKey.value === 'date') {
+      return new Date(b.date) - new Date(a.date)
+    }
+    if (sortKey.value === 'amount') {
+      return b.amount - a.amount
+    }
+    if (sortKey.value === 'all') {
+      return transactions.value
+    }
+    return 0
+  })
+})
+</script>
+
 <template>
   <section class="dashboard__transactions">
     <div class="transactions__header">
@@ -15,7 +73,7 @@
           </select>
         </div>
         <div class="transactions__filter-search">
-          <input type="search"  class="transactions__searchInput" placeholder="جستجو"/>
+          <input type="search" class="transactions__searchInput" placeholder="جستجو" />
           <button>
             <img src="@/assets/icons/Search.svg" alt="Search Icon" />
           </button>
@@ -23,7 +81,7 @@
       </div>
     </div>
 
-    <table v-if="isSubmitted" class="transactions__table">
+    <table v-if="isFormSubmitted" class="transactions__table">
       <thead class="transactions__thead">
         <tr class="transactions__tr">
           <th class="transactions__th">نوع تراکنش</th>
@@ -43,7 +101,7 @@
       </tbody>
     </table>
 
-    <nav v-if="isSubmitted" class="pagination">
+    <nav v-if="isFormSubmitted" class="pagination">
       <button
         class="pagination__arrow pagination__arrow--next"
         :disabled="currentPage === 1"
@@ -73,66 +131,6 @@
     </nav>
   </section>
 </template>
-
-<script setup>
-import arrowDown from '@/assets/icons/arrow-down.svg'
-import arrowUp from '@/assets/icons/arrow-up.svg'
-import BaseButton from '@/components/common/BaseButton.vue'
-import { fetchTransactions } from '@/services/getTransactions'
-import { ref, onMounted, computed } from 'vue'
-
-const currentPage = ref(1)
-const rowsPerPage = 5
-const transactions = ref([])
-const isSubmitted = JSON.parse(sessionStorage.getItem("isSubmitted"));
-
-
-onMounted(async () => {
-  if (isSubmitted) {
-    transactions.value = await fetchTransactions()
-  }
-})
-
-const pages = computed(() =>
-  transactions.value.length
-    ? Array.from({ length: Math.ceil(transactions.value.length / rowsPerPage) }, (_, i) => i + 1)
-    : [],
-)
-
-
-const cuttedTransactions = computed(() => {
-  const start = (currentPage.value - 1) * rowsPerPage
-  const end = start + rowsPerPage
-  return sortedTransactions.value.slice(start, end)
-})
-
-const nextPage = () => {
-  if (currentPage.value < pages.value.length) currentPage.value++
-}
-const prevPage = () => {
-  if (currentPage.value > 1) currentPage.value--
-}
-
-const sortKey = ref('all')
-
-const sortedTransactions = computed(() => {
-  return [...transactions.value].sort((a, b) => {
-    if (sortKey.value === 'type') {
-      return a.type.localeCompare(b.type)
-    }
-    if (sortKey.value === 'date') {
-      return new Date(b.date) - new Date(a.date) 
-    }
-    if (sortKey.value === 'amount') {
-      return b.amount - a.amount
-    }
-    if (sortKey.value === 'all') {
-      return transactions.value
-    }
-    return 0
-  })
-})
-</script>
 
 <style scoped lang="scss">
 .dashboard__transactions {
@@ -197,7 +195,7 @@ const sortedTransactions = computed(() => {
   width: 257px;
   height: 34px;
 
-  .transactions__searchInput{
+  .transactions__searchInput {
     width: 257px;
     height: 34px;
     border-top-right-radius: $radius-md;
@@ -205,7 +203,7 @@ const sortedTransactions = computed(() => {
     padding: 0px 8px;
     background-color: transparent;
     border: 1px solid #eeeeee;
-    
+
     &::placeholder {
       @include text-style($font-size-base, $color: $text-secondary, $family: $font-family-regular);
     }
@@ -216,7 +214,7 @@ const sortedTransactions = computed(() => {
     border-top-right-radius: $radius-md;
     border-bottom-right-radius: $radius-md;
     padding: 0px 8px;
-    
+
     &::placeholder {
       @include text-style($font-size-base, $color: $text-secondary, $family: $font-family-regular);
     }
@@ -331,5 +329,4 @@ const sortedTransactions = computed(() => {
     height: 32px;
   }
 }
-
 </style>

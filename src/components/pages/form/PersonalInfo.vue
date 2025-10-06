@@ -2,8 +2,8 @@
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useFormStore } from '@/stores/formStore'
-import BaseInput from '@/components/common/BaseInput.vue'
-import BaseButton from '@/components/common/BaseButton.vue'
+import BaseInput from '@/components/base/BaseInput.vue'
+import BaseButton from '@/components/base/BaseButton.vue'
 
 const errormessage = reactive({
   Name: null,

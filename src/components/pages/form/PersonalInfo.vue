@@ -3,6 +3,7 @@ import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useFormStore } from '@/stores/formStore'
 import BaseInput from '@/components/common/BaseInput.vue'
+import BaseButton from '@/components/common/BaseButton.vue'
 
 const errormessage = reactive({
   Name: null,
@@ -77,7 +78,9 @@ function goBack() {
     <div class="form-personal-info__group">
       <BaseInput
         id="name"
+        class="form-personal-info__field"
         label="نام"
+        :hasBorder="true"
         placeholder="نام فارسی"
         v-model="step1Data.name"
         :error="errormessage.Name"
@@ -86,7 +89,9 @@ function goBack() {
 
       <BaseInput
         id="family"
+        class="form-personal-info__field"
         label="نام خانوادگی"
+        :hasBorder="true"
         placeholder="نام خانوادگی به صورت کامل"
         v-model="step1Data.family"
         :error="errormessage.Family"
@@ -95,7 +100,9 @@ function goBack() {
 
       <BaseInput
         id="postal"
+        class="form-personal-info__field"
         label="کد پستی"
+        :hasBorder="true"
         placeholder="برای مثال 919542687"
         v-model="step1Data.postalCode"
         :error="errormessage.Postal"
@@ -117,20 +124,25 @@ function goBack() {
     </div>
 
     <div class="form-personal-info__actions">
-      <button
-        type="button"
-        class="form-personal-info__button form-personal-info__button--secondary"
+
+      <BaseButton
+        :title="'قبلی'"
+        :width="'209px'"
+        :height="'48px'"
+        :bgColor="'#eceef6'"
+        :color="'#3c4351'"
+        :btn-type="'button'"
         @click="goBack"
-      >
-        قبلی
-      </button>
-      <button
-        type="submit"
-        class="form-personal-info__button form-personal-info__button--primary"
+      />
+
+      <BaseButton
+        :title="'ثبت و ادامه'"
+        :width="'209px'"
+        :height="'48px'"
+        :bgColor="'#4152a0'"
+        :btn-type="'submit'"
         @click="saveData"
-      >
-        ثبت و ادامه
-      </button>
+      />
     </div>
 
     <span class="form-personal-info__form-error" v-if="errormessage.Form">
@@ -139,7 +151,7 @@ function goBack() {
   </form>
 </template>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 * {
   margin: 0;
   padding: 0;

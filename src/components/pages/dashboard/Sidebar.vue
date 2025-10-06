@@ -42,7 +42,7 @@ const menuItems = ref([
 .sidebar {
   @include flex-column($gap-lg , $align: center);
   background-color: $color-white;
-  min-width: $sidebar-min-width;
+  min-width: 220px;
   height: 100%;
   border-radius: $radius-lg;
   padding: 24px 0 8px 0;
@@ -54,8 +54,8 @@ const menuItems = ref([
     padding: 16px;
     @include flex-column($gap-row , center ,center);
     border-radius: $radius-md;
-    width: $sidebar-header-width;
-    height: $sidebar-header-height;
+    width: 172px;
+    height: 116px;
 
     &-title {
       @include text-style($font-size-lg , $font-weight-700 ,$text-primary);

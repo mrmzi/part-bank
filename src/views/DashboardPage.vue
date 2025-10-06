@@ -1,13 +1,20 @@
 <template>
   <section class="dashboard" :class="{ 'overlay-active': isSubmitted }">
-    <section v-if="!isSubmitted" class="modal__section">
+    <section v-if="!isSubmitted" class="addAccount-modal addAccount-modal__section">
       <img
-        class="modal__section-img"
+        class="addAccount-modal__section-img"
         src="../assets/images/modal/Empty_State_Illustration.png"
         alt=""
       />
-      <p class="modal__section-text">برای دسترسی به داشبورد، لطفا ابتدا افتتاح حساب کنید</p>
-      <button @click="createaccount" class="modal__section-btn btn-primary">افتتاح حساب</button>
+      <p class="addAccount-modal__section-text">برای دسترسی به داشبورد، لطفا ابتدا افتتاح حساب کنید</p>
+
+      <BaseButton
+        :title="'افتتاح حساب'"
+        :width="'209px'"
+        :height="'48px'"
+        :bgColor="'#4152a0'"
+        @click="createaccount"
+      />
     </section>
 
     <Header></Header>
@@ -37,7 +44,7 @@ function createaccount() {
 </script>
 
 <style scoped lang="scss">
-.modal {
+.addAccount-modal {
   &__section {
     width: 328px;
     height: 237px;
@@ -99,13 +106,13 @@ function createaccount() {
 .dashboard {
   position: relative;
   @include flex-column;
-  width: $dashboard-width;
-  height: $dashboard-height;
+  width: 1920px;
+  height: 1080px;
   background-color: $background;
   &__main {
     width: 1404px;
     height: 804px;
-    @include flex-center($gap: $gap-lg);
+    @include flex-center($gap: 16px);
   }
 
   &__content {

@@ -1,5 +1,6 @@
 <!-- eslint-disable vue/no-parsing-error -->
 <script setup>
+import BaseButton from '@/components/common/BaseButton.vue'
 import { useFormStore } from '@/stores/formStore'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -181,7 +182,7 @@ function goBack() {
     </div>
 
     <div class="form-upload-card__actions">
-      <button
+      <!-- <button
         @click="goBack"
         type="button"
         class="form-upload-card__button form-upload-card__button--secondary"
@@ -190,7 +191,25 @@ function goBack() {
       </button>
       <button type="submit" class="form-upload-card__button form-upload-card__button--primary">
         ثبت و ادامه
-      </button>
+      </button> -->
+
+      <BaseButton
+        :title="'قبلی'"
+        :width="'209px'"
+        :height="'48px'"
+        :bgColor="'#eceef6'"
+        :color="'#3c4351'"
+        :btn-type="'button'"
+        @click="goBack"
+      />
+
+      <BaseButton
+        :title="'ثبت و ادامه'"
+        :width="'209px'"
+        :height="'48px'"
+        :bgColor="'#4152a0'"
+        :btn-type="'submit'"
+      />
     </div>
     <span class="error">{{ errormessageForm }}</span>
   </form>

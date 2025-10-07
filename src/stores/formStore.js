@@ -1,6 +1,7 @@
 import api from '@/services/axios'
 import router from '@/router'
 import { defineStore } from 'pinia'
+import { addDepositAccount } from '@/services/addAccount'
 
 export const useFormStore = defineStore('formStore', {
   state: () => ({
@@ -30,13 +31,7 @@ export const useFormStore = defineStore('formStore', {
           if (value) form.append(key, value)
         })
 
-        await api.post('/deposit-account', form, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-        sessionStorage.setItem('isFormSubmitted', JSON.stringify(true))
+        await addDepositAccount(form)
 
         router.push('/dashboard')
       } catch (err) {

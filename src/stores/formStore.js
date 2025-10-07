@@ -1,4 +1,3 @@
-// import api from '@/services/axios'
 import router from '@/router'
 import { defineStore } from 'pinia'
 import { addDepositAccount } from '@/services/addAccount'
@@ -9,6 +8,7 @@ export const useFormStore = defineStore('formStore', {
       step1: {},
       step2: {},
     },
+    isSubmitted: false, // متغیر جدید
   }),
   actions: {
     updateStepData(step, data) {
@@ -33,10 +33,23 @@ export const useFormStore = defineStore('formStore', {
 
         await addDepositAccount(form)
 
+        // بعد از موفقیت فرم
+        // this.isSubmitted = true
+
         router.push('/dashboard')
       } catch (err) {
         console.error(err)
       }
     },
+  },
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: 'form-store',
+        storage: localStorage,
+        paths: ['isSubmitted'], // فقط این فیلد ذخیره بشه
+      },
+    ],
   },
 })

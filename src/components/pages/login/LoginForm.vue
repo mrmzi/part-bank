@@ -72,7 +72,7 @@ async function handleLogin() {
     const token = response?.data?.token
     const user = response?.data?.user
 
-    if (!token || !user) throw new Error('اطلاعات لاگین ناقص است')
+    if (!token || !user) throw new Error(response)
 
     saveAuth(user, token)
     router.replace({ path: '/dashboard' })

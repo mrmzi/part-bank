@@ -5,8 +5,11 @@ import Sidebar from '../components/pages/dashboard/Sidebar.vue'
 import TransactionsTable from '../components/pages/dashboard/TransactionsTable.vue'
 import router from '@/router'
 import BaseButton from '@/components/base/BaseButton.vue'
+import { useFormStore } from '@/stores/formStore'
 
-const isFormSubmitted = JSON.parse(sessionStorage.getItem('isFormSubmitted'))
+const formStore = useFormStore()
+const isFormSubmitted = formStore.isSubmitted
+
 
 function createaccount() {
   router.push('/form')

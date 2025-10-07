@@ -8,7 +8,7 @@ export const useFormStore = defineStore('formStore', {
       step1: {},
       step2: {},
     },
-    isSubmitted: false, // متغیر جدید
+    isSubmitted: false, 
   }),
   actions: {
     updateStepData(step, data) {
@@ -32,10 +32,6 @@ export const useFormStore = defineStore('formStore', {
         })
 
         await addDepositAccount(form)
-
-        // بعد از موفقیت فرم
-        // this.isSubmitted = true
-
         router.push('/dashboard')
       } catch (err) {
         console.error(err)
@@ -48,7 +44,7 @@ export const useFormStore = defineStore('formStore', {
       {
         key: 'form-store',
         storage: localStorage,
-        paths: ['isSubmitted'], // فقط این فیلد ذخیره بشه
+        paths: ['isSubmitted'], 
       },
     ],
   },

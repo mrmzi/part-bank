@@ -1,6 +1,5 @@
 
 const TOKEN_KEY = 'token'
-// const USER_KEY = 'user'
 
 export function saveAuth(user, token) {
   localStorage.setItem('token', token)

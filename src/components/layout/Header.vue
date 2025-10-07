@@ -39,7 +39,7 @@
 
 <style scoped lang="scss">
 .navbar {
-  width: 1920px;
+  width: 99vw;
   height: 68px;
   padding: 0 40px;
   background-color: $color-white;

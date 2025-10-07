@@ -108,8 +108,8 @@ function createaccount() {
 .dashboard {
   position: relative;
   @include flex-column;
-  width: 1920px;
-  height: 1080px;
+  width: 95vw;
+  height: 100vh;
   background-color: $background;
   &__main {
     width: 1404px;

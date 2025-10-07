@@ -1,4 +1,4 @@
-import api from '@/services/axios'
+// import api from '@/services/axios'
 import router from '@/router'
 import { defineStore } from 'pinia'
 import { addDepositAccount } from '@/services/addAccount'

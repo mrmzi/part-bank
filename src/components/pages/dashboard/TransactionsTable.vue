@@ -111,16 +111,15 @@ const sortedTransactions = computed(() => {
         <img src="@/assets/icons/arrow-right.svg" alt="" />
       </button>
 
-      <BaseButton
+      <button
         v-for="page in pages"
         :key="page"
         @click="currentPage = page"
-        :height="'32px'"
-        :width="'32px'"
         :class="['pagination__page', { 'pagination__page--active': page === currentPage }]"
-        :bgColor="page === currentPage ? '#4152a0' : ''"
-        :title="String(page)"
-      />
+        :style="`background-color: ${page === currentPage ? '#4152a0' : ''}`"
+      >
+        {{ page }}
+      </button>
 
       <button
         class="pagination__arrow pagination__arrow--prev"

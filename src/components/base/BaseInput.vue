@@ -53,9 +53,16 @@ const emit = defineEmits(['update:modelValue'])
     font-family: 'peyda-regular';
     background-color: #f9fafb;
     outline: none;
+    border: 1px solid transparent;
     height: 48px;
     box-sizing: border-box;
     direction: rtl;
+    transition: all ease-in-out 0.2s;
+
+    &:focus{
+      outline: 0px;
+      border: 1px solid $primary !important;
+    }
 
     &::placeholder {
       color: #C3C5C9;

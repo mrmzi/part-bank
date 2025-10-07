@@ -3,13 +3,14 @@ import arrowDown from '@/assets/icons/arrow-down.svg'
 import arrowUp from '@/assets/icons/arrow-up.svg'
 import BaseButton from '@/components/base/BaseButton.vue'
 import { fetchTransactions } from '@/services/getTransactions'
+import { useFormStore } from '@/stores/formStore'
 import { ref, onMounted, computed } from 'vue'
 
 const currentPage = ref(1)
 const rowsPerPage = 5
 const transactions = ref([])
-const isFormSubmitted = JSON.parse(sessionStorage.getItem('isFormSubmitted'))
-
+const formStore = useFormStore()
+const isFormSubmitted = formStore.isSubmitted
 onMounted(async () => {
   if (isFormSubmitted) {
     transactions.value = await fetchTransactions()

@@ -4,6 +4,6 @@ export const fetchTransactions = async () => {
     const response = await api.get('/transactions?page=1&pageSize=20')
     return response.data.data
   } catch (error) {
-    throw error.response?.data || { message: 'خطا در ورود' }
+    throw error.response?.data || { message: 'خطا در گرفتن تراکنش ها' }
   }
 }

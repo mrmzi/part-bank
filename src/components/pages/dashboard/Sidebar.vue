@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import element4 from '@/assets/icons/sidebar-icons/element-4.svg'
 import vector from '@/assets/icons/sidebar-icons/Vector.svg'
 import strongbox2 from '@/assets/icons/sidebar-icons/strongbox-2.svg'
@@ -7,6 +8,10 @@ import cards from '@/assets/icons/sidebar-icons/cards.svg'
 import receiptSearch from '@/assets/icons/sidebar-icons/receipt-search.svg'
 import cardPos from '@/assets/icons/sidebar-icons/card-pos.svg'
 import path from '@/assets/icons/sidebar-icons/path.svg'
+import { clearAuth } from '@/utils/auth'
+import { useFormStore } from '../../../stores/formStore'
+
+const router = useRouter()
 
 const menuItems = ref([
   { id: 1, title: 'داشبورد', icon: element4 },
@@ -17,6 +22,14 @@ const menuItems = ref([
   { id: 6, title: 'خدمات', icon: cardPos },
   { id: 7, title: 'خروج', icon: path },
 ])
+const formStore = useFormStore()
+function handleClick(item) {
+  if (item.id === 7) {
+    clearAuth()
+    formStore.isSubmitted = false
+    router.push('/login')
+  }
+}
 </script>
 
 <template>
@@ -30,9 +43,14 @@ const menuItems = ref([
 
     <ul class="sidebar__menu">
       <li
-        :class="['sidebar__menu-item', menuItem.id === 1 ? 'sidebar__menu-item--active' : null]"
+        :class="[
+          'sidebar__menu-item',
+          menuItem.id === 1 ? 'sidebar__menu-item--active' : null,
+          menuItem.id === 7 ? 'sidebar__menu-item--danger' : null,
+        ]"
         v-for="menuItem in menuItems"
         :key="menuItem.id"
+        @click="handleClick(menuItem)"
       >
         <img :src="menuItem.icon" alt="Menu icon" />
         {{ menuItem.title }}

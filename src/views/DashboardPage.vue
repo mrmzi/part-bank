@@ -5,8 +5,11 @@ import Sidebar from '../components/pages/dashboard/Sidebar.vue'
 import TransactionsTable from '../components/pages/dashboard/TransactionsTable.vue'
 import router from '@/router'
 import BaseButton from '@/components/base/BaseButton.vue'
+import { useFormStore } from '@/stores/formStore'
 
-const isFormSubmitted = JSON.parse(sessionStorage.getItem('isFormSubmitted'))
+const formStore = useFormStore()
+const isFormSubmitted = formStore.isSubmitted
+
 
 function createaccount() {
   router.push('/form')
@@ -108,8 +111,8 @@ function createaccount() {
 .dashboard {
   position: relative;
   @include flex-column;
-  width: 1920px;
-  height: 1080px;
+  width: 95vw;
+  height: 100vh;
   background-color: $background;
   &__main {
     width: 1404px;

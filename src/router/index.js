@@ -6,13 +6,15 @@ import PersonalInfo from '@/components/pages/form/PersonalInfo.vue'
 import NationalIdUpload from '@/components/pages/form/NationalIdUpload.vue'
 import ConfirmInfo from '@/components/pages/form/ConfirmInfo.vue'
 import { getToken } from '@/utils/auth'
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       redirect: { name: 'Login' },
+      meta: {
+        isLoggedIn: false,
+      },
     },
     {
       path: '/login',
@@ -29,6 +31,7 @@ const router = createRouter({
       name: 'form',
       redirect: { name: 'personalinfo' },
       component: CreateAccount,
+
       children: [
         {
           path: 'personalinfo',
@@ -47,7 +50,7 @@ const router = createRouter({
         },
       ],
     },
- 
+
     {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
@@ -57,27 +60,28 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  const isLoggedIn = !!getToken()
 
-  if (to.name === 'Dashboard' && !getToken()) {
+  if (!isLoggedIn && to.name !== 'Login') {
     return next({ name: 'Login' })
   }
 
+  const steps = ['personalinfo', 'uploadimage', 'confirminfo']
 
-  // if (to.matched.some((record) => record.name === 'form')) {
+  if (steps.includes(to.name)) {
+    const currentStepIndex = steps.indexOf(to.name)
+    const fromStepIndex = steps.indexOf(from.name)
 
-  //   if (from.name !== 'Dashboard' && from.name !== 'personalinfo' && from.name !== 'uploadimage') {
-  //     return next({ name: 'Dashboard' })
-  //   }
+    if (!steps.includes(from.name) && from.name !== 'Dashboard') {
+      if (to.name !== steps[0]) {
+        return next({ name: steps[0] })
+      }
+    }
 
-  //   const steps = ['personalinfo', 'uploadimage', 'confirminfo']
-  //   const currentStepIndex = steps.indexOf(to.name)
-  //   const fromStepIndex = steps.indexOf(from.name)
-
-  
-  //   if (currentStepIndex > 0 && fromStepIndex !== currentStepIndex - 1) {
-  //     return next({ name: 'personalinfo' })
-  //   }
-  // }
+    if (currentStepIndex > fromStepIndex + 1) {
+      return next({ name: steps[fromStepIndex + 1] })
+    }
+  }
 
   next()
 })

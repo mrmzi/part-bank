@@ -1,9 +1,10 @@
 <script setup>
-import { getbalance } from '@/services/getAccount'
+import { getbalance } from '@/services/getAccount';
+import { useFormStore } from '@/stores/formStore';
 
 import { computed, onMounted, reactive } from 'vue'
-const isFormSubmitted = JSON.parse(sessionStorage.getItem('isFormSubmitted'))
-
+const formStore = useFormStore()
+const isFormSubmitted = formStore.isSubmitted
 const account = reactive({
   balance: 0,
   cardNumber: '',

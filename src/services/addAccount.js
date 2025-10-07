@@ -1,6 +1,7 @@
 import api from '@/services/axios'
-
+import { useFormStore } from '@/stores/formStore'
 export const addDepositAccount = async (form) => {
+  const formStore = useFormStore()
   try {
     await api.post('/deposit-account', form, {
       headers: {
@@ -8,8 +9,8 @@ export const addDepositAccount = async (form) => {
         'Content-Type': 'multipart/form-data',
       },
     })
-    sessionStorage.setItem('isFormSubmitted', JSON.stringify(true))
+    formStore.isSubmitted = true
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err)
   }
 }

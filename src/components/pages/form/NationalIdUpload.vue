@@ -1,6 +1,5 @@
-<!-- eslint-disable vue/no-parsing-error -->
 <script setup>
-import BaseButton from '@/components/common/BaseButton.vue'
+import BaseButton from '@/components/base/BaseButton.vue'
 import { useFormStore } from '@/stores/formStore'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -52,8 +51,6 @@ const editImage = (type) => {
   document.getElementById(`input-${type}`).click()
   showMenu.value[type] = false
 }
-
-// store image in pinia
 
 const errormessageForm = ref(null)
 

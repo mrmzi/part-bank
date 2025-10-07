@@ -1,7 +1,59 @@
-<!-- eslint-disable vue/no-parsing-error -->
+<script setup>
+import { getbalance } from '@/services/getAccount';
+
+import { computed, onMounted, reactive } from 'vue'
+const isFormSubmitted = JSON.parse(sessionStorage.getItem("isFormSubmitted"));
+
+const account = reactive({
+  balance: 0,
+  cardNumber: '',
+  score: {
+    amount: 0,
+    paymentPeriod: 0,
+  },
+  upcomingInstalment: {
+    amount: 0,
+    dueDate: '-',
+  },
+})
+
+onMounted(async () => {
+  if (isFormSubmitted) {
+    try {
+      const response = await getbalance()
+      const data = response.data[0]
+      account.balance = data.balance
+      account.cardNumber = data.cardNumber
+      account.score = data.score
+      account.upcomingInstalment = data.upcomingInstalment
+    } catch (err) {
+      console.error(err)
+    }
+  }
+})
+
+function formatMoney(num) {
+  return Number(num).toLocaleString('fa-IR') 
+}
+
+const scoreAmountFormatted = computed(() => formatMoney(account.score.amount))
+const instalmentAmountFormatted = computed(() => formatMoney(account.upcomingInstalment.amount))
+const balanceFormatted = computed(() => formatMoney(account.balance))
+const scorePaymentPeriodFormatted = computed(() => formatMoney(account.score.paymentPeriod))
+
+
+function formatCardNumberSpans(num) {
+  if (!num) return []
+
+  const persianStr = num.replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d])
+  const groups = persianStr.match(/.{1,4}/g) || []
+  return groups
+}
+</script>
+
 <template>
   <section @click="createDepositAccount" class="account">
-    <div class="account__card account__card--info" dir="ltr" :class="{ opacity: !isSubmitted }">
+    <div class="account__card account__card--info" dir="ltr" :class="{ opacity: !isFormSubmitted }">
       <div class="account__total">
         <div class="account__total__number">
           <span class="account__total__number-text">موجودی کل</span>
@@ -102,62 +154,6 @@
     </div>
   </section>
 </template>
-
-
-<script setup>
-import { getbalance } from '@/services/getAccount'
-
-import { computed, onMounted, reactive } from 'vue'
-const isSubmitted = JSON.parse(sessionStorage.getItem("isSubmitted"));
-
-const account = reactive({
-  balance: 0,
-  cardNumber: '',
-  score: {
-    amount: 0,
-    paymentPeriod: 0,
-  },
-  upcomingInstalment: {
-    amount: 0,
-    dueDate: '-',
-  },
-})
-
-onMounted(async () => {
-  if (isSubmitted) {
-    try {
-      const response = await getbalance()
-      const data = response.data[0]
-      account.balance = data.balance
-      account.cardNumber = data.cardNumber
-      account.score = data.score
-      account.upcomingInstalment = data.upcomingInstalment
-    } catch (err) {
-      console.error(err)
-    }
-  }
-})
-
-function formatMoney(num) {
-  return Number(num).toLocaleString('fa-IR') 
-}
-
-const scoreAmountFormatted = computed(() => formatMoney(account.score.amount))
-const instalmentAmountFormatted = computed(() => formatMoney(account.upcomingInstalment.amount))
-const balanceFormatted = computed(() => formatMoney(account.balance))
-const scorePaymentPeriodFormatted = computed(() => formatMoney(account.score.paymentPeriod))
-
-// persian card number
-
-function formatCardNumberSpans(num) {
-  if (!num) return []
-
-  const persianStr = num.replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d])
-  const groups = persianStr.match(/.{1,4}/g) || []
-  return groups
-}
-</script>
-
 
 <style lang="scss" scoped>
 .btn-primary {

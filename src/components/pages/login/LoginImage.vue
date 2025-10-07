@@ -1,3 +1,5 @@
+<script setup></script>
+
 <template>
   <section class="login-left">
     <div class="login-left__image-wrapper">
@@ -9,8 +11,6 @@
     </div>
   </section>
 </template>
-
-<script setup></script>
 
 <style scoped lang="scss">
 .login-left {

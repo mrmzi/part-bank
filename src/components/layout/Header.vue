@@ -1,3 +1,5 @@
+<script setup></script>
+
 <template>
   <header class="navbar">
     <div class="navbar__logo">
@@ -34,8 +36,6 @@
     </div>
   </header>
 </template>
-
-<script setup></script>
 
 <style scoped lang="scss">
 .navbar {

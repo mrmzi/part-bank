@@ -5,9 +5,9 @@ import { saveAuth } from '@/utils/auth'
 
 import eyeOpenDefault from '@/assets/icons/Outline/Security/Eye.svg'
 import eyeClosedDefault from '@/assets/icons/Outline/Security/Eye Closed.svg'
-import BaseButton from '@/components/common/BaseButton.vue'
+import BaseButton from '@/components/base/BaseButton.vue'
+import BaseInput from '@/components/base/BaseInput.vue'
 import router from '@/router'
-import BaseInput from '@/components/common/BaseInput.vue'
 
 const props = defineProps({
   eyeOpen: { type: String, default: eyeOpenDefault },
@@ -83,6 +83,7 @@ async function handleLogin() {
   }
 }
 </script>
+
 <template>
   <form class="login-form" @submit.prevent="handleLogin">
     <div class="login-form__logo">

@@ -1,3 +1,17 @@
+<script setup>
+const btnProps = defineProps({
+  title: { type: String, required: true },
+  width: { type: String, required: true },
+  height: { type: String, required: true },
+  bgColor: { type: String, required: true },
+  color: { type: String },
+  class: { type: String },
+  btnType: { type: String, default: "button" },
+  btnIcon: { type: String },
+  isDisabled: { type: Boolean, default: false }
+})
+</script>
+
 <template>
   <button
     :class="btnProps.class"
@@ -14,20 +28,6 @@
     {{ btnProps.title }}
   </button>
 </template>
-
-<script setup>
-const btnProps = defineProps({
-  title: { type: String, required: true },
-  width: { type: String, required: true },
-  height: { type: String, required: true },
-  bgColor: { type: String, required: true },
-  color: { type: String },
-  class: { type: String },
-  btnType: { type: String, default: "button" },
-  btnIcon: { type: String },
-  isDisabled: { type: Boolean, default: false }
-})
-</script>
 
 <style scoped lang="scss">
 button {

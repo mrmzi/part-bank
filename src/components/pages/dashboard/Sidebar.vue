@@ -1,3 +1,24 @@
+<script setup>
+import { ref } from 'vue'
+import element4 from '@/assets/icons/sidebar-icons/element-4.svg'
+import vector from '@/assets/icons/sidebar-icons/Vector.svg'
+import strongbox2 from '@/assets/icons/sidebar-icons/strongbox-2.svg'
+import cards from '@/assets/icons/sidebar-icons/cards.svg'
+import receiptSearch from '@/assets/icons/sidebar-icons/receipt-search.svg'
+import cardPos from '@/assets/icons/sidebar-icons/card-pos.svg'
+import path from '@/assets/icons/sidebar-icons/path.svg'
+
+const menuItems = ref([
+  { id: 1, title: 'داشبورد', icon: element4 },
+  { id: 2, title: 'حساب', icon: vector },
+  { id: 3, title: 'تسهیلات', icon: strongbox2 },
+  { id: 4, title: 'عملیات کارت', icon: cards },
+  { id: 5, title: 'سفته الکترونیک', icon: receiptSearch },
+  { id: 6, title: 'خدمات', icon: cardPos },
+  { id: 7, title: 'خروج', icon: path },
+])
+</script>
+
 <template>
   <aside class="sidebar">
     <div class="sidebar__header">
@@ -8,39 +29,21 @@
     <div class="sidebar__divider"></div>
 
     <ul class="sidebar__menu">
-      <li :class="['sidebar__menu-item' , (menuItem.id === 1) ? 'sidebar__menu-item--active' : null]" v-for="menuItem in menuItems" :key="menuItem.id">
+      <li
+        :class="['sidebar__menu-item', menuItem.id === 1 ? 'sidebar__menu-item--active' : null]"
+        v-for="menuItem in menuItems"
+        :key="menuItem.id"
+      >
         <img :src="menuItem.icon" alt="Menu icon" />
-        {{menuItem.title}}
+        {{ menuItem.title }}
       </li>
     </ul>
   </aside>
 </template>
 
-<script setup>
-import { ref } from 'vue';
-import element4 from '@/assets/icons/sidebar-icons/element-4.svg'
-import vector from '@/assets/icons/sidebar-icons/Vector.svg'
-import strongbox2 from '@/assets/icons/sidebar-icons/strongbox-2.svg'
-import cards from '@/assets/icons/sidebar-icons/cards.svg'
-import receiptSearch from '@/assets/icons/sidebar-icons/receipt-search.svg'
-import cardPos from '@/assets/icons/sidebar-icons/card-pos.svg'
-import path from '@/assets/icons/sidebar-icons/path.svg'
-
-const menuItems = ref([
-  { id:1 , title: 'داشبورد' , icon: element4},
-  { id:2 , title: 'حساب' , icon: vector},
-  { id:3 , title: 'تسهیلات' , icon: strongbox2},
-  { id:4 , title: 'عملیات کارت' , icon: cards},
-  { id:5 , title: 'سفته الکترونیک' , icon: receiptSearch},
-  { id:6 , title: 'خدمات' , icon: cardPos},
-  { id:7 , title: 'خروج' , icon: path},
-])
-
-</script>
-
 <style scoped lang="scss">
 .sidebar {
-  @include flex-column($gap-lg , $align: center);
+  @include flex-column($gap-lg, $align: center);
   background-color: $color-white;
   min-width: 220px;
   height: 100%;
@@ -52,13 +55,13 @@ const menuItems = ref([
   &__header {
     box-sizing: border-box;
     padding: 16px;
-    @include flex-column($gap-row , center ,center);
+    @include flex-column($gap-row, center, center);
     border-radius: $radius-md;
     width: 172px;
     height: 116px;
 
     &-title {
-      @include text-style($font-size-lg , $font-weight-700 ,$text-primary);
+      @include text-style($font-size-lg, $font-weight-700, $text-primary);
       line-height: 28px;
       text-align: center;
       margin: 38px 0 0 0;
@@ -67,11 +70,16 @@ const menuItems = ref([
     &-nationalCode {
       @include flex-between;
       width: 172px;
-      @include text-style($font-size-base , $font-weight-400 ,$text-secondary , $font-family-regular);
+      @include text-style($font-size-base, $font-weight-400, $text-secondary, $font-family-regular);
       margin: 0 0 20px 0;
 
       span {
-        @include text-style($size: $font-size-base,$weight: $font-weight-600, $color: $text-primary, $family: $font-family-semi-bold);
+        @include text-style(
+          $size: $font-size-base,
+          $weight: $font-weight-600,
+          $color: $text-primary,
+          $family: $font-family-semi-bold
+        );
       }
     }
   }
@@ -90,7 +98,7 @@ const menuItems = ref([
     box-sizing: border-box;
 
     &-item {
-      @include text-style($font-size-base , $font-weight-400, $text-secondary);
+      @include text-style($font-size-base, $font-weight-400, $text-secondary);
       box-sizing: border-box;
       height: 44px;
       margin: 1px 0 0 0;
@@ -118,5 +126,4 @@ const menuItems = ref([
     }
   }
 }
-
 </style>

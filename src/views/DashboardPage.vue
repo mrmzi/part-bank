@@ -1,12 +1,29 @@
+<script setup>
+import AccountDetails from '@/components/pages/dashboard/AccountDetails.vue'
+import Header from '../components/layout/Header.vue'
+import Sidebar from '../components/pages/dashboard/Sidebar.vue'
+import TransactionsTable from '../components/pages/dashboard/TransactionsTable.vue'
+import router from '@/router'
+import BaseButton from '@/components/base/BaseButton.vue'
+
+const isFormSubmitted = JSON.parse(sessionStorage.getItem('isFormSubmitted'))
+
+function createaccount() {
+  router.push('/form')
+}
+</script>
+
 <template>
-  <section class="dashboard" :class="{ 'overlay-active': isSubmitted }">
-    <section v-if="!isSubmitted" class="addAccount-modal addAccount-modal__section">
+  <section class="dashboard" :class="{ 'overlay-active': isFormSubmitted }">
+    <section v-if="!isFormSubmitted" class="addAccount-modal addAccount-modal__section">
       <img
         class="addAccount-modal__section-img"
         src="../assets/images/modal/Empty_State_Illustration.png"
         alt=""
       />
-      <p class="addAccount-modal__section-text">برای دسترسی به داشبورد، لطفا ابتدا افتتاح حساب کنید</p>
+      <p class="addAccount-modal__section-text">
+        برای دسترسی به داشبورد، لطفا ابتدا افتتاح حساب کنید
+      </p>
 
       <BaseButton
         :title="'افتتاح حساب'"
@@ -27,22 +44,6 @@
     </main>
   </section>
 </template>
-
-<script setup>
-import AccountDetails from '@/components/pages/dashboard/AccountDetails.vue'
-import Header from '../components/layout/Header.vue'
-import Sidebar from '../components/pages/dashboard/Sidebar.vue'
-import TransactionsTable from '../components/pages/dashboard/TransactionsTable.vue'
-import router from '@/router'
-import BaseButton from '@/components/common/BaseButton.vue'
-
-const isSubmitted = JSON.parse(sessionStorage.getItem("isSubmitted"));
-
-
-function createaccount() {
-  router.push('/form')
-}
-</script>
 
 <style scoped lang="scss">
 .addAccount-modal {

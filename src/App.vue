@@ -1,10 +1,10 @@
+<script setup></script>
+
 <template>
   <section>
     <router-view />
   </section>
 </template>
-
-<script setup></script>
 
 <style scoped>
 section {

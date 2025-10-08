@@ -1,8 +1,8 @@
 <script setup>
-import { getbalance } from '@/services/getAccount';
+import { getbalance } from '@/services/getAccount'
 
 import { computed, onMounted, reactive } from 'vue'
-const isFormSubmitted = JSON.parse(sessionStorage.getItem("isFormSubmitted"));
+const isFormSubmitted = JSON.parse(sessionStorage.getItem('isFormSubmitted'))
 
 const account = reactive({
   balance: 0,
@@ -33,14 +33,13 @@ onMounted(async () => {
 })
 
 function formatMoney(num) {
-  return Number(num).toLocaleString('fa-IR') 
+  return Number(num).toLocaleString('fa-IR')
 }
 
 const scoreAmountFormatted = computed(() => formatMoney(account.score.amount))
 const instalmentAmountFormatted = computed(() => formatMoney(account.upcomingInstalment.amount))
 const balanceFormatted = computed(() => formatMoney(account.balance))
 const scorePaymentPeriodFormatted = computed(() => formatMoney(account.score.paymentPeriod))
-
 
 function formatCardNumberSpans(num) {
   if (!num) return []
@@ -113,8 +112,6 @@ function formatCardNumberSpans(num) {
       </div>
       <button class="account__calc-btn btn-primary">محاسبه امتیاز</button>
     </div>
-
-
 
     <div class="account__card account__card--installment">
       <div class="account__card__info">
@@ -232,7 +229,7 @@ function formatCardNumberSpans(num) {
         width: 351px;
         height: 50px;
         margin: 0 53px 32px 52px;
-        font-size: 36px; 
+        font-size: 36px;
         @include flex-between;
       }
     }
@@ -245,7 +242,7 @@ function formatCardNumberSpans(num) {
         height: 28px;
         margin: $gap-xl $gap-xl 0 $gap-xl;
         @include flex-between;
-        font-size: $font-size-xl; 
+        font-size: $font-size-xl;
         font-weight: $font-weight-700;
         color: $text-primary;
         font-family: $font-family-bold;
@@ -372,7 +369,7 @@ function formatCardNumberSpans(num) {
           &-money {
             width: 98px;
             height: 100%;
-           direction: ltr;
+            direction: ltr;
             @include text-style(
               $size: $font-size-base,
               $weight: $font-weight-600,

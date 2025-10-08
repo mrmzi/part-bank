@@ -26,7 +26,7 @@ import LoginImage from '@/components/pages/login/LoginImage.vue'
     width: 1200px;
     height: 840px;
     @include flex-center;
-    padding: 20px;
+    padding: 20px 0px 20px 20px;
     background-color: $color-white;
     overflow: hidden;
     border-radius: $radius-lg;

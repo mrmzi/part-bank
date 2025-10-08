@@ -124,7 +124,6 @@ function goBack() {
     </div>
 
     <div class="form-personal-info__actions">
-
       <BaseButton
         :title="'قبلی'"
         :width="'209px'"
@@ -233,6 +232,10 @@ function goBack() {
   &__textarea {
     height: 120px;
     resize: none;
+  }
+
+  &__textarea:focus {
+    border: 1px solid #4152a0b9;
   }
 
   &__error {

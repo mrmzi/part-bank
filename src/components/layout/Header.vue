@@ -1,34 +1,34 @@
 <script setup></script>
 
 <template>
-  <header class="navbar">
-    <div class="navbar__logo">
+  <header class="header">
+    <div class="header__logo">
       <img
-        class="navbar__logo-img"
+        class="header__logo-img"
         src="@/assets/images/header/Logo.svg"
         alt="لوگو پارت بانک"
       />
-      <span class="navbar__logo-name">پارت بانک</span>
+      <span class="header__logo-name">پارت بانک</span>
     </div>
 
-    <div class="navbar__actions">
-      <button class="navbar__notification">
+    <div class="header__actions">
+      <button class="header__notification">
         <img
-          class="navbar__notification-icon"
+          class="header__notification-icon"
           src="@/assets/icons/Notification.svg"
           alt="اعلان‌ها"
         />
       </button>
 
-      <div class="navbar__profile">
+      <div class="header__profile">
         <img
-          class="navbar__profile-img"
+          class="header__profile-img"
           src="@/assets/images/header/profile.svg"
           alt="تصویر پروفایل"
         />
-        <span class="navbar__profile-number">۰۹۲۲۶۵۹۸۷۲</span>
+        <span class="header__profile-number">۰۹۲۲۶۵۹۸۷۲</span>
         <img
-          class="navbar__profile-arrow"
+          class="header__profile-arrow"
           src="@/assets/images/header/Angle-down.svg"
           alt="بازکردن منو"
         />
@@ -38,7 +38,7 @@
 </template>
 
 <style scoped lang="scss">
-.navbar {
+.header {
   width: 1920px;
   height: 68px;
   padding: 0 40px;

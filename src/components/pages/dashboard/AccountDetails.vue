@@ -1,10 +1,11 @@
 <script setup>
-import { getbalance } from '@/services/getAccount';
-import { useFormStore } from '@/stores/formStore';
+import { getbalance } from '@/services/getaccount'
+import { useFormStore } from '@/stores/formStore'
 
 import { computed, onMounted, reactive } from 'vue'
 const formStore = useFormStore()
 const isFormSubmitted = formStore.isSubmitted
+
 const account = reactive({
   balance: 0,
   cardNumber: '',

@@ -179,16 +179,6 @@ function goBack() {
     </div>
 
     <div class="form-upload-card__actions">
-      <!-- <button
-        @click="goBack"
-        type="button"
-        class="form-upload-card__button form-upload-card__button--secondary"
-      >
-        قبلی
-      </button>
-      <button type="submit" class="form-upload-card__button form-upload-card__button--primary">
-        ثبت و ادامه
-      </button> -->
 
       <BaseButton
         :title="'قبلی'"

@@ -185,8 +185,8 @@ function formatCardNumberSpans(num) {
     &--info {
       width: 456px;
       background-image:
-        url('@/assets/images/dashboard-miryazdi/Vector (1).png'),
-        url('@/assets/images/dashboard-miryazdi/Vector.png'),
+        url('@/assets/images/dashboard/Vector__1_.png'),
+        url('@/assets/images/dashboard/Vector.png'),
         linear-gradient(to bottom right, $primary, #d0c9c1);
       background-blend-mode: multiply;
       filter: opacity(0.9);

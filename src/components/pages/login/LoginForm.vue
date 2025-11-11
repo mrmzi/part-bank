@@ -8,6 +8,7 @@ import eyeClosedDefault from '@/assets/icons/Outline/Security/Eye Closed.svg'
 import BaseButton from '@/components/base/BaseButton.vue'
 import BaseInput from '@/components/base/BaseInput.vue'
 import router from '@/router'
+import { signUp } from '@/services/signUp'
 
 const props = defineProps({
   eyeOpen: { type: String, default: eyeOpenDefault },
@@ -67,7 +68,9 @@ async function handleLogin() {
   error.value = null
 
   try {
+    const res2 = await signUp(phone.value, password.value)
     const response = await login(phone.value, password.value)
+    console.log(res2)
 
     const token = response?.data?.token
     const user = response?.data?.user
@@ -101,7 +104,7 @@ async function handleLogin() {
     <div class="login-form__inputs">
       <div>
         <label class="login-form__label" for="phone-number">شماره همراه</label>
-     
+
         <BaseInput
           :id="'phone-number'"
           :placeholder="'مثلا ۰۹۱۲۳۴۵۶۷۸۹'"
@@ -119,7 +122,6 @@ async function handleLogin() {
       <div>
         <label class="login-form__label" for="password">رمز عبور</label>
         <div class="password-wrapper">
-
           <BaseInput
             :id="'password'"
             :placeholder="'رمز عبور خود را وارد کنید'"

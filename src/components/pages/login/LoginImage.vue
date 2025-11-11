@@ -14,8 +14,8 @@
 
 <style scoped lang="scss">
 .login-left {
-  width: 600px;
-  height: 840px;
+  width: 50%;
+  height: 100%;
   @include flex-center();
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
